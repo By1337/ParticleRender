@@ -5,12 +5,11 @@ import dev.by1337.fparticle.particle.PacketBuilder;
 import dev.by1337.fparticle.particle.ParticleData;
 import dev.by1337.fparticle.particle.ParticleSource;
 import dev.by1337.fparticle.particle.options.BlockParticleOption;
-import dev.by1337.fparticle.particle.options.DustColorTransitionOptions;
 import dev.by1337.fparticle.particle.options.DustParticleOptions;
 import dev.by1337.fparticle.particle.options.ItemParticleOption;
 import dev.by1337.fparticle.via.Mappings;
 import io.netty.channel.Channel;
-import org.bukkit.Bukkit;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -90,7 +90,7 @@ public class FParticlePlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        flusher = new FParticleManager(this, "fparticle");
+        flusher = new FParticleManager(this, "mappings");
     }
 
     @Override
@@ -103,25 +103,26 @@ public class FParticlePlugin extends JavaPlugin {
     // @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
-        if (args.length == 0) {
+        if (args.length == 1 && args[0].equals("all")) {
             new BukkitRunnable() {
-                final ParticleSource data =
-                        SPHERE.compute()
-                                .ofParticle(ParticleData.of(
-                                        ParticleType.ITEM,
-                                        new ItemParticleOption(
-                                                ItemType.ENDER_PEARL
-                                        )
-                                )); // McfunctionReader.read(new File(getDataFolder(), "test.mcfunction"));
-                double angleRad = 0;
-
+                final Iterator<ParticleType> iterator = ParticleType.REGISTRY.iterator();
                 @Override
                 public void run() {
+                    if (!iterator.hasNext()) {
+                        cancel();
+                        return;
+                    }
+                    ParticleType type = iterator.next();
                     var loc = player.getLocation();
-                    double x = loc.getX();
-                    double y = loc.getY();
-                    double z = loc.getZ();
-                    Bukkit.getOnlinePlayers().forEach(FParticle.send(data, x, y, z));
+                    player.sendMessage(Component.text(type.id()));
+                    FParticle.send(player, ParticleData.of(type), loc.getX(), loc.getY(), loc.getZ());
+                }
+            }.runTaskTimerAsynchronously(FParticlePlugin.this, 0, 10);
+        } else if (args.length == 0) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    ParticleEffects.send(player);
                 }
             }.runTaskTimerAsynchronously(FParticlePlugin.this, 0, 1);
         } else {

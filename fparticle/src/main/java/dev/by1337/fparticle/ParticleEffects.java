@@ -1,6 +1,7 @@
 package dev.by1337.fparticle;
 
 import dev.by1337.fparticle.particle.*;
+import org.bukkit.entity.Player;
 
 public class ParticleEffects {
     public static PrecomputedParticleSource CIRCLE = circle(256, 6, ParticleData.of(ParticleType.FLAME)).compute();
@@ -11,6 +12,12 @@ public class ParticleEffects {
                 CIRCLE.ofParticle(ParticleData.of(ParticleType.CLOUD)),
                 CIRCLE.ofParticle(ParticleData.of(ParticleType.FLAME))
         );
+    }
+    private static final ParticleSource TEST = circle(256, 6, ParticleData.of(ParticleType.FLAME)).compute();
+
+    public static void send(Player player){
+        var loc = player.getLocation();
+        FParticle.send(player, TEST, loc.getX(), loc.getY(), loc.getZ());
     }
     public static ParticleSource circle(int points, double radius, ParticleData particle){
         return new ParticleSource() {

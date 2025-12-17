@@ -2,14 +2,18 @@ package dev.by1337.fparticle;
 
 import dev.by1337.fparticle.via.Mappings;
 import org.bukkit.Keyed;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public enum BlockType implements Keyed {
+
     //since 754(1.16.5)
     ACACIA_BUTTON("minecraft:acacia_button"),
     //since 754(1.16.5)
@@ -344,8 +348,8 @@ public enum BlockType implements Keyed {
     CAVE_VINES("minecraft:cave_vines"),
     //since 755(1.17)
     CAVE_VINES_PLANT("minecraft:cave_vines_plant"),
-    //since 754(1.16.5)
-    @Deprecated(since = "1.21.10")
+    //since 754(1.16.5) - 772(1.21.8)
+    @Deprecated
     CHAIN("minecraft:chain"),
     //since 754(1.16.5)
     CHAIN_COMMAND_BLOCK("minecraft:chain_command_block"),
@@ -853,13 +857,13 @@ public enum BlockType implements Keyed {
     GRANITE_STAIRS("minecraft:granite_stairs"),
     //since 754(1.16.5)
     GRANITE_WALL("minecraft:granite_wall"),
-    //since 754(1.16.5)
-    @Deprecated(since = "1.20.4")
+    //since 754(1.16.5) - 764(1.20.2)
+    @Deprecated
     GRASS("minecraft:grass"),
     //since 754(1.16.5)
     GRASS_BLOCK("minecraft:grass_block"),
-    //since 754(1.16.5)
-    @Deprecated(since = "1.17")
+    //since 754(1.16.5) - 754(1.16.5)
+    @Deprecated
     GRASS_PATH("minecraft:grass_path"),
     //since 754(1.16.5)
     GRAVEL("minecraft:gravel"),
@@ -2353,8 +2357,19 @@ public enum BlockType implements Keyed {
     ZOMBIE_WALL_HEAD("minecraft:zombie_wall_head"),
     ;
     public static final int SIZE = values().length;
-    private static final Map<String, BlockType> BLOCK_MAP = new HashMap<>();
+    private static final Map<String, BlockType> BY_ID;
+    private static final Map<NamespacedKey, BlockType> BY_NAMESPACED_KEY;
+    public static final Registry<BlockType> REGISTRY = new Registry<>() {
+        @Override
+        public @NotNull Iterator<BlockType> iterator() {
+            return BY_ID.values().iterator();
+        }
 
+        @Override
+        public @Nullable BlockType get(@NotNull NamespacedKey namespacedKey) {
+            return BY_NAMESPACED_KEY.get(namespacedKey);
+        }
+    };
     private final String id;
     private final NamespacedKey key;
 
@@ -2368,17 +2383,25 @@ public enum BlockType implements Keyed {
     }
 
     public static BlockType getById(String id) {
-        return BLOCK_MAP.get(id);
+        return BY_ID.get(id);
     }
 
     public int getProtocolId(int version) {
         return Mappings.getBlockId(this, version);
     }
 
+    public boolean isAir() {
+        return this == AIR || this == CAVE_AIR || this == VOID_AIR;
+    }
+
     static {
-        for (BlockType blockType : values()) {
-            BLOCK_MAP.put(blockType.id, blockType);
+        Map<String, BlockType> by_id = new HashMap<>();
+        BY_NAMESPACED_KEY = new HashMap<>();
+        for (BlockType value : values()) {
+            by_id.put(value.id, value);
+            BY_NAMESPACED_KEY.put(value.key, value);
         }
+        BY_ID = Collections.unmodifiableMap(by_id);
     }
 
     @Override

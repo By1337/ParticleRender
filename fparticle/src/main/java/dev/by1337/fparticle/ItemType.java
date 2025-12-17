@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public enum ItemType implements Keyed {
+
     //since 754(1.16.5)
     ACACIA_BOAT("minecraft:acacia_boat"),
     //since 754(1.16.5)
@@ -401,6 +402,8 @@ public enum ItemType implements Keyed {
     CALCITE("minecraft:calcite"),
     //since 763(1.20)
     CALIBRATED_SCULK_SENSOR("minecraft:calibrated_sculk_sensor"),
+    //since 774(1.21.11)
+    CAMEL_HUSK_SPAWN_EGG("minecraft:camel_husk_spawn_egg"),
     //since 761(1.19.3)
     CAMEL_SPAWN_EGG("minecraft:camel_spawn_egg"),
     //since 754(1.16.5)
@@ -421,7 +424,7 @@ public enum ItemType implements Keyed {
     CAULDRON("minecraft:cauldron"),
     //since 754(1.16.5)
     CAVE_SPIDER_SPAWN_EGG("minecraft:cave_spider_spawn_egg"),
-    //since 754(1.16.5)
+    //since 754(1.16.5) - 772(1.21.8)
     @Deprecated
     CHAIN("minecraft:chain"),
     //since 754(1.16.5)
@@ -620,6 +623,8 @@ public enum ItemType implements Keyed {
     COPPER_LANTERN("minecraft:copper_lantern"),
     //since 773(1.21.9)
     COPPER_LEGGINGS("minecraft:copper_leggings"),
+    //since 774(1.21.11)
+    COPPER_NAUTILUS_ARMOR("minecraft:copper_nautilus_armor"),
     //since 773(1.21.9)
     COPPER_NUGGET("minecraft:copper_nugget"),
     //since 755(1.17)
@@ -628,6 +633,8 @@ public enum ItemType implements Keyed {
     COPPER_PICKAXE("minecraft:copper_pickaxe"),
     //since 773(1.21.9)
     COPPER_SHOVEL("minecraft:copper_shovel"),
+    //since 774(1.21.11)
+    COPPER_SPEAR("minecraft:copper_spear"),
     //since 773(1.21.9)
     COPPER_SWORD("minecraft:copper_sword"),
     //since 773(1.21.9)
@@ -884,12 +891,16 @@ public enum ItemType implements Keyed {
     DIAMOND_HORSE_ARMOR("minecraft:diamond_horse_armor"),
     //since 754(1.16.5)
     DIAMOND_LEGGINGS("minecraft:diamond_leggings"),
+    //since 774(1.21.11)
+    DIAMOND_NAUTILUS_ARMOR("minecraft:diamond_nautilus_armor"),
     //since 754(1.16.5)
     DIAMOND_ORE("minecraft:diamond_ore"),
     //since 754(1.16.5)
     DIAMOND_PICKAXE("minecraft:diamond_pickaxe"),
     //since 754(1.16.5)
     DIAMOND_SHOVEL("minecraft:diamond_shovel"),
+    //since 774(1.21.11)
+    DIAMOND_SPEAR("minecraft:diamond_spear"),
     //since 754(1.16.5)
     DIAMOND_SWORD("minecraft:diamond_sword"),
     //since 754(1.16.5)
@@ -1138,10 +1149,14 @@ public enum ItemType implements Keyed {
     GOLDEN_HORSE_ARMOR("minecraft:golden_horse_armor"),
     //since 754(1.16.5)
     GOLDEN_LEGGINGS("minecraft:golden_leggings"),
+    //since 774(1.21.11)
+    GOLDEN_NAUTILUS_ARMOR("minecraft:golden_nautilus_armor"),
     //since 754(1.16.5)
     GOLDEN_PICKAXE("minecraft:golden_pickaxe"),
     //since 754(1.16.5)
     GOLDEN_SHOVEL("minecraft:golden_shovel"),
+    //since 774(1.21.11)
+    GOLDEN_SPEAR("minecraft:golden_spear"),
     //since 754(1.16.5)
     GOLDEN_SWORD("minecraft:golden_sword"),
     //since 754(1.16.5)
@@ -1152,12 +1167,12 @@ public enum ItemType implements Keyed {
     GRANITE_STAIRS("minecraft:granite_stairs"),
     //since 754(1.16.5)
     GRANITE_WALL("minecraft:granite_wall"),
-    //since 754(1.16.5)
+    //since 754(1.16.5) - 764(1.20.2)
     @Deprecated
     GRASS("minecraft:grass"),
     //since 754(1.16.5)
     GRASS_BLOCK("minecraft:grass_block"),
-    //since 754(1.16.5)
+    //since 754(1.16.5) - 754(1.16.5)
     @Deprecated
     GRASS_PATH("minecraft:grass_path"),
     //since 754(1.16.5)
@@ -1320,6 +1335,8 @@ public enum ItemType implements Keyed {
     IRON_INGOT("minecraft:iron_ingot"),
     //since 754(1.16.5)
     IRON_LEGGINGS("minecraft:iron_leggings"),
+    //since 774(1.21.11)
+    IRON_NAUTILUS_ARMOR("minecraft:iron_nautilus_armor"),
     //since 754(1.16.5)
     IRON_NUGGET("minecraft:iron_nugget"),
     //since 754(1.16.5)
@@ -1328,6 +1345,8 @@ public enum ItemType implements Keyed {
     IRON_PICKAXE("minecraft:iron_pickaxe"),
     //since 754(1.16.5)
     IRON_SHOVEL("minecraft:iron_shovel"),
+    //since 774(1.21.11)
+    IRON_SPEAR("minecraft:iron_spear"),
     //since 754(1.16.5)
     IRON_SWORD("minecraft:iron_sword"),
     //since 754(1.16.5)
@@ -1712,6 +1731,8 @@ public enum ItemType implements Keyed {
     NAME_TAG("minecraft:name_tag"),
     //since 754(1.16.5)
     NAUTILUS_SHELL("minecraft:nautilus_shell"),
+    //since 774(1.21.11)
+    NAUTILUS_SPAWN_EGG("minecraft:nautilus_spawn_egg"),
     //since 754(1.16.5)
     NETHER_BRICK("minecraft:nether_brick"),
     //since 754(1.16.5)
@@ -1748,16 +1769,22 @@ public enum ItemType implements Keyed {
     NETHERITE_HELMET("minecraft:netherite_helmet"),
     //since 754(1.16.5)
     NETHERITE_HOE("minecraft:netherite_hoe"),
+    //since 774(1.21.11)
+    NETHERITE_HORSE_ARMOR("minecraft:netherite_horse_armor"),
     //since 754(1.16.5)
     NETHERITE_INGOT("minecraft:netherite_ingot"),
     //since 754(1.16.5)
     NETHERITE_LEGGINGS("minecraft:netherite_leggings"),
+    //since 774(1.21.11)
+    NETHERITE_NAUTILUS_ARMOR("minecraft:netherite_nautilus_armor"),
     //since 754(1.16.5)
     NETHERITE_PICKAXE("minecraft:netherite_pickaxe"),
     //since 754(1.16.5)
     NETHERITE_SCRAP("minecraft:netherite_scrap"),
     //since 754(1.16.5)
     NETHERITE_SHOVEL("minecraft:netherite_shovel"),
+    //since 774(1.21.11)
+    NETHERITE_SPEAR("minecraft:netherite_spear"),
     //since 754(1.16.5)
     NETHERITE_SWORD("minecraft:netherite_sword"),
     //since 762(1.19.4)
@@ -1932,6 +1959,8 @@ public enum ItemType implements Keyed {
     PANDA_SPAWN_EGG("minecraft:panda_spawn_egg"),
     //since 754(1.16.5)
     PAPER("minecraft:paper"),
+    //since 774(1.21.11)
+    PARCHED_SPAWN_EGG("minecraft:parched_spawn_egg"),
     //since 754(1.16.5)
     PARROT_SPAWN_EGG("minecraft:parrot_spawn_egg"),
     //since 759(1.19)
@@ -2074,16 +2103,16 @@ public enum ItemType implements Keyed {
     POTATO("minecraft:potato"),
     //since 754(1.16.5)
     POTION("minecraft:potion"),
-    //since 762(1.19.4)
+    //since 762(1.19.4) - 762(1.19.4)
     @Deprecated
     POTTERY_SHARD_ARCHER("minecraft:pottery_shard_archer"),
-    //since 762(1.19.4)
+    //since 762(1.19.4) - 762(1.19.4)
     @Deprecated
     POTTERY_SHARD_ARMS_UP("minecraft:pottery_shard_arms_up"),
-    //since 762(1.19.4)
+    //since 762(1.19.4) - 762(1.19.4)
     @Deprecated
     POTTERY_SHARD_PRIZE("minecraft:pottery_shard_prize"),
-    //since 762(1.19.4)
+    //since 762(1.19.4) - 762(1.19.4)
     @Deprecated
     POTTERY_SHARD_SKULL("minecraft:pottery_shard_skull"),
     //since 755(1.17)
@@ -2328,7 +2357,7 @@ public enum ItemType implements Keyed {
     SCULK_SHRIEKER("minecraft:sculk_shrieker"),
     //since 759(1.19)
     SCULK_VEIN("minecraft:sculk_vein"),
-    //since 754(1.16.5)
+    //since 754(1.16.5) - 765(1.20.4)
     @Deprecated
     SCUTE("minecraft:scute"),
     //since 754(1.16.5)
@@ -2525,6 +2554,8 @@ public enum ItemType implements Keyed {
     STONE_SHOVEL("minecraft:stone_shovel"),
     //since 754(1.16.5)
     STONE_SLAB("minecraft:stone_slab"),
+    //since 774(1.21.11)
+    STONE_SPEAR("minecraft:stone_spear"),
     //since 754(1.16.5)
     STONE_STAIRS("minecraft:stone_stairs"),
     //since 754(1.16.5)
@@ -2965,6 +2996,8 @@ public enum ItemType implements Keyed {
     WOODEN_PICKAXE("minecraft:wooden_pickaxe"),
     //since 754(1.16.5)
     WOODEN_SHOVEL("minecraft:wooden_shovel"),
+    //since 774(1.21.11)
+    WOODEN_SPEAR("minecraft:wooden_spear"),
     //since 754(1.16.5)
     WOODEN_SWORD("minecraft:wooden_sword"),
     //since 754(1.16.5)
@@ -3007,6 +3040,8 @@ public enum ItemType implements Keyed {
     ZOMBIE_HEAD("minecraft:zombie_head"),
     //since 754(1.16.5)
     ZOMBIE_HORSE_SPAWN_EGG("minecraft:zombie_horse_spawn_egg"),
+    //since 774(1.21.11)
+    ZOMBIE_NAUTILUS_SPAWN_EGG("minecraft:zombie_nautilus_spawn_egg"),
     //since 754(1.16.5)
     ZOMBIE_SPAWN_EGG("minecraft:zombie_spawn_egg"),
     //since 754(1.16.5)
@@ -3045,10 +3080,10 @@ public enum ItemType implements Keyed {
     }
 
     public int getProtocolId(int version) {
-         return Mappings.getItemId(this, version);
+        return Mappings.getItemId(this, version);
     }
 
-    public boolean isAir(){
+    public boolean isAir() {
         return this == AIR;
     }
 

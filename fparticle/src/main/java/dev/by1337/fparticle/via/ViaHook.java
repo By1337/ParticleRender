@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  * to mutate network packets based on protocol versions. If the library is unavailable, it
  * defaults to native behavior without packet transformations.
  */
-public class ViaHook {
+public final class ViaHook {
     private static final boolean HAS_VIA;
 
     public static ViaMutator getViaMutator(Player player, Channel channel) {
@@ -41,7 +41,7 @@ public class ViaHook {
         try {
             Class.forName("com.viaversion.viaversion.api.Via");
             hasVia = true;
-        } catch (ClassNotFoundException e) {
+        } catch (Exception | ClassFormatError e) {
             hasVia = false;
         }
         HAS_VIA = hasVia;

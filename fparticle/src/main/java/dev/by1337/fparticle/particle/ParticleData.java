@@ -1,6 +1,7 @@
 package dev.by1337.fparticle.particle;
 
 import dev.by1337.fparticle.ParticleType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -25,7 +26,7 @@ public class ParticleData extends ParticleSource{
         this.count = builder.count;
         this.overrideLimiter = builder.overrideLimiter;
         this.alwaysShow = builder.alwaysShow;
-        this.particle = builder.particle;
+        this.particle = Objects.requireNonNull(builder.particle);
         this.data = builder.data;
     }
 
@@ -33,11 +34,11 @@ public class ParticleData extends ParticleSource{
         return new Builder(this);
     }
 
-    public static ParticleData of(ParticleType particle) {
-        return of(particle , null);
+    public static ParticleData of(@NotNull ParticleType particle) {
+        return of(Objects.requireNonNull(particle) , null);
     }
 
-    public static ParticleData of(ParticleType particle, ParticleOption data) {
+    public static ParticleData of(@NotNull ParticleType particle, ParticleOption data) {
         return builder().particle(particle).data(data).build();
     }
 
@@ -162,7 +163,7 @@ public class ParticleData extends ParticleSource{
         }
 
         public Builder particle(ParticleType particle) {
-            this.particle = particle;
+            this.particle = Objects.requireNonNull(particle);
             return Builder.this;
         }
 

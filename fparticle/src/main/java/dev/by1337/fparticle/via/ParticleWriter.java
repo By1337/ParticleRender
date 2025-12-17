@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  * The class handles the complexities of particle mappings, including fallback particle types and their options
  * if the original type is unavailable or unsupported.
  */
-public class ParticleWriter {
+public final class ParticleWriter {
 
     /**
      * Writes particle data to the given {@code ByteBuf} output buffer.

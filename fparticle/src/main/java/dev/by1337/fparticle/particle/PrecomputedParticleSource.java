@@ -22,7 +22,6 @@ public class PrecomputedParticleSource extends ParticleSource {
     }
 
     public PrecomputedParticleSource(ParticleSource upped, @Nullable ParticleData single) {
-        this.single = single;
         FloatArrayList floats = new FloatArrayList((1 + 3 + 3) * 1024);
         List<ParticleData> particles = new ArrayList<>(32);
 
@@ -44,10 +43,15 @@ public class PrecomputedParticleSource extends ParticleSource {
             }
         }, 0, 0, 0);
 
+        if (particles.size() == 1 && single == null) {
+            single = particles.get(0);
+        }
         if (single == null) {
             this.particles = particles.toArray(new ParticleData[0]);
+            this.single = null;
         } else {
             this.particles = null;
+            this.single = single;
         }
         this.positions = floats.toFloatArray();
         size = positions.length / 7;
@@ -55,12 +59,16 @@ public class PrecomputedParticleSource extends ParticleSource {
 
     @Override
     public void doWrite(PacketBuilder writer, double baseX, double baseY, double baseZ) {
+        ParticleData particle;
+        final boolean isSingle = single != null;
+        if (isSingle) {
+            particle = single;
+        } else {
+            particle = null;
+        }
         for (int i = 0; i < size; i++) {
             int offset = i * 7;
-            ParticleData particle;
-            if (single != null) {
-                particle = single;
-            } else {
+            if (!isSingle) {
                 int particleIndex = (int) positions[offset];
                 particle = particles[particleIndex];
             }

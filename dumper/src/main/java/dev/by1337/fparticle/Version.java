@@ -1,4 +1,4 @@
-package dev.by1337.fparticle.util;
+package dev.by1337.fparticle;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

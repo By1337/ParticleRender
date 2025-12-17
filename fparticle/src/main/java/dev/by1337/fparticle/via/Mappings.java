@@ -36,14 +36,18 @@ import java.util.Map;
  * <p>
  * Key constants define the protocol version bounds and the size of mappings arrays.
  */
-public class Mappings {
+public final class Mappings {
     public static final int NATIVE_PROTOCOL = Version.VERSION.protocolVersion();
     public static final int MIN_VERSION = 754;
-    public static final int MAX_VERSION = 773;
+    public static final int MAX_VERSION = 774;
     public static final int VERSION_COUNT = MAX_VERSION - MIN_VERSION + 1;
+    @jdk.internal.vm.annotation.Stable
     private static final int[] BLOCKS;
+    @jdk.internal.vm.annotation.Stable
     private static final int[] PARTICLES;
+    @jdk.internal.vm.annotation.Stable
     private static final int[] PACKETS;
+    @jdk.internal.vm.annotation.Stable
     private static final int[] ITEMS;
     private static final Logger log = LoggerFactory.getLogger(Mappings.class);
 
@@ -55,6 +59,8 @@ public class Mappings {
      * @return the block ID corresponding to the block type and protocol version
      * @throws IllegalArgumentException if the protocol version is unsupported
      */
+    @jdk.internal.vm.annotation.ForceInline
+    @jdk.internal.vm.annotation.IntrinsicCandidate
     public static int getBlockId(BlockType b, int protocol) {
         int versionIndex = protocol - MIN_VERSION;
         if (versionIndex < 0 || versionIndex >= VERSION_COUNT) {
@@ -63,6 +69,8 @@ public class Mappings {
         return BLOCKS[b.ordinal() * VERSION_COUNT + versionIndex];
     }
 
+    @jdk.internal.vm.annotation.ForceInline
+    @jdk.internal.vm.annotation.IntrinsicCandidate
     public static int getItemId(ItemType t, int protocol) {
         int versionIndex = protocol - MIN_VERSION;
         if (versionIndex < 0 || versionIndex >= VERSION_COUNT) {
@@ -79,6 +87,8 @@ public class Mappings {
      * @return the particle ID corresponding to the particle type and protocol version
      * @throws IllegalArgumentException if the protocol version is unsupported
      */
+    @jdk.internal.vm.annotation.ForceInline
+    @jdk.internal.vm.annotation.IntrinsicCandidate
     public static int getParticleId(ParticleType p, int protocol) {
         int versionIndex = protocol - MIN_VERSION;
         if (versionIndex < 0 || versionIndex >= VERSION_COUNT) {
@@ -94,10 +104,12 @@ public class Mappings {
      * @return the packet ID corresponding to the given protocol version
      * @throws IllegalArgumentException if the protocol version is unsupported
      */
+    @jdk.internal.vm.annotation.ForceInline
+    @jdk.internal.vm.annotation.IntrinsicCandidate
     public static int getPacketId(int protocol) {
         int versionIndex = protocol - MIN_VERSION;
         if (versionIndex < 0 || versionIndex >= VERSION_COUNT) {
-            throw new IllegalArgumentException("Unsupported protocol version: " + protocol);
+            return -1;
         }
         return PACKETS[versionIndex];
     }
@@ -108,7 +120,7 @@ public class Mappings {
         }
         BLOCKS = new int[VERSION_COUNT * BlockType.SIZE];
         Gson gson = new Gson();
-        try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("fparticle/blocks.json"))) {
+        try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("mappings/blocks.json"))) {
 
             Map<String, Map<Integer, Integer>> map = new HashMap<>();
             JsonObject o = gson.fromJson(in, JsonObject.class);
@@ -144,7 +156,7 @@ public class Mappings {
         PARTICLES = new int[VERSION_COUNT * ParticleType.SIZE];
         Arrays.fill(PARTICLES, -1);
 
-        try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("fparticle/particles.json"))) {
+        try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("mappings/particles.json"))) {
             Map<String, Map<Integer, Map<String, String>>> map = gson.fromJson(in, new TypeToken<Map<String, Map<Integer, Map<String, String>>>>() {
             }.getType());
 
@@ -186,7 +198,7 @@ public class Mappings {
         }
         PACKETS = new int[VERSION_COUNT];
         Arrays.fill(PACKETS, -1);
-        try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("fparticle/packets.json"))) {
+        try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("mappings/packets.json"))) {
             Map<Integer, Integer> map = gson.fromJson(in, new TypeToken<Map<Integer, Integer>>() {
             }.getType());
             map.forEach((key, value) -> {
@@ -200,7 +212,7 @@ public class Mappings {
             throw new RuntimeException(e);
         }
         ITEMS = new int[VERSION_COUNT * ItemType.SIZE];
-        try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("fparticle/items.json"))) {
+        try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("mappings/items.json"))) {
 
             Map<String, Map<Integer, Integer>> items = new HashMap<>();
             JsonObject o = gson.fromJson(in, JsonObject.class);
@@ -213,7 +225,7 @@ public class Mappings {
             }
 
             Map<Integer, Integer> fallback;
-            try (InputStreamReader in2 = new InputStreamReader(getMappingsInputStream("fparticle/items-adapter.json"))) {
+            try (InputStreamReader in2 = new InputStreamReader(getMappingsInputStream("mappings/items-adapter.json"))) {
                 Map<String, Map<String, String>> merges = gson.fromJson(in2, new TypeToken<Map<String, Map<String, String>>>(){}.getType());
 
                 merges.get("merge").forEach((k, v) -> {
