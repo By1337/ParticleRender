@@ -1,7 +1,8 @@
-package dev.by1337.particle.netty;
+package dev.by1337.particle;
 
-import dev.by1337.particle.FParticleUtil;
 import dev.by1337.particle.netty.handler.ParticleEncoder;
+import dev.by1337.particle.util.netty.ChannelUtil;
+import dev.by1337.particle.util.Version;
 import io.netty.channel.Channel;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,10 +15,10 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.Closeable;
 
-public class FParticleManager implements Listener, Closeable {
+class ParticlePipelineManager implements Listener, Closeable {
     private final String handlerName;
 
-    public FParticleManager(Plugin plugin, String handlerName) {
+    public ParticlePipelineManager(Plugin plugin, String handlerName) {
         this.handlerName = handlerName;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         Bukkit.getOnlinePlayers().forEach(this::hook);
@@ -29,15 +30,15 @@ public class FParticleManager implements Listener, Closeable {
     }
 
     private void hook(Player player) {
-        Channel channel = FParticleUtil.getChannel(player);
-        channel.pipeline().addBefore("prepender", handlerName, new ParticleEncoder(channel, player));
+        Channel channel = ChannelUtil.getChannel(player);
+        channel.pipeline().addBefore("prepender", handlerName, new ParticleEncoder(channel, player.getUniqueId(), Version.VERSION.protocolVersion()));
     }
 
     @Override
     public void close() {
         HandlerList.unregisterAll(this);
         Bukkit.getOnlinePlayers().forEach(player -> {
-            Channel channel = FParticleUtil.getChannel(player);
+            Channel channel = ChannelUtil.getChannel(player);
             channel.pipeline().remove(handlerName);
         });
     }

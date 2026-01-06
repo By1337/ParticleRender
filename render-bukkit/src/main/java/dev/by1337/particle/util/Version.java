@@ -19,7 +19,7 @@ public record Version(@NotNull String id, int protocolVersion) {
     public static final Version VERSION;
 
     static {
-        String ver = System.getProperty("fparticle.protocol");
+        String ver = System.getProperty("particle.render.protocol");
         if (ver != null) {
             log.info("use protocol version from system property: {}", ver);
             VERSION = new Version(

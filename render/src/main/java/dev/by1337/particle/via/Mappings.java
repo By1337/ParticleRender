@@ -8,7 +8,6 @@ import dev.by1337.particle.BlockType;
 import dev.by1337.particle.ItemType;
 import dev.by1337.particle.ParticleType;
 import dev.by1337.particle.particle.ParticleOptionType;
-import dev.by1337.particle.util.Version;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +36,6 @@ import java.util.Map;
  * Key constants define the protocol version bounds and the size of mappings arrays.
  */
 public final class Mappings {
-    public static final int NATIVE_PROTOCOL = Version.VERSION.protocolVersion();
     public static final int MIN_VERSION = 754;
     public static final int MAX_VERSION = 774;
     public static final int VERSION_COUNT = MAX_VERSION - MIN_VERSION + 1;
@@ -115,9 +113,9 @@ public final class Mappings {
     }
 
     static {
-        if (Mappings.NATIVE_PROTOCOL > MAX_VERSION || Mappings.NATIVE_PROTOCOL < MIN_VERSION) {
-            throw new IllegalArgumentException("Unsupported protocol version: " + Mappings.NATIVE_PROTOCOL);
-        }
+        //  if (Mappings.NATIVE_PROTOCOL > MAX_VERSION || Mappings.NATIVE_PROTOCOL < MIN_VERSION) {
+        //      throw new IllegalArgumentException("Unsupported protocol version: " + Mappings.NATIVE_PROTOCOL);
+        //  }
         BLOCKS = new int[VERSION_COUNT * BlockType.SIZE];
         Gson gson = new Gson();
         try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("mappings/blocks.json"))) {
@@ -226,7 +224,8 @@ public final class Mappings {
 
             Map<Integer, Integer> fallback;
             try (InputStreamReader in2 = new InputStreamReader(getMappingsInputStream("mappings/items-adapter.json"))) {
-                Map<String, Map<String, String>> merges = gson.fromJson(in2, new TypeToken<Map<String, Map<String, String>>>(){}.getType());
+                Map<String, Map<String, String>> merges = gson.fromJson(in2, new TypeToken<Map<String, Map<String, String>>>() {
+                }.getType());
 
                 merges.get("merge").forEach((k, v) -> {
                     var m = items.get(k);
@@ -275,7 +274,8 @@ public final class Mappings {
         }
 
     }
-    private static void merge(Map<Integer, Integer> m, Map<Integer, Integer> m1){
+
+    private static void merge(Map<Integer, Integer> m, Map<Integer, Integer> m1) {
         for (Integer i : m1.keySet()) {
             var v = m.get(i);
             if (v == null || v == -1) {
@@ -283,6 +283,7 @@ public final class Mappings {
             }
         }
     }
+
     private static boolean wildcardMatches(String text, String pattern) {
         StringBuilder sb = new StringBuilder();
         for (char c : pattern.toCharArray()) {

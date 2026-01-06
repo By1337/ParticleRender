@@ -3,9 +3,6 @@ package dev.by1337.particle;
 import dev.by1337.particle.particle.ParticleOption;
 import dev.by1337.particle.particle.options.BlockParticleOption;
 import dev.by1337.particle.particle.options.DustParticleOptions;
-import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public enum ParticleType implements Keyed {
+public enum ParticleType {
     // 754(1.16.5)+: ~
     DRIPPING_HONEY("minecraft:dripping_honey"),
     // 754(1.16.5)+: ~
@@ -281,50 +278,33 @@ public enum ParticleType implements Keyed {
 
     public static final int SIZE = values().length;
     private static final Map<String, ParticleType> BY_ID;
-    private static final Map<NamespacedKey, ParticleType> BY_NAMESPACED_KEY;
-    public static final Registry<ParticleType> REGISTRY = new Registry<>() {
-        @Override
-        public @NotNull Iterator<ParticleType> iterator() {
-            return BY_ID.values().iterator();
-        }
 
-        @Override
-        public @Nullable ParticleType get(@NotNull NamespacedKey namespacedKey) {
-            return BY_NAMESPACED_KEY.get(namespacedKey);
-        }
-    };
     private final String id;
     private final @Nullable Fallback fallback;
-    private final NamespacedKey key;
 
     ParticleType(String id, @Nullable Fallback fallback) {
         this.id = id;
         this.fallback = fallback;
-        key = NamespacedKey.fromString(id);
     }
 
     ParticleType(String id) {
         this.id = id;
         fallback = null;
-        key = NamespacedKey.fromString(id);
     }
 
     ParticleType(String id, ParticleOption def) {
         this.id = id;
         fallback = new Fallback(this, def);
-        key = NamespacedKey.fromString(id);
     }
 
     ParticleType(String id, ParticleType def) {
         this.id = id;
         fallback = new Fallback(def, null);
-        key = NamespacedKey.fromString(id);
     }
 
     ParticleType(String id, ParticleType def, ParticleOption o) {
         this.id = id;
         fallback = new Fallback(def, o);
-        key = NamespacedKey.fromString(id);
     }
 
     public @Nullable Fallback fallback() {
@@ -339,9 +319,8 @@ public enum ParticleType implements Keyed {
         return id;
     }
 
-    @Override
-    public @NotNull NamespacedKey getKey() {
-        return key;
+    public static Iterator<ParticleType> iterator() {
+        return BY_ID.values().iterator();
     }
 
     public record Fallback(ParticleType particle, ParticleOption option) {
@@ -350,10 +329,8 @@ public enum ParticleType implements Keyed {
 
     static {
         Map<String, ParticleType> by_id = new HashMap<>();
-        BY_NAMESPACED_KEY = new HashMap<>();
         for (ParticleType value : values()) {
             by_id.put(value.id, value);
-            BY_NAMESPACED_KEY.put(value.key, value);
         }
         BY_ID = Collections.unmodifiableMap(by_id);
     }

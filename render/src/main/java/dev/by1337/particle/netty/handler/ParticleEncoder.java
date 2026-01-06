@@ -11,11 +11,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.TestOnly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> implements PacketBuilder {
@@ -25,17 +25,19 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
     private final ViaHook.ViaMutator via;
     private final int protocolVersion;
     private ByteBuf out;
+    private final int fallbackProtocol;
 
-    public ParticleEncoder(Channel channel, Player player) {
-        via = ViaHook.getViaMutator(player, channel);
+    public ParticleEncoder(Channel channel, UUID player, int fallbackProtocol) {
+        via = ViaHook.getViaMutator(player, channel, fallbackProtocol);
         protocolVersion = via.protocol();
+        this.fallbackProtocol = fallbackProtocol;
     }
 
     private final long SEC = TimeUnit.SECONDS.toNanos(1);
 
     @Override
     protected void encode(ChannelHandlerContext ctx, ParticleSource writer, ByteBuf byteBuf) throws Exception {
-      //  long l = System.nanoTime();
+        //  long l = System.nanoTime();
         this.out = byteBuf;
         try {
             writer.doWrite(this, 0, 0, 0);
@@ -44,12 +46,12 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
         } finally {
             out = null;
         }
-       // int written = byteBuf.readableBytes();
-       // if (written != 0) {
-       //     long time = System.nanoTime() - l;
-       //     long l1 = written * (SEC / time);
-       //     log.info("Sent {} bytes... {}µs {} MB/sec", byteBuf.readableBytes(), (time / 1000D), l1 / 1_000_000D);
-       // }
+        // int written = byteBuf.readableBytes();
+        // if (written != 0) {
+        //     long time = System.nanoTime() - l;
+        //     long l1 = written * (SEC / time);
+        //     log.info("Sent {} bytes... {}µs {} MB/sec", byteBuf.readableBytes(), (time / 1000D), l1 / 1_000_000D);
+        // }
     }
 
     //[prepender size][compress size][packet id][payload]
@@ -77,7 +79,8 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
             return;
         }
         if (writeLike != protocolVersion) {
-            if (writeLike == Mappings.NATIVE_PROTOCOL) {
+            if (writeLike == fallbackProtocol) {
+                // При работе на Velocity всегда fallbackProtocol = protocolVersion
                 try {
                     // без slice via не умеет
                     out.ensureWritable(256);
@@ -92,7 +95,7 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
                     return;
                 }
             } else {
-                log.error("Записал как {} хотя ожидалось {} или {}", writeLike, protocolVersion, Mappings.NATIVE_PROTOCOL);
+                log.error("Записал как {} хотя ожидалось {} или {}", writeLike, protocolVersion, fallbackProtocol);
                 out.writerIndex(prependerStartIdx);
                 return;
             }

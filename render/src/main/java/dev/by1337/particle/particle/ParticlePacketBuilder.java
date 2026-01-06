@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
  * @see ParticleEncoder
  */
 public abstract class ParticlePacketBuilder implements PacketBuilder {
-    private static final Logger log = LoggerFactory.getLogger("FParticle");
 
     private ByteBuf out;
     private ViaHook.ViaMutator via;
@@ -51,7 +50,5 @@ public abstract class ParticlePacketBuilder implements PacketBuilder {
     }
 
     protected abstract void onWrite();
-
-
 
 }

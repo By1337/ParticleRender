@@ -2,6 +2,7 @@ package dev.by1337.particle;
 
 import dev.by1337.particle.particle.ParticleSource;
 import dev.by1337.particle.particle.ParticlePacketBuilder;
+import dev.by1337.particle.util.netty.ChannelUtil;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +41,7 @@ import java.util.stream.Stream;
  * @see ParticleSource
  * @see ParticlePacketBuilder
  */
-public class FParticle {
+public class ParticleRender {
 
     /**
      * Sends a particle effect to a single player.
@@ -55,19 +56,22 @@ public class FParticle {
      * @param z        the Z world coordinate
      * @throws NullPointerException if receiver or particle is null
      */
-    public static void send(@NotNull Player receiver, @NotNull ParticleSource particle, double x, double y, double z) {
-        send(receiver, particle.shift(x, y, z));
+    public static void render(@NotNull Player receiver, @NotNull ParticleSource particle, double x, double y, double z) {
+        render(receiver, particle.shift(x, y, z));
     }
 
-
-    public static void send(@NotNull Collection<Player> receivers, @NotNull ParticleSource particle, double x, double y, double z) {
-        ParticleSource shifted = particle.shift(x, y, z);
-        receivers.forEach(p -> send(p, shifted));
+    public static void render(@NotNull Collection<Player> receivers, @NotNull ParticleSource particle) {
+        receivers.forEach(p -> render(p, particle));
     }
 
-    public static void send(@NotNull Stream<Player> receivers, @NotNull ParticleSource particle, double x, double y, double z) {
+    public static void render(@NotNull Collection<Player> receivers, @NotNull ParticleSource particle, double x, double y, double z) {
         ParticleSource shifted = particle.shift(x, y, z);
-        receivers.forEach(p -> send(p, shifted));
+        receivers.forEach(p -> render(p, shifted));
+    }
+
+    public static void render(@NotNull Stream<Player> receivers, @NotNull ParticleSource particle, double x, double y, double z) {
+        ParticleSource shifted = particle.shift(x, y, z);
+        receivers.forEach(p -> render(p, shifted));
     }
 
     /**
@@ -97,13 +101,13 @@ public class FParticle {
      * @return a consumer that sends the particle effect to a player
      * @throws NullPointerException if particle is null
      */
-    public static @NotNull Consumer<Player> send(@NotNull ParticleSource particle, double x, double y, double z) {
+    public static @NotNull Consumer<Player> render(@NotNull ParticleSource particle, double x, double y, double z) {
         var shifted = particle.shift(x, y, z);
-        return p -> send(p, shifted);
+        return p -> render(p, shifted);
     }
 
-    public static void send(Player player, ParticleSource writer) {
-        var v = FParticleUtil.getChannel(player);
+    public static void render(Player player, ParticleSource writer) {
+        var v = ChannelUtil.getChannel(player);
         if (v != null) {
             v.writeAndFlush(writer);
         }

@@ -1,13 +1,13 @@
 package dev.by1337.particle;
 
-import dev.by1337.particle.netty.FParticleManager;
 import dev.by1337.particle.particle.PacketBuilder;
 import dev.by1337.particle.particle.ParticleData;
 import dev.by1337.particle.particle.ParticleSource;
 import dev.by1337.particle.particle.options.BlockParticleOption;
 import dev.by1337.particle.particle.options.DustParticleOptions;
 import dev.by1337.particle.particle.options.ItemParticleOption;
-import dev.by1337.particle.via.Mappings;
+import dev.by1337.particle.util.Version;
+import dev.by1337.particle.util.netty.ChannelUtil;
 import io.netty.channel.Channel;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
@@ -16,6 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,9 +25,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-
-public class FParticlePlugin extends JavaPlugin {
-    private static FParticleManager flusher;
+@ApiStatus.Internal
+public class PluginParticleRender extends JavaPlugin {
+    private ParticleRenderBootstrapper bootstrapper;
 
     private static final ParticleSource SPHERE = new ParticleSource() {
         private final Random random = new Random();
@@ -60,6 +61,7 @@ public class FParticlePlugin extends JavaPlugin {
             }
         }
     };
+
     private static final ParticleSource TEST = new ParticleSource() {
         private final Random random = new Random();
         private final ParticleData particle = ParticleData.builder()
@@ -81,22 +83,23 @@ public class FParticlePlugin extends JavaPlugin {
             );
         }
     };
+    private static final ParticleSource TEST_CIRCLE = circle(256, 6, ParticleData.of(ParticleType.FLAME)).compute();
 
 
     @Override
     public void onLoad() {
-        int ignored = ItemType.BARRIER.getProtocolId(Mappings.NATIVE_PROTOCOL); //preload
+        int ignored = ItemType.BARRIER.getProtocolId(Version.VERSION.protocolVersion()); //preload
     }
 
     @Override
     public void onEnable() {
-        flusher = new FParticleManager(this, "fparticle");
+        bootstrapper = new ParticleRenderBootstrapper("particleRender", this);
+        bootstrapper.enable();
     }
 
     @Override
     public void onDisable() {
-        flusher.close();
-        flusher = null;
+        bootstrapper.disable();
     }
 
 
@@ -105,7 +108,8 @@ public class FParticlePlugin extends JavaPlugin {
         Player player = (Player) sender;
         if (args.length == 1 && args[0].equals("all")) {
             new BukkitRunnable() {
-                final Iterator<ParticleType> iterator = ParticleType.REGISTRY.iterator();
+                final Iterator<ParticleType> iterator = ParticleType.iterator();
+
                 @Override
                 public void run() {
                     if (!iterator.hasNext()) {
@@ -115,32 +119,32 @@ public class FParticlePlugin extends JavaPlugin {
                     ParticleType type = iterator.next();
                     var loc = player.getLocation();
                     player.sendMessage(Component.text(type.id()));
-                    FParticle.send(player, ParticleData.of(type), loc.getX(), loc.getY(), loc.getZ());
+                    ParticleRender.render(player, ParticleData.of(type), loc.getX(), loc.getY(), loc.getZ());
                 }
-            }.runTaskTimerAsynchronously(FParticlePlugin.this, 0, 10);
+            }.runTaskTimerAsynchronously(PluginParticleRender.this, 0, 10);
         } else if (args.length == 0) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    ParticleEffects.send(player);
+                    sendShifted(player, TEST_CIRCLE);
                 }
-            }.runTaskTimerAsynchronously(FParticlePlugin.this, 0, 1);
+            }.runTaskTimerAsynchronously(PluginParticleRender.this, 0, 1);
         } else {
             try {
-                ParticleType type = ParticleType.byId("minecraft:" + args[0]);
+                ParticleType type = ParticleType.byId(args[0]);
                 var loc = player.getLocation();
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        Channel c = FParticleUtil.getChannel(player);
+                        Channel c = ChannelUtil.getChannel(player);
                         var b = ParticleData.builder().yDist(1);
                         if (args.length == 2 && type == ParticleType.ITEM) {
-                            ItemType itemType = ItemType.getById("minecraft:" + args[1]);
+                            ItemType itemType = ItemType.getById(args[1]);
                             if (itemType != null) {
                                 b.data(new ItemParticleOption(itemType));
                             }
                         } else if (args.length == 2) {
-                            BlockType blockType = BlockType.getById("minecraft:" + args[1]);
+                            BlockType blockType = BlockType.getById(args[1]);
                             if (blockType != null) {
                                 b.data(new BlockParticleOption(blockType));
                             }
@@ -165,20 +169,40 @@ public class FParticlePlugin extends JavaPlugin {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) {
             return Stream.of(ParticleType.values())
-                    .map(p -> p.getKey().getKey())
-                    .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .map(ParticleType::id)
+                    .filter(s -> s.toLowerCase().contains(args[0].toLowerCase()))
                     .toList();
         } else if (args.length == 2 && args[0].contains("item")) {
             return Stream.of(ItemType.values())
-                    .map(p -> p.getKey().getKey())
-                    .filter(s -> s.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .map(ItemType::id)
+                    .filter(s -> s.toLowerCase().contains(args[1].toLowerCase()))
                     .toList();
         } else if (args.length == 2) {
             return Stream.of(BlockType.values())
-                    .map(p -> p.getKey().getKey())
-                    .filter(s -> s.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .map(BlockType::id)
+                    .filter(s -> s.toLowerCase().contains(args[1].toLowerCase()))
                     .toList();
         }
         return List.of();
+    }
+
+
+    public static void sendShifted(Player player, ParticleSource particleSource) {
+        var loc = player.getLocation();
+        ParticleRender.render(player, particleSource, loc.getX(), loc.getY(), loc.getZ());
+    }
+
+    public static ParticleSource circle(int points, double radius, ParticleData particle) {
+        return new ParticleSource() {
+            @Override
+            public void doWrite(PacketBuilder writer, double cx, double cy, double cz) {
+                for (int i = 0; i < points; i++) {
+                    double angle = 2 * Math.PI * i / points;
+                    double x = cx + radius * Math.cos(angle);
+                    double z = cz + radius * Math.sin(angle);
+                    writer.append(particle, x, cy, z);
+                }
+            }
+        };
     }
 }

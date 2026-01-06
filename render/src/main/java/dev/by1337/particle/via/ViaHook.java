@@ -3,11 +3,10 @@ package dev.by1337.particle.via;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.exception.CancelEncoderException;
-import dev.by1337.particle.util.Version;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
-import org.bukkit.entity.Player;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 
 /**
@@ -21,11 +20,11 @@ import java.util.function.Consumer;
 public final class ViaHook {
     private static final boolean HAS_VIA;
 
-    public static ViaMutator getViaMutator(Player player, Channel channel) {
-        if (!HAS_VIA) return ViaMutator.NATIVE;
-        UserConnection connection = Via.getAPI().getConnection(player.getUniqueId());
-        if (connection == null) return ViaMutator.NATIVE;
-        if (!connection.shouldTransformPacket()) return ViaMutator.NATIVE;
+    public static ViaMutator getViaMutator(UUID player, Channel channel, int protocolVersion) {
+        if (!HAS_VIA) return ViaMutator.of(protocolVersion);
+        UserConnection connection = Via.getAPI().getConnection(player);
+        if (connection == null) return ViaMutator.of(protocolVersion);
+        if (!connection.shouldTransformPacket()) return ViaMutator.of(protocolVersion);
 
         return new ViaMutator(
                 connection.getProtocolInfo().protocolVersion().getVersion(),
@@ -47,12 +46,8 @@ public final class ViaHook {
     }
 
     public record ViaMutator(int protocol, Consumer<ByteBuf> mutator) {
-        private static final int NATIVE_PROTOCOL = Version.VERSION.protocolVersion();
-        public static ViaMutator NATIVE = new ViaMutator(NATIVE_PROTOCOL, b -> {
-        });
-
-        public boolean shouldTransformPacket() {
-            return NATIVE_PROTOCOL != protocol;
+        public static ViaMutator of(int protocol) {
+            return new ViaMutator(protocol, b -> {});
         }
     }
 }

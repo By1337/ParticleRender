@@ -40,7 +40,8 @@ public final class ParticleWriter {
      */
     public static int write(int version, ByteBuf out, ParticleData particle, double x, double y, double z, float xDist, float yDist, float zDist) {
         if (version < Mappings.MIN_VERSION || version > Mappings.MAX_VERSION) {
-            version = Mappings.NATIVE_PROTOCOL;
+            return -1;
+           // version = Mappings.NATIVE_PROTOCOL;
         }
         int particleData = Mappings.getParticleId(particle.particle, version);
         ParticleOption option = particle.data;

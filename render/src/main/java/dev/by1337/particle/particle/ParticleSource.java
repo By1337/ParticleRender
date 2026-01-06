@@ -1,6 +1,5 @@
 package dev.by1337.particle.particle;
 
-import dev.by1337.particle.FParticle;
 import org.jetbrains.annotations.Contract;
 
 /**
@@ -32,11 +31,10 @@ import org.jetbrains.annotations.Contract;
  * };
  *
  * // Send to player
- * FParticle.send(player, sphere, location.getX(), location.getY(), location.getZ());
+ * ParticleRender.send(player, sphere, location.getX(), location.getY(), location.getZ());
  * }</pre>
  *
  * @see ParticlePacketBuilder
- * @see FParticle
  */
 public abstract class ParticleSource {
 

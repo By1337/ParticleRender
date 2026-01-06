@@ -1,9 +1,6 @@
 package dev.by1337.particle;
 
 import dev.by1337.particle.via.Mappings;
-import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,7 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public enum ItemType implements Keyed {
+public enum ItemType {
 
     //since 754(1.16.5)
     ACACIA_BOAT("minecraft:acacia_boat"),
@@ -3051,24 +3048,10 @@ public enum ItemType implements Keyed {
     ;
     public static final int SIZE = values().length;
     private static final Map<String, ItemType> BY_ID;
-    private static final Map<NamespacedKey, ItemType> BY_NAMESPACED_KEY;
-    public static final Registry<ItemType> REGISTRY = new Registry<>() {
-        @Override
-        public @NotNull Iterator<ItemType> iterator() {
-            return BY_ID.values().iterator();
-        }
-
-        @Override
-        public @Nullable ItemType get(@NotNull NamespacedKey namespacedKey) {
-            return BY_NAMESPACED_KEY.get(namespacedKey);
-        }
-    };
     private final String id;
-    private final NamespacedKey key;
 
     ItemType(String id) {
         this.id = id;
-        key = NamespacedKey.fromString(id);
     }
 
     public String id() {
@@ -3089,16 +3072,9 @@ public enum ItemType implements Keyed {
 
     static {
         Map<String, ItemType> by_id = new HashMap<>();
-        BY_NAMESPACED_KEY = new HashMap<>();
         for (ItemType value : values()) {
             by_id.put(value.id, value);
-            BY_NAMESPACED_KEY.put(value.key, value);
         }
         BY_ID = Collections.unmodifiableMap(by_id);
-    }
-
-    @Override
-    public @NotNull NamespacedKey getKey() {
-        return key;
     }
 }
