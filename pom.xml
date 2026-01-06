@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>dev.by1337.fparticle</groupId>
-  <artifactId>FastParticle-parent</artifactId>
+  <groupId>dev.by1337.particle</groupId>
+  <artifactId>ParticleRender-parent</artifactId>
   <version>1.5</version>
   <packaging>pom</packaging>
-  <name>FastParticle-parent</name>
+  <name>ParticleRender-parent</name>
     <modules>
-        <module>bukkit</module>
-        <module>fparticle</module>
-        <!--<module>dumper</module>-->
+        <module>render-bukkit</module>
+        <module>render</module>
+        <module>dumper</module>
     </modules>
     <distributionManagement>
         <repository>

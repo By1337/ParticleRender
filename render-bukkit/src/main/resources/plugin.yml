@@ -1,10 +1,12 @@
-main: dev.by1337.particle.Main
-name: FParticleDumper
+main: dev.by1337.particle.FParticlePlugin
+name: FParticle
 version: 1.5
 author: By1337
 api-version: "1.16"
 website: 'https://github.com/By1337/ParticleRender'
+softdepend:
+  - ViaVersion
 commands:
-  fparticleDump:
+  fparticle:
     aliases:
-      - fpd
+      - fp
