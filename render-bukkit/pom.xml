@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.particle</groupId>
         <artifactId>ParticleRender-parent</artifactId>
-        <version>1.5</version>
+        <version>1.6</version>
     </parent>
     <artifactId>render-bukkit</artifactId>
 
@@ -36,7 +36,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>ParticleRender-${version}-bukkit</finalName>
+                            <finalName>ParticleRender-${version}+bukkit</finalName>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
@@ -111,7 +111,7 @@
         <dependency>
             <groupId>dev.by1337.particle</groupId>
             <artifactId>render</artifactId>
-            <version>1.5</version>
+            <version>1.6</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>

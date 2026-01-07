@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.particle</groupId>
         <artifactId>ParticleRender-parent</artifactId>
-        <version>1.5</version>
+        <version>1.6</version>
     </parent>
     <artifactId>render</artifactId>
     <name>render</name>
