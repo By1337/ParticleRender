@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * defaults to native behavior without packet transformations.
  */
 public final class ViaHook {
-    private static final boolean HAS_VIA;
+    public static final boolean HAS_VIA;
 
     public static ViaMutator getViaMutator(UUID player, Channel channel, int protocolVersion) {
         if (!HAS_VIA) return ViaMutator.of(protocolVersion);

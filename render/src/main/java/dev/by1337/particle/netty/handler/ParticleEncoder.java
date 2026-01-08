@@ -79,8 +79,7 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
             return;
         }
         if (writeLike != protocolVersion) {
-            if (writeLike == fallbackProtocol) {
-                // При работе на Velocity всегда fallbackProtocol = protocolVersion
+            if (ViaHook.HAS_VIA && writeLike == fallbackProtocol) {
                 try {
                     // без slice via не умеет
                     out.ensureWritable(256);
