@@ -9,7 +9,7 @@
     <modules>
         <module>render-bukkit</module>
         <module>render</module>
-        <module>dumper</module>
+        <!--<module>dumper</module>-->
     </modules>
     <distributionManagement>
         <repository>

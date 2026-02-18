@@ -4,12 +4,8 @@ import io.netty.channel.Channel;
 import org.bukkit.entity.Player;
 
 public final class ChannelUtil {
-    private static ChannelGetter channel;
 
     public static Channel getChannel(Player player) {
-        if (channel == null) {
-            channel = ChannelGetterCreator.create(player);
-        }
-        return channel.getChannel(player);
+        return ChannelGetter.get(player);
     }
 }

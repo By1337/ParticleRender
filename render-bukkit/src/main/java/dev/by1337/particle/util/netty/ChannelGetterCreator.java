@@ -1,7 +1,7 @@
 package dev.by1337.particle.util.netty;
 
 import io.netty.channel.Channel;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -32,7 +32,7 @@ import java.util.function.Function;
  */
 public class ChannelGetterCreator {
 
-    private static final Logger log = LoggerFactory.getLogger("FParticle");
+    private static final Logger log = LoggerFactory.getLogger("BDevCore");
 
     /**
      * Creates a ChannelGetter implementation to retrieve a Netty Channel associated with a specified player.
@@ -40,45 +40,46 @@ public class ChannelGetterCreator {
      * to locate and retrieve the desired Channel instance. Depending on the runtime environment, it may
      * utilize a generated implementation through bytecode or reflective access.
      *
-     * @param player is a real player instance required for proper generation of ChannelGetter.
      * @return A ChannelGetter implementation capable of extracting the Netty Channel from the provided player.
      */
-    public static ChannelGetter create(Player player) {
+    public static ChannelGetter create() {
         try {
-            var getHandle = player.getClass().getDeclaredMethod("getHandle");
+            Class<?> craftPlayer = Class.forName(Bukkit.getServer().getClass().getPackage().getName() + ".entity.CraftPlayer");
+            var getHandle = craftPlayer.getDeclaredMethod("getHandle");
             getHandle.setAccessible(true);
-            var nmsType = getHandle.invoke(player);
-            var result = findType(nmsType.getClass(), Channel.class, new Stack<>(), true);
+            Class<?> nmsType = getHandle.getReturnType();
+            var result = findType(nmsType, Channel.class, new Stack<>(), true);
             if (result != null) {
                 try {
-                    Class<?> c = Class.forName("org.objectweb.asm.tree.ClassNode");
-                    return BytecodeGenerator.generateGetter(getHandle, result, player.getClass());
+                    return BytecodeGenerator.generateGetter(getHandle, result, craftPlayer);
                 } catch (Exception e) {
                     log.warn("Failed to generate ChannelGetter");
                 }
             } else {
-                result = findType(nmsType.getClass(), Channel.class, new Stack<>(), false);
+                result = findType(nmsType, Channel.class, new Stack<>(), false);
             }
             if (result == null) {
                 log.error("Failed to create ChannelGetter");
-                return pl -> null;
+                return pl -> {
+                    throw new UnsupportedOperationException("getChannel");
+                };
             }
-
-            return ReflectGenerator.generateGetter(getHandle, result, player);
+            return ReflectGenerator.generateGetter(getHandle, result, craftPlayer);
         } catch (Throwable e) {
             log.error("Failed to create ChannelGetter", e);
-            return pl -> null;
+            return pl -> {
+                throw new UnsupportedOperationException("getChannel");
+            };
         }
     }
-
 
     /**
      * Finds a sequence of fields in a class hierarchy that leads to a specific field type.
      *
-     * @param in       The class in which the search starts.
-     * @param type     The target field type to search for.
-     * @param stack    A stack to avoid recursive loops in the class hierarchy.
-     * @param pubOnly  A flag indicating whether to only include public fields.
+     * @param in      The class in which the search starts.
+     * @param type    The target field type to search for.
+     * @param stack   A stack to avoid recursive loops in the class hierarchy.
+     * @param pubOnly A flag indicating whether to only include public fields.
      * @return A list of fields representing the path to the target type, or null if no path is found.
      */
     private static List<Field> findType(Class<?> in, Class<?> type, Stack<Class<?>> stack, boolean pubOnly) {
@@ -123,9 +124,9 @@ public class ChannelGetterCreator {
      * on objects.
      */
     private static class ReflectGenerator {
-        private static ChannelGetter generateGetter(Method getHandle, List<Field> path, Player player) throws Throwable {
+        private static ChannelGetter generateGetter(Method getHandle, List<Field> path, Class<?> craftPlayer) throws Throwable {
             var lookup = MethodHandles.lookup();
-            MethodHandle get = lookup.findVirtual(player.getClass(), getHandle.getName(), MethodType.methodType(getHandle.getReturnType()));
+            MethodHandle get = lookup.findVirtual(craftPlayer, getHandle.getName(), MethodType.methodType(getHandle.getReturnType()));
 
             Function<Object, Object> last = invokerOf(get, lookup);
 
@@ -174,6 +175,7 @@ public class ChannelGetterCreator {
      * - Errors during bytecode generation or instantiation of the generated class will result in a RuntimeException.
      */
     private static class BytecodeGenerator {
+
         private static ChannelGetter generateGetter(Method getHandle, List<Field> path, Class<?> craftPlater) {
             ClassNode n = new ClassNode();
             n.name = ChannelGetterCreator.class.getPackage().getName().replace(".", "/") + "/ChannelGetter";
@@ -212,6 +214,7 @@ public class ChannelGetterCreator {
                 ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
                 n.accept(cw);
                 byte[] arr = cw.toByteArray();
+
                 Class<?> cl = MethodHandles.lookup().defineHiddenClass(arr, true).lookupClass();
                 return (ChannelGetter) cl.getConstructor().newInstance();
 
