@@ -4,7 +4,6 @@ import dev.by1337.particle.netty.buffer.ByteBufUtil;
 import dev.by1337.particle.particle.PacketBuilder;
 import dev.by1337.particle.particle.ParticleData;
 import dev.by1337.particle.particle.ParticleSource;
-import dev.by1337.particle.via.Mappings;
 import dev.by1337.particle.via.ParticleWriter;
 import dev.by1337.particle.via.ViaHook;
 import io.netty.buffer.ByteBuf;
@@ -26,6 +25,7 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
     private final int protocolVersion;
     private ByteBuf out;
     private final int fallbackProtocol;
+    private boolean doCompress;
 
     public ParticleEncoder(Channel channel, UUID player, int fallbackProtocol) {
         via = ViaHook.getViaMutator(player, channel, fallbackProtocol);
@@ -33,11 +33,9 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
         this.fallbackProtocol = fallbackProtocol;
     }
 
-    private final long SEC = TimeUnit.SECONDS.toNanos(1);
-
     @Override
     protected void encode(ChannelHandlerContext ctx, ParticleSource writer, ByteBuf byteBuf) throws Exception {
-        //  long l = System.nanoTime();
+        doCompress = ctx.channel().pipeline().get("compress") != null;
         this.out = byteBuf;
         try {
             writer.doWrite(this, 0, 0, 0);
@@ -46,12 +44,6 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
         } finally {
             out = null;
         }
-        // int written = byteBuf.readableBytes();
-        // if (written != 0) {
-        //     long time = System.nanoTime() - l;
-        //     long l1 = written * (SEC / time);
-        //     log.info("Sent {} bytes... {}µs {} MB/sec", byteBuf.readableBytes(), (time / 1000D), l1 / 1_000_000D);
-        // }
     }
 
     //[prepender size][compress size][packet id][payload]
@@ -67,11 +59,16 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
         // этого достаточно так как если размер будет больше чем COMPRESSION_THRESHOLD это значение перезапишется после сжатия
         ByteBufUtil.writeVarInt2(out, 0);
 
-        final int compressStartIdx = prependerStartIdx + 2;
-        // compress size всегда 0 если размер меньше COMPRESSION_THRESHOLD, если больше то при сжатии это значение перезапишется
-        ByteBufUtil.writeVarInt1(out, 0);
+        final int compressStartIdx;
+        if (doCompress) {
+            compressStartIdx = prependerStartIdx + 2;
+            // compress size всегда 0 если размер меньше COMPRESSION_THRESHOLD, если больше то при сжатии это значение перезапишется
+            ByteBufUtil.writeVarInt1(out, 0);
+        } else {
+            compressStartIdx = -1;
+        }
 
-        final int payloadStart = compressStartIdx + 1;
+        final int payloadStart = doCompress ? compressStartIdx + 1 : prependerStartIdx + 2;
         final int protocolVersion = this.protocolVersion;
         final int writeLike = ParticleWriter.write(protocolVersion, out, particle, x, y, z, xDist, yDist, zDist);
         if (writeLike == -1) {
@@ -99,10 +96,15 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
                 return;
             }
         }
-        // Вообще надо бы сжать пакет, но пакет вряд ли будет размером больше чем 256 байт
-        // Только партикл с ItemStack может превысить, но клиент всё равно примет пакет даже если он не был сжат.
-        // Если решится на сжатие, то сюда надо прокинуть Deflater, который можно создать в ParticleEncoder.
-        final int prependerSize = out.writerIndex() - compressStartIdx;
+        final int prependerSize;
+        if (doCompress) {
+            // Вообще надо бы сжать пакет, но пакет вряд ли будет размером больше чем 256 байт
+            // Только партикл с ItemStack может превысить, но клиент всё равно примет пакет даже если он не был сжат.
+            // Если решится на сжатие, то сюда надо прокинуть Deflater, который можно создать в ParticleEncoder.
+            prependerSize = out.writerIndex() - compressStartIdx;
+        } else {
+            prependerSize = out.writerIndex() - prependerStartIdx - 2;
+        }
 
         //Под prepender size выделили только 2 байта...
         //Если 1 пакет с партиклом занимает больше 16384 байт, то это не норма

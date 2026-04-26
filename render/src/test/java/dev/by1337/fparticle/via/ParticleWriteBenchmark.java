@@ -23,6 +23,7 @@ public class ParticleWriteBenchmark {
     @Setup
     public void setup() {
         System.setProperty("particle.render.protocol", "754");
+        System.setProperty("particle.render.no_via", "true");
 
         computed = circle(1024 * 10, 10, ParticleData.of(ParticleType.CLOUD)).compute();
 

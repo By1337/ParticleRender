@@ -23,6 +23,7 @@ public enum ParticleOptionType {
     private final ParticleOption def;
     private final String[] names;
     private static final Map<String, ParticleOptionType> BY_NAME = new HashMap<>();
+    @jdk.internal.vm.annotation.Stable
     private static final ParticleOptionType[] VALUES = values();
 
     ParticleOptionType(ParticleOption def, String... names) {

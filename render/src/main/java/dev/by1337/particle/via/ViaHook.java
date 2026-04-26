@@ -42,6 +42,9 @@ public final class ViaHook {
         } catch (Exception | ClassFormatError e) {
             hasVia = false;
         }
+        if (Boolean.getBoolean("particle.render.no_via")){
+            hasVia = false;
+        }
         HAS_VIA = hasVia;
     }
 
