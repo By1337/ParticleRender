@@ -93,7 +93,7 @@ public class PluginParticleRender extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        bootstrapper = new ParticleRenderBootstrapper("particleRender", this);
+        bootstrapper = new ParticleRenderBootstrapper("particle-render", this);
         bootstrapper.enable();
     }
 

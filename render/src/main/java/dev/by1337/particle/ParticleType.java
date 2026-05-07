@@ -3,7 +3,6 @@ package dev.by1337.particle;
 import dev.by1337.particle.particle.ParticleOption;
 import dev.by1337.particle.particle.options.BlockParticleOption;
 import dev.by1337.particle.particle.options.DustParticleOptions;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -248,6 +247,11 @@ public enum ParticleType {
     LARGE_SMOKE("minecraft:large_smoke"),
     // 754(1.16.5)+: ~
     HEART("minecraft:heart"),
+    // 775(26.1)+: ~
+    PAUSE_MOB_GROWTH("minecraft:pause_mob_growth"),
+    // 775(26.1)+: ~
+    RESET_MOB_GROWTH("minecraft:reset_mob_growth"),
+
 
     // <-- Deprecated -->
     // 765(1.20.3) - 765(1.20.4): ~

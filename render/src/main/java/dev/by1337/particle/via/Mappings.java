@@ -37,7 +37,7 @@ import java.util.Map;
  */
 public final class Mappings {
     public static final int MIN_VERSION = 754;
-    public static final int MAX_VERSION = 774;
+    public static final int MAX_VERSION = 775;
     public static final int VERSION_COUNT = MAX_VERSION - MIN_VERSION + 1;
     @jdk.internal.vm.annotation.Stable
     private static final int[] BLOCKS;

@@ -57,7 +57,8 @@ public class Main extends JavaPlugin {
             Map.entry(771, new String[]{"1.21.6"}),
             Map.entry(772, new String[]{"1.21.7", "1.21.8"}),
             Map.entry(773, new String[]{"1.21.9", "1.21.10"}),
-            Map.entry(774, new String[]{"1.21.11"})
+            Map.entry(774, new String[]{"1.21.11"}),
+            Map.entry(775, new String[]{"26.1", "26.1.1", "26.1.2"})
     );
 
 
@@ -185,89 +186,58 @@ public class Main extends JavaPlugin {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-            StringBuilder generatedEnum = new StringBuilder();
-            generatedEnum.append("""
-                    package dev.by1337.fparticle;
+            String result = """
+                    package dev.by1337.particle;
                     
-                    import dev.by1337.fparticle.via.Mappings;
-                    import org.bukkit.Keyed;
-                    import org.bukkit.NamespacedKey;
-                    import org.bukkit.Registry;
-                    import org.jetbrains.annotations.NotNull;
-                    import org.jetbrains.annotations.Nullable;
+                    import dev.by1337.particle.via.Mappings;
                     
                     import java.util.Collections;
                     import java.util.HashMap;
-                    import java.util.Iterator;
                     import java.util.Map;
                     
-                    public enum {NAME} implements Keyed {
+                    public enum {NAME} {
+                    {VALUES}
+                        ;
+                        public static final int SIZE = values().length;
+                        private static final Map<String, {NAME}> BY_ID;
+                        private final String id;
                     
-                    """.replace("{NAME}", name));
-            generateEnum(map, generatedEnum);
-            generatedEnum.append("""
-                         ;
-                         public static final int SIZE = values().length;
-                         private static final Map<String, {NAME}> BY_ID;
-                         private static final Map<NamespacedKey, {NAME}> BY_NAMESPACED_KEY;
-                         public static final Registry<{NAME}> REGISTRY = new Registry<>() {
-                             @Override
-                             public @NotNull Iterator<{NAME}> iterator() {
-                                 return BY_ID.values().iterator();
-                             }
-                    \s
-                             @Override
-                             public @Nullable {NAME} get(@NotNull NamespacedKey namespacedKey) {
-                                 return BY_NAMESPACED_KEY.get(namespacedKey);
-                             }
-                         };
-                         private final String id;
-                         private final NamespacedKey key;
-                    \s
-                         {NAME}(String id) {
-                             this.id = id;
-                             key = NamespacedKey.fromString(id);
-                         }
-                    \s
-                         public String id() {
-                             return id;
-                         }
-                    \s
-                         public static {NAME} getById(String id) {
-                             return BY_ID.get(id);
-                         }
-                    \s
-                         public int getProtocolId(int version) {
-                             return Mappings.getBlockId(this, version); //todo getBlockId or getItemId
-                         }
-                        \s
-                         public boolean isAir(){
-                             return this == AIR; //todo for blocks return this == AIR || this == CAVE_AIR || this == VOID_AIR;
-                         }
-                    \s
-                         static {
-                             Map<String, {NAME}> by_id = new HashMap<>();
-                             BY_NAMESPACED_KEY = new HashMap<>();
-                             for ({NAME} value : values()) {
-                                 by_id.put(value.id, value);
-                                 BY_NAMESPACED_KEY.put(value.key, value);
-                             }
-                             BY_ID = Collections.unmodifiableMap(by_id);
-                         }
-                    \s
-                         @Override
-                         public @NotNull NamespacedKey getKey() {
-                             return key;
-                         }
-                     }
-                    \s
-                    \s""".replace("{NAME}", name));
+                        {NAME}(String id) {
+                            this.id = id;
+                        }
+                    
+                        public String id() {
+                            return id;
+                        }
+                    
+                        public static {NAME} getById(String id) {
+                            return BY_ID.get(id);
+                        }
+                    
+                        public int getProtocolId(int version) {
+                            return Mappings.getBlockId(this, version);
+                        }
+                    
+                        public boolean isAir() {
+                            return this == AIR || this == CAVE_AIR || this == VOID_AIR;
+                        }
+                    
+                        static {
+                            Map<String, {NAME}> by_id = new HashMap<>();
+                            for ({NAME} value : values()) {
+                                by_id.put(value.id, value);
+                            }
+                            BY_ID = Collections.unmodifiableMap(by_id);
+                        }
+                    }"""
+                    .replace("{NAME}", name)
+                    .replace("{VALUES}", generateEnum(map));
+
             try (Writer out = Files.newBufferedWriter(
                     home.resolve(name.concat(".java")),
                     StandardCharsets.UTF_8
             )) {
-                out.write(generatedEnum.toString());
+                out.write(result);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -324,6 +294,12 @@ public class Main extends JavaPlugin {
         Map<PacketType<?>, Integer> result = new IdentityHashMap<>();
         protocol.details().listPackets(result::put);
         return result;
+    }
+
+    private static String generateEnum(Map<String, Map<Integer, Integer>> map) {
+        var sb = new StringBuilder();
+        generateEnum(map, sb);
+        return sb.toString();
     }
 
     private static void generateEnum(Map<String, Map<Integer, Integer>> map, StringBuilder out) {
