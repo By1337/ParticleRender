@@ -4,13 +4,12 @@
     <parent>
         <groupId>dev.by1337.particle</groupId>
         <artifactId>ParticleRender-parent</artifactId>
-        <version>1.7</version>
+        <version>1.8</version>
     </parent>
     <artifactId>dumper</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <paper-nms.plugin.version>1.4.11-SNAPSHOT</paper-nms.plugin.version>
     </properties>
 
 
@@ -27,7 +26,7 @@
             <plugin>
                 <groupId>ca.bkaw</groupId>
                 <artifactId>paper-nms-maven-plugin</artifactId>
-                <version>${paper-nms.plugin.version}</version>
+                <version>1.5</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -125,15 +124,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.21.10-R0.1-SNAPSHOT</version>
+            <groupId>ca.bkaw</groupId>
+            <artifactId>paper-nms</artifactId>
+            <version>26.2.build.56-alpha</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>ca.bkaw</groupId>
-            <artifactId>paper-nms</artifactId>
-            <version>26.1.2.build.19-alpha-SNAPSHOT</version>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>26.2.build.56-alpha</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -145,7 +144,7 @@
         <dependency>
             <groupId>dev.by1337.particle</groupId>
             <artifactId>render</artifactId>
-            <version>1.7</version>
+            <version>1.8</version>
             <scope>provided</scope>
         </dependency>
 

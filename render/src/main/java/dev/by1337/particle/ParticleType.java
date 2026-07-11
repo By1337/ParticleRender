@@ -251,7 +251,22 @@ public enum ParticleType {
     PAUSE_MOB_GROWTH("minecraft:pause_mob_growth"),
     // 775(26.1)+: ~
     RESET_MOB_GROWTH("minecraft:reset_mob_growth"),
-
+    // 776(26.2)+
+    SULFUR_BUBBLES("minecraft:sulfur_bubbles"),
+    // 776(26.2)+
+    NOXIOUS_GAS("minecraft:noxious_gas"),
+    // 776(26.2)+
+    NOXIOUS_GAS_CLOUD("minecraft:noxious_gas_cloud"),
+    // 776(26.2)+: GeyserParticleOptions
+    GEYSER("minecraft:geyser"),
+    // 776(26.2)+: GeyserBaseParticleOptions
+    GEYSER_BASE("minecraft:geyser_base"),
+    // 776(26.2)+: GeyserBaseParticleOptions
+    GEYSER_POOF("minecraft:geyser_poof"),
+    // 776(26.2)+: GeyserParticleOptions
+    GEYSER_PLUME("minecraft:geyser_plume"),
+    // 776(26.2)+
+    SULFUR_CUBE_GOO("minecraft:sulfur_cube_goo"),
 
     // <-- Deprecated -->
     // 765(1.20.3) - 765(1.20.4): ~

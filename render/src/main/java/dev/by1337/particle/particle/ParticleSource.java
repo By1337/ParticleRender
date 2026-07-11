@@ -34,7 +34,6 @@ import org.jetbrains.annotations.Contract;
  * ParticleRender.send(player, sphere, location.getX(), location.getY(), location.getZ());
  * }</pre>
  *
- * @see ParticlePacketBuilder
  */
 public abstract class ParticleSource {
 

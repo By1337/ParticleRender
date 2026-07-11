@@ -19,6 +19,8 @@ public enum ParticleOptionType {
     SCULK_CHARGE_PARTICLE_OPTIONS(new SculkChargeParticleOptions(10), "SculkChargeParticleOptions"),
     SPELL_PARTICLE_OPTION(new SpellParticleOption(0xAAFFFFFF, 2.f), "SpellParticleOption"),
     COLOR_PARTICLE_OPTION(new ColorParticleOption(0xAAFFFFFF), "ColorParticleOption"),
+    GEYSER_BASE_PARTICLE_OPTIONS(new GeyserBaseParticleOptions(5, 1f), "GeyserBaseParticleOptions"),
+    GEYSER_PARTICLE_OPTIONS(new GeyserParticleOptions(5), "GeyserParticleOptions"),
     ;
     private final ParticleOption def;
     private final String[] names;

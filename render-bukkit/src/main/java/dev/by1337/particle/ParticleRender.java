@@ -1,7 +1,6 @@
 package dev.by1337.particle;
 
 import dev.by1337.particle.particle.ParticleSource;
-import dev.by1337.particle.particle.ParticlePacketBuilder;
 import dev.by1337.particle.util.netty.ChannelUtil;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -39,9 +38,9 @@ import java.util.stream.Stream;
  * }</pre>
  *
  * @see ParticleSource
- * @see ParticlePacketBuilder
  */
 public class ParticleRender {
+    private static final boolean AUTO_FLUSH;
 
     /**
      * Sends a particle effect to a single player.
@@ -109,7 +108,22 @@ public class ParticleRender {
     public static void render(Player player, ParticleSource writer) {
         var v = ChannelUtil.getChannel(player);
         if (v != null) {
-            v.writeAndFlush(writer);
+            if (AUTO_FLUSH) {
+                v.writeAndFlush(writer);
+            } else {
+                v.write(writer);
+            }
         }
+    }
+
+    static {
+        AUTO_FLUSH = true;
+     //  var autoFlush = System.getProperty("particle.render.autoFlush");
+     //  if (autoFlush == null) {
+     //      boolean res = true;
+
+     //  } else {
+     //      AUTO_FLUSH = Boolean.parseBoolean(autoFlush);
+     //  }
     }
 }

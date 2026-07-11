@@ -210,7 +210,9 @@
     "minecraft:*_smithing_template": "minecraft:chainmail_chestplate",
     "minecraft:*_pottery_sherd": "minecraft:chainmail_chestplate",
     "minecraft:*sculk*": "minecraft:black_wool",
-    "minecraft:golden_dandelion": "minecraft:dandelion"
+    "minecraft:golden_dandelion": "minecraft:dandelion",
+    "minecraft:*cinnabar": "minecraft:stone",
+    "minecraft:*sulfur*": "minecraft:yellow_wool"
   },
   "fallback": {
     "*": "minecraft:barrier"

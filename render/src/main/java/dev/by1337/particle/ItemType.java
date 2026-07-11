@@ -480,6 +480,8 @@ public enum ItemType {
 	CHIPPED_ANVIL("minecraft:chipped_anvil"),
 	//since 761(1.19.3)
 	CHISELED_BOOKSHELF("minecraft:chiseled_bookshelf"),
+	//since 776(26.2)
+	CHISELED_CINNABAR("minecraft:chiseled_cinnabar"),
 	//since 765(1.20.3)
 	CHISELED_COPPER("minecraft:chiseled_copper"),
 	//since 755(1.17)
@@ -498,6 +500,8 @@ public enum ItemType {
 	CHISELED_SANDSTONE("minecraft:chiseled_sandstone"),
 	//since 754(1.16.5)
 	CHISELED_STONE_BRICKS("minecraft:chiseled_stone_bricks"),
+	//since 776(26.2)
+	CHISELED_SULFUR("minecraft:chiseled_sulfur"),
 	//since 765(1.20.3)
 	CHISELED_TUFF("minecraft:chiseled_tuff"),
 	//since 765(1.20.3)
@@ -508,6 +512,22 @@ public enum ItemType {
 	CHORUS_FRUIT("minecraft:chorus_fruit"),
 	//since 754(1.16.5)
 	CHORUS_PLANT("minecraft:chorus_plant"),
+	//since 776(26.2)
+	CINNABAR("minecraft:cinnabar"),
+	//since 776(26.2)
+	CINNABAR_BRICK_SLAB("minecraft:cinnabar_brick_slab"),
+	//since 776(26.2)
+	CINNABAR_BRICK_STAIRS("minecraft:cinnabar_brick_stairs"),
+	//since 776(26.2)
+	CINNABAR_BRICK_WALL("minecraft:cinnabar_brick_wall"),
+	//since 776(26.2)
+	CINNABAR_BRICKS("minecraft:cinnabar_bricks"),
+	//since 776(26.2)
+	CINNABAR_SLAB("minecraft:cinnabar_slab"),
+	//since 776(26.2)
+	CINNABAR_STAIRS("minecraft:cinnabar_stairs"),
+	//since 776(26.2)
+	CINNABAR_WALL("minecraft:cinnabar_wall"),
 	//since 754(1.16.5)
 	CLAY("minecraft:clay"),
 	//since 754(1.16.5)
@@ -1684,6 +1704,8 @@ public enum ItemType {
 	MUSIC_DISC_5("minecraft:music_disc_5"),
 	//since 754(1.16.5)
 	MUSIC_DISC_BLOCKS("minecraft:music_disc_blocks"),
+	//since 776(26.2)
+	MUSIC_DISC_BOUNCE("minecraft:music_disc_bounce"),
 	//since 754(1.16.5)
 	MUSIC_DISC_CAT("minecraft:music_disc_cat"),
 	//since 754(1.16.5)
@@ -2060,6 +2082,14 @@ public enum ItemType {
 	POLISHED_BLACKSTONE_STAIRS("minecraft:polished_blackstone_stairs"),
 	//since 754(1.16.5)
 	POLISHED_BLACKSTONE_WALL("minecraft:polished_blackstone_wall"),
+	//since 776(26.2)
+	POLISHED_CINNABAR("minecraft:polished_cinnabar"),
+	//since 776(26.2)
+	POLISHED_CINNABAR_SLAB("minecraft:polished_cinnabar_slab"),
+	//since 776(26.2)
+	POLISHED_CINNABAR_STAIRS("minecraft:polished_cinnabar_stairs"),
+	//since 776(26.2)
+	POLISHED_CINNABAR_WALL("minecraft:polished_cinnabar_wall"),
 	//since 755(1.17)
 	POLISHED_DEEPSLATE("minecraft:polished_deepslate"),
 	//since 755(1.17)
@@ -2080,6 +2110,14 @@ public enum ItemType {
 	POLISHED_GRANITE_SLAB("minecraft:polished_granite_slab"),
 	//since 754(1.16.5)
 	POLISHED_GRANITE_STAIRS("minecraft:polished_granite_stairs"),
+	//since 776(26.2)
+	POLISHED_SULFUR("minecraft:polished_sulfur"),
+	//since 776(26.2)
+	POLISHED_SULFUR_SLAB("minecraft:polished_sulfur_slab"),
+	//since 776(26.2)
+	POLISHED_SULFUR_STAIRS("minecraft:polished_sulfur_stairs"),
+	//since 776(26.2)
+	POLISHED_SULFUR_WALL("minecraft:polished_sulfur_wall"),
 	//since 765(1.20.3)
 	POLISHED_TUFF("minecraft:polished_tuff"),
 	//since 765(1.20.3)
@@ -2096,6 +2134,8 @@ public enum ItemType {
 	PORKCHOP("minecraft:porkchop"),
 	//since 754(1.16.5)
 	POTATO("minecraft:potato"),
+	//since 776(26.2)
+	POTENT_SULFUR("minecraft:potent_sulfur"),
 	//since 754(1.16.5)
 	POTION("minecraft:potion"),
 	//since 762(1.19.4) - 762(1.19.4)
@@ -2617,6 +2657,28 @@ public enum ItemType {
 	SUGAR("minecraft:sugar"),
 	//since 754(1.16.5)
 	SUGAR_CANE("minecraft:sugar_cane"),
+	//since 776(26.2)
+	SULFUR("minecraft:sulfur"),
+	//since 776(26.2)
+	SULFUR_BRICK_SLAB("minecraft:sulfur_brick_slab"),
+	//since 776(26.2)
+	SULFUR_BRICK_STAIRS("minecraft:sulfur_brick_stairs"),
+	//since 776(26.2)
+	SULFUR_BRICK_WALL("minecraft:sulfur_brick_wall"),
+	//since 776(26.2)
+	SULFUR_BRICKS("minecraft:sulfur_bricks"),
+	//since 776(26.2)
+	SULFUR_CUBE_BUCKET("minecraft:sulfur_cube_bucket"),
+	//since 776(26.2)
+	SULFUR_CUBE_SPAWN_EGG("minecraft:sulfur_cube_spawn_egg"),
+	//since 776(26.2)
+	SULFUR_SLAB("minecraft:sulfur_slab"),
+	//since 776(26.2)
+	SULFUR_SPIKE("minecraft:sulfur_spike"),
+	//since 776(26.2)
+	SULFUR_STAIRS("minecraft:sulfur_stairs"),
+	//since 776(26.2)
+	SULFUR_WALL("minecraft:sulfur_wall"),
 	//since 754(1.16.5)
 	SUNFLOWER("minecraft:sunflower"),
 	//since 763(1.20)
@@ -3044,36 +3106,36 @@ public enum ItemType {
 	//since 754(1.16.5)
 	ZOMBIFIED_PIGLIN_SPAWN_EGG("minecraft:zombified_piglin_spawn_egg"),
 
-    ;
-    public static final int SIZE = values().length;
-    private static final Map<String, ItemType> BY_ID;
-    private final String id;
+	;
+	public static final int SIZE = values().length;
+	private static final Map<String, ItemType> BY_ID;
+	private final String id;
 
-    ItemType(String id) {
-        this.id = id;
-    }
+	ItemType(String id) {
+		this.id = id;
+	}
 
-    public String id() {
-        return id;
-    }
+	public String id() {
+		return id;
+	}
 
-    public static ItemType getById(String id) {
-        return BY_ID.get(id);
-    }
+	public static ItemType getById(String id) {
+		return BY_ID.get(id);
+	}
 
-    public int getProtocolId(int version) {
-        return Mappings.getItemId(this, version);
-    }
+	public int getProtocolId(int version) {
+		return Mappings.getItemId(this, version);
+	}
 
-    public boolean isAir() {
-        return this == AIR;
-    }
+	public boolean isAir() {
+		return this == AIR;
+	}
 
-    static {
-        Map<String, ItemType> by_id = new HashMap<>();
-        for (ItemType value : values()) {
-            by_id.put(value.id, value);
-        }
-        BY_ID = Collections.unmodifiableMap(by_id);
-    }
+	static {
+		Map<String, ItemType> by_id = new HashMap<>();
+		for (ItemType value : values()) {
+			by_id.put(value.id, value);
+		}
+		BY_ID = Collections.unmodifiableMap(by_id);
+	}
 }

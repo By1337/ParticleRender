@@ -37,7 +37,7 @@ import java.util.Map;
  */
 public final class Mappings {
     public static final int MIN_VERSION = 754;
-    public static final int MAX_VERSION = 775;
+    public static final int MAX_VERSION = 776;
     public static final int VERSION_COUNT = MAX_VERSION - MIN_VERSION + 1;
     @jdk.internal.vm.annotation.Stable
     private static final int[] BLOCKS;
@@ -116,7 +116,7 @@ public final class Mappings {
         //  if (Mappings.NATIVE_PROTOCOL > MAX_VERSION || Mappings.NATIVE_PROTOCOL < MIN_VERSION) {
         //      throw new IllegalArgumentException("Unsupported protocol version: " + Mappings.NATIVE_PROTOCOL);
         //  }
-        BLOCKS = new int[VERSION_COUNT * BlockType.SIZE];
+        var blocks = new int[VERSION_COUNT * BlockType.SIZE];
         Gson gson = new Gson();
         try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("mappings/blocks.json"))) {
 
@@ -145,14 +145,15 @@ public final class Mappings {
                         blockId = fallback.get(i);
                     }
                     int index = b.ordinal() * VERSION_COUNT + (i - MIN_VERSION);
-                    BLOCKS[index] = blockId;
+                    blocks[index] = blockId;
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        PARTICLES = new int[VERSION_COUNT * ParticleType.SIZE];
-        Arrays.fill(PARTICLES, -1);
+        BLOCKS = blocks;
+        var particles = new int[VERSION_COUNT * ParticleType.SIZE];
+        Arrays.fill(particles, -1);
 
         try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("mappings/particles.json"))) {
             Map<String, Map<Integer, Map<String, String>>> map = gson.fromJson(in, new TypeToken<Map<String, Map<Integer, Map<String, String>>>>() {
@@ -163,7 +164,7 @@ public final class Mappings {
                 ParticleType particleType = ParticleType.byId(particle);
 
                 if (particleType == null) {
-                    log.error("Unknown particle: {}", particle);
+                    log.warn("Unknown particle: {}", particle);
                     continue;
                 }
                 for (int i = MIN_VERSION; i <= MAX_VERSION; i++) {
@@ -188,14 +189,15 @@ public final class Mappings {
                     int value = (protocolId << 16) | (extraId & 0xFFFF);
 
                     int index = particleType.ordinal() * VERSION_COUNT + (i - MIN_VERSION);
-                    PARTICLES[index] = value;
+                    particles[index] = value;
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        PACKETS = new int[VERSION_COUNT];
-        Arrays.fill(PACKETS, -1);
+        PARTICLES = particles;
+        var packets = new int[VERSION_COUNT];
+        Arrays.fill(packets, -1);
         try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("mappings/packets.json"))) {
             Map<Integer, Integer> map = gson.fromJson(in, new TypeToken<Map<Integer, Integer>>() {
             }.getType());
@@ -204,12 +206,13 @@ public final class Mappings {
                     log.error("Unsupported protocol version: {}", key);
                     return;
                 }
-                PACKETS[key - MIN_VERSION] = value;
+                packets[key - MIN_VERSION] = value;
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ITEMS = new int[VERSION_COUNT * ItemType.SIZE];
+        PACKETS = packets;
+        var items_arr = new int[VERSION_COUNT * ItemType.SIZE];
         try (InputStreamReader in = new InputStreamReader(getMappingsInputStream("mappings/items.json"))) {
 
             Map<String, Map<Integer, Integer>> items = new HashMap<>();
@@ -266,13 +269,13 @@ public final class Mappings {
                         itemId = fallback.get(i);
                     }
                     int index = type.ordinal() * VERSION_COUNT + (i - MIN_VERSION);
-                    ITEMS[index] = itemId;
+                    items_arr[index] = itemId;
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        ITEMS = items_arr;
     }
 
     private static void merge(Map<Integer, Integer> m, Map<Integer, Integer> m1) {
