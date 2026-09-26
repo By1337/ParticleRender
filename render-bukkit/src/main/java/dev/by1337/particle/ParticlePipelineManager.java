@@ -1,8 +1,8 @@
 package dev.by1337.particle;
 
 import dev.by1337.particle.netty.handler.ParticleEncoder;
-import dev.by1337.particle.util.netty.ChannelUtil;
 import dev.by1337.particle.util.Version;
+import dev.by1337.particle.util.netty.ChannelUtil;
 import io.netty.channel.Channel;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.io.Closeable;
+import java.util.NoSuchElementException;
 
 class ParticlePipelineManager implements Listener, Closeable {
     private final String handlerName;
@@ -39,7 +40,15 @@ class ParticlePipelineManager implements Listener, Closeable {
         HandlerList.unregisterAll(this);
         Bukkit.getOnlinePlayers().forEach(player -> {
             Channel channel = ChannelUtil.getChannel(player);
-            channel.pipeline().remove(handlerName);
+            if (channel == null) return;
+            var pipeline = channel.pipeline();
+            if (pipeline.get(handlerName) != null) {
+                try {
+                    pipeline.remove(handlerName);
+                } catch (NoSuchElementException ignored) {
+                }
+            }
+
         });
     }
 }

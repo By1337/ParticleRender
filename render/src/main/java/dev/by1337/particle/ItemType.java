@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ItemType {
+	//since 777(26.3)
+	ABANDONED_CAMP_MAP("minecraft:abandoned_camp_map"),
 	//since 754(1.16.5)
 	ACACIA_BOAT("minecraft:acacia_boat"),
 	//since 754(1.16.5)
@@ -215,6 +217,12 @@ public enum ItemType {
 	BLACK_CONCRETE("minecraft:black_concrete"),
 	//since 754(1.16.5)
 	BLACK_CONCRETE_POWDER("minecraft:black_concrete_powder"),
+	//since 777(26.3)
+	BLACK_CONCRETE_SLAB("minecraft:black_concrete_slab"),
+	//since 777(26.3)
+	BLACK_CONCRETE_STAIRS("minecraft:black_concrete_stairs"),
+	//since 777(26.3)
+	BLACK_CUSHION("minecraft:black_cushion"),
 	//since 754(1.16.5)
 	BLACK_DYE("minecraft:black_dye"),
 	//since 754(1.16.5)
@@ -231,6 +239,10 @@ public enum ItemType {
 	BLACK_TERRACOTTA("minecraft:black_terracotta"),
 	//since 754(1.16.5)
 	BLACK_WOOL("minecraft:black_wool"),
+	//since 777(26.3)
+	BLACK_WOOL_SLAB("minecraft:black_wool_slab"),
+	//since 777(26.3)
+	BLACK_WOOL_STAIRS("minecraft:black_wool_stairs"),
 	//since 754(1.16.5)
 	BLACKSTONE("minecraft:blackstone"),
 	//since 754(1.16.5)
@@ -263,6 +275,12 @@ public enum ItemType {
 	BLUE_CONCRETE("minecraft:blue_concrete"),
 	//since 754(1.16.5)
 	BLUE_CONCRETE_POWDER("minecraft:blue_concrete_powder"),
+	//since 777(26.3)
+	BLUE_CONCRETE_SLAB("minecraft:blue_concrete_slab"),
+	//since 777(26.3)
+	BLUE_CONCRETE_STAIRS("minecraft:blue_concrete_stairs"),
+	//since 777(26.3)
+	BLUE_CUSHION("minecraft:blue_cushion"),
 	//since 754(1.16.5)
 	BLUE_DYE("minecraft:blue_dye"),
 	//since 770(1.21.5)
@@ -285,6 +303,10 @@ public enum ItemType {
 	BLUE_TERRACOTTA("minecraft:blue_terracotta"),
 	//since 754(1.16.5)
 	BLUE_WOOL("minecraft:blue_wool"),
+	//since 777(26.3)
+	BLUE_WOOL_SLAB("minecraft:blue_wool_slab"),
+	//since 777(26.3)
+	BLUE_WOOL_STAIRS("minecraft:blue_wool_stairs"),
 	//since 766(1.20.5)
 	BOGGED_SPAWN_EGG("minecraft:bogged_spawn_egg"),
 	//since 766(1.20.5)
@@ -345,6 +367,12 @@ public enum ItemType {
 	BROWN_CONCRETE("minecraft:brown_concrete"),
 	//since 754(1.16.5)
 	BROWN_CONCRETE_POWDER("minecraft:brown_concrete_powder"),
+	//since 777(26.3)
+	BROWN_CONCRETE_SLAB("minecraft:brown_concrete_slab"),
+	//since 777(26.3)
+	BROWN_CONCRETE_STAIRS("minecraft:brown_concrete_stairs"),
+	//since 777(26.3)
+	BROWN_CUSHION("minecraft:brown_cushion"),
 	//since 754(1.16.5)
 	BROWN_DYE("minecraft:brown_dye"),
 	//since 770(1.21.5)
@@ -367,6 +395,10 @@ public enum ItemType {
 	BROWN_TERRACOTTA("minecraft:brown_terracotta"),
 	//since 754(1.16.5)
 	BROWN_WOOL("minecraft:brown_wool"),
+	//since 777(26.3)
+	BROWN_WOOL_SLAB("minecraft:brown_wool_slab"),
+	//since 777(26.3)
+	BROWN_WOOL_STAIRS("minecraft:brown_wool_stairs"),
 	//since 762(1.19.4)
 	BRUSH("minecraft:brush"),
 	//since 754(1.16.5)
@@ -381,6 +413,14 @@ public enum ItemType {
 	BUDDING_AMETHYST("minecraft:budding_amethyst"),
 	//since 755(1.17)
 	BUNDLE("minecraft:bundle"),
+	//since 777(26.3)
+	BURIED_ANCIENT_CITY_MAP("minecraft:buried_ancient_city_map"),
+	//since 777(26.3)
+	BURIED_MINESHAFT_MAP("minecraft:buried_mineshaft_map"),
+	//since 777(26.3)
+	BURIED_TREASURE_MAP("minecraft:buried_treasure_map"),
+	//since 777(26.3)
+	BURIED_TRIAL_CHAMBERS_MAP("minecraft:buried_trial_chambers_map"),
 	//since 763(1.20)
 	BURN_POTTERY_SHERD("minecraft:burn_pottery_sherd"),
 	//since 770(1.21.5)
@@ -748,6 +788,12 @@ public enum ItemType {
 	CYAN_CONCRETE("minecraft:cyan_concrete"),
 	//since 754(1.16.5)
 	CYAN_CONCRETE_POWDER("minecraft:cyan_concrete_powder"),
+	//since 777(26.3)
+	CYAN_CONCRETE_SLAB("minecraft:cyan_concrete_slab"),
+	//since 777(26.3)
+	CYAN_CONCRETE_STAIRS("minecraft:cyan_concrete_stairs"),
+	//since 777(26.3)
+	CYAN_CUSHION("minecraft:cyan_cushion"),
 	//since 754(1.16.5)
 	CYAN_DYE("minecraft:cyan_dye"),
 	//since 754(1.16.5)
@@ -764,6 +810,10 @@ public enum ItemType {
 	CYAN_TERRACOTTA("minecraft:cyan_terracotta"),
 	//since 754(1.16.5)
 	CYAN_WOOL("minecraft:cyan_wool"),
+	//since 777(26.3)
+	CYAN_WOOL_SLAB("minecraft:cyan_wool_slab"),
+	//since 777(26.3)
+	CYAN_WOOL_STAIRS("minecraft:cyan_wool_stairs"),
 	//since 754(1.16.5)
 	DAMAGED_ANVIL("minecraft:damaged_anvil"),
 	//since 754(1.16.5)
@@ -884,6 +934,10 @@ public enum ItemType {
 	DEEPSLATE_TILE_WALL("minecraft:deepslate_tile_wall"),
 	//since 755(1.17)
 	DEEPSLATE_TILES("minecraft:deepslate_tiles"),
+	//since 777(26.3)
+	DESERT_PYRAMID_MAP("minecraft:desert_pyramid_map"),
+	//since 777(26.3)
+	DESERT_VILLAGE_MAP("minecraft:desert_village_map"),
 	//since 754(1.16.5)
 	DETECTOR_RAIL("minecraft:detector_rail"),
 	//since 754(1.16.5)
@@ -1206,6 +1260,12 @@ public enum ItemType {
 	GRAY_CONCRETE("minecraft:gray_concrete"),
 	//since 754(1.16.5)
 	GRAY_CONCRETE_POWDER("minecraft:gray_concrete_powder"),
+	//since 777(26.3)
+	GRAY_CONCRETE_SLAB("minecraft:gray_concrete_slab"),
+	//since 777(26.3)
+	GRAY_CONCRETE_STAIRS("minecraft:gray_concrete_stairs"),
+	//since 777(26.3)
+	GRAY_CUSHION("minecraft:gray_cushion"),
 	//since 754(1.16.5)
 	GRAY_DYE("minecraft:gray_dye"),
 	//since 754(1.16.5)
@@ -1222,6 +1282,10 @@ public enum ItemType {
 	GRAY_TERRACOTTA("minecraft:gray_terracotta"),
 	//since 754(1.16.5)
 	GRAY_WOOL("minecraft:gray_wool"),
+	//since 777(26.3)
+	GRAY_WOOL_SLAB("minecraft:gray_wool_slab"),
+	//since 777(26.3)
+	GRAY_WOOL_STAIRS("minecraft:gray_wool_stairs"),
 	//since 754(1.16.5)
 	GREEN_BANNER("minecraft:green_banner"),
 	//since 754(1.16.5)
@@ -1236,6 +1300,12 @@ public enum ItemType {
 	GREEN_CONCRETE("minecraft:green_concrete"),
 	//since 754(1.16.5)
 	GREEN_CONCRETE_POWDER("minecraft:green_concrete_powder"),
+	//since 777(26.3)
+	GREEN_CONCRETE_SLAB("minecraft:green_concrete_slab"),
+	//since 777(26.3)
+	GREEN_CONCRETE_STAIRS("minecraft:green_concrete_stairs"),
+	//since 777(26.3)
+	GREEN_CUSHION("minecraft:green_cushion"),
 	//since 754(1.16.5)
 	GREEN_DYE("minecraft:green_dye"),
 	//since 754(1.16.5)
@@ -1252,6 +1322,10 @@ public enum ItemType {
 	GREEN_TERRACOTTA("minecraft:green_terracotta"),
 	//since 754(1.16.5)
 	GREEN_WOOL("minecraft:green_wool"),
+	//since 777(26.3)
+	GREEN_WOOL_SLAB("minecraft:green_wool_slab"),
+	//since 777(26.3)
+	GREEN_WOOL_STAIRS("minecraft:green_wool_stairs"),
 	//since 754(1.16.5)
 	GRINDSTONE("minecraft:grindstone"),
 	//since 754(1.16.5)
@@ -1396,6 +1470,8 @@ public enum ItemType {
 	JUNGLE_PLANKS("minecraft:jungle_planks"),
 	//since 754(1.16.5)
 	JUNGLE_PRESSURE_PLATE("minecraft:jungle_pressure_plate"),
+	//since 777(26.3)
+	JUNGLE_PYRAMID_MAP("minecraft:jungle_pyramid_map"),
 	//since 754(1.16.5)
 	JUNGLE_SAPLING("minecraft:jungle_sapling"),
 	//since 773(1.21.9)
@@ -1466,6 +1542,12 @@ public enum ItemType {
 	LIGHT_BLUE_CONCRETE("minecraft:light_blue_concrete"),
 	//since 754(1.16.5)
 	LIGHT_BLUE_CONCRETE_POWDER("minecraft:light_blue_concrete_powder"),
+	//since 777(26.3)
+	LIGHT_BLUE_CONCRETE_SLAB("minecraft:light_blue_concrete_slab"),
+	//since 777(26.3)
+	LIGHT_BLUE_CONCRETE_STAIRS("minecraft:light_blue_concrete_stairs"),
+	//since 777(26.3)
+	LIGHT_BLUE_CUSHION("minecraft:light_blue_cushion"),
 	//since 754(1.16.5)
 	LIGHT_BLUE_DYE("minecraft:light_blue_dye"),
 	//since 754(1.16.5)
@@ -1482,6 +1564,10 @@ public enum ItemType {
 	LIGHT_BLUE_TERRACOTTA("minecraft:light_blue_terracotta"),
 	//since 754(1.16.5)
 	LIGHT_BLUE_WOOL("minecraft:light_blue_wool"),
+	//since 777(26.3)
+	LIGHT_BLUE_WOOL_SLAB("minecraft:light_blue_wool_slab"),
+	//since 777(26.3)
+	LIGHT_BLUE_WOOL_STAIRS("minecraft:light_blue_wool_stairs"),
 	//since 754(1.16.5)
 	LIGHT_GRAY_BANNER("minecraft:light_gray_banner"),
 	//since 754(1.16.5)
@@ -1496,6 +1582,12 @@ public enum ItemType {
 	LIGHT_GRAY_CONCRETE("minecraft:light_gray_concrete"),
 	//since 754(1.16.5)
 	LIGHT_GRAY_CONCRETE_POWDER("minecraft:light_gray_concrete_powder"),
+	//since 777(26.3)
+	LIGHT_GRAY_CONCRETE_SLAB("minecraft:light_gray_concrete_slab"),
+	//since 777(26.3)
+	LIGHT_GRAY_CONCRETE_STAIRS("minecraft:light_gray_concrete_stairs"),
+	//since 777(26.3)
+	LIGHT_GRAY_CUSHION("minecraft:light_gray_cushion"),
 	//since 754(1.16.5)
 	LIGHT_GRAY_DYE("minecraft:light_gray_dye"),
 	//since 754(1.16.5)
@@ -1512,6 +1604,10 @@ public enum ItemType {
 	LIGHT_GRAY_TERRACOTTA("minecraft:light_gray_terracotta"),
 	//since 754(1.16.5)
 	LIGHT_GRAY_WOOL("minecraft:light_gray_wool"),
+	//since 777(26.3)
+	LIGHT_GRAY_WOOL_SLAB("minecraft:light_gray_wool_slab"),
+	//since 777(26.3)
+	LIGHT_GRAY_WOOL_STAIRS("minecraft:light_gray_wool_stairs"),
 	//since 754(1.16.5)
 	LIGHT_WEIGHTED_PRESSURE_PLATE("minecraft:light_weighted_pressure_plate"),
 	//since 755(1.17)
@@ -1536,6 +1632,12 @@ public enum ItemType {
 	LIME_CONCRETE("minecraft:lime_concrete"),
 	//since 754(1.16.5)
 	LIME_CONCRETE_POWDER("minecraft:lime_concrete_powder"),
+	//since 777(26.3)
+	LIME_CONCRETE_SLAB("minecraft:lime_concrete_slab"),
+	//since 777(26.3)
+	LIME_CONCRETE_STAIRS("minecraft:lime_concrete_stairs"),
+	//since 777(26.3)
+	LIME_CUSHION("minecraft:lime_cushion"),
 	//since 754(1.16.5)
 	LIME_DYE("minecraft:lime_dye"),
 	//since 754(1.16.5)
@@ -1552,6 +1654,10 @@ public enum ItemType {
 	LIME_TERRACOTTA("minecraft:lime_terracotta"),
 	//since 754(1.16.5)
 	LIME_WOOL("minecraft:lime_wool"),
+	//since 777(26.3)
+	LIME_WOOL_SLAB("minecraft:lime_wool_slab"),
+	//since 777(26.3)
+	LIME_WOOL_STAIRS("minecraft:lime_wool_stairs"),
 	//since 754(1.16.5)
 	LINGERING_POTION("minecraft:lingering_potion"),
 	//since 754(1.16.5)
@@ -1576,6 +1682,12 @@ public enum ItemType {
 	MAGENTA_CONCRETE("minecraft:magenta_concrete"),
 	//since 754(1.16.5)
 	MAGENTA_CONCRETE_POWDER("minecraft:magenta_concrete_powder"),
+	//since 777(26.3)
+	MAGENTA_CONCRETE_SLAB("minecraft:magenta_concrete_slab"),
+	//since 777(26.3)
+	MAGENTA_CONCRETE_STAIRS("minecraft:magenta_concrete_stairs"),
+	//since 777(26.3)
+	MAGENTA_CUSHION("minecraft:magenta_cushion"),
 	//since 754(1.16.5)
 	MAGENTA_DYE("minecraft:magenta_dye"),
 	//since 754(1.16.5)
@@ -1592,6 +1704,10 @@ public enum ItemType {
 	MAGENTA_TERRACOTTA("minecraft:magenta_terracotta"),
 	//since 754(1.16.5)
 	MAGENTA_WOOL("minecraft:magenta_wool"),
+	//since 777(26.3)
+	MAGENTA_WOOL_SLAB("minecraft:magenta_wool_slab"),
+	//since 777(26.3)
+	MAGENTA_WOOL_STAIRS("minecraft:magenta_wool_stairs"),
 	//since 754(1.16.5)
 	MAGMA_BLOCK("minecraft:magma_block"),
 	//since 754(1.16.5)
@@ -1850,6 +1966,8 @@ public enum ItemType {
 	OBSERVER("minecraft:observer"),
 	//since 754(1.16.5)
 	OBSIDIAN("minecraft:obsidian"),
+	//since 777(26.3)
+	OCEAN_MONUMENT_MAP("minecraft:ocean_monument_map"),
 	//since 754(1.16.5)
 	OCELOT_SPAWN_EGG("minecraft:ocelot_spawn_egg"),
 	//since 759(1.19)
@@ -1874,12 +1992,20 @@ public enum ItemType {
 	ORANGE_CONCRETE("minecraft:orange_concrete"),
 	//since 754(1.16.5)
 	ORANGE_CONCRETE_POWDER("minecraft:orange_concrete_powder"),
+	//since 777(26.3)
+	ORANGE_CONCRETE_SLAB("minecraft:orange_concrete_slab"),
+	//since 777(26.3)
+	ORANGE_CONCRETE_STAIRS("minecraft:orange_concrete_stairs"),
+	//since 777(26.3)
+	ORANGE_CUSHION("minecraft:orange_cushion"),
 	//since 754(1.16.5)
 	ORANGE_DYE("minecraft:orange_dye"),
 	//since 754(1.16.5)
 	ORANGE_GLAZED_TERRACOTTA("minecraft:orange_glazed_terracotta"),
 	//since 771(1.21.6)
 	ORANGE_HARNESS("minecraft:orange_harness"),
+	//since 777(26.3)
+	ORANGE_POPLAR_LEAVES("minecraft:orange_poplar_leaves"),
 	//since 754(1.16.5)
 	ORANGE_SHULKER_BOX("minecraft:orange_shulker_box"),
 	//since 754(1.16.5)
@@ -1892,6 +2018,10 @@ public enum ItemType {
 	ORANGE_TULIP("minecraft:orange_tulip"),
 	//since 754(1.16.5)
 	ORANGE_WOOL("minecraft:orange_wool"),
+	//since 777(26.3)
+	ORANGE_WOOL_SLAB("minecraft:orange_wool_slab"),
+	//since 777(26.3)
+	ORANGE_WOOL_STAIRS("minecraft:orange_wool_stairs"),
 	//since 754(1.16.5)
 	OXEYE_DAISY("minecraft:oxeye_daisy"),
 	//since 765(1.20.3)
@@ -2016,6 +2146,12 @@ public enum ItemType {
 	PINK_CONCRETE("minecraft:pink_concrete"),
 	//since 754(1.16.5)
 	PINK_CONCRETE_POWDER("minecraft:pink_concrete_powder"),
+	//since 777(26.3)
+	PINK_CONCRETE_SLAB("minecraft:pink_concrete_slab"),
+	//since 777(26.3)
+	PINK_CONCRETE_STAIRS("minecraft:pink_concrete_stairs"),
+	//since 777(26.3)
+	PINK_CUSHION("minecraft:pink_cushion"),
 	//since 754(1.16.5)
 	PINK_DYE("minecraft:pink_dye"),
 	//since 754(1.16.5)
@@ -2036,12 +2172,18 @@ public enum ItemType {
 	PINK_TULIP("minecraft:pink_tulip"),
 	//since 754(1.16.5)
 	PINK_WOOL("minecraft:pink_wool"),
+	//since 777(26.3)
+	PINK_WOOL_SLAB("minecraft:pink_wool_slab"),
+	//since 777(26.3)
+	PINK_WOOL_STAIRS("minecraft:pink_wool_stairs"),
 	//since 754(1.16.5)
 	PISTON("minecraft:piston"),
 	//since 763(1.20)
 	PITCHER_PLANT("minecraft:pitcher_plant"),
 	//since 763(1.20)
 	PITCHER_POD("minecraft:pitcher_pod"),
+	//since 777(26.3)
+	PLAINS_VILLAGE_MAP("minecraft:plains_village_map"),
 	//since 754(1.16.5)
 	PLAYER_HEAD("minecraft:player_head"),
 	//since 763(1.20)
@@ -2126,6 +2268,40 @@ public enum ItemType {
 	POLISHED_TUFF_STAIRS("minecraft:polished_tuff_stairs"),
 	//since 765(1.20.3)
 	POLISHED_TUFF_WALL("minecraft:polished_tuff_wall"),
+	//since 777(26.3)
+	POPLAR_BOAT("minecraft:poplar_boat"),
+	//since 777(26.3)
+	POPLAR_BUTTON("minecraft:poplar_button"),
+	//since 777(26.3)
+	POPLAR_CHEST_BOAT("minecraft:poplar_chest_boat"),
+	//since 777(26.3)
+	POPLAR_DOOR("minecraft:poplar_door"),
+	//since 777(26.3)
+	POPLAR_FENCE("minecraft:poplar_fence"),
+	//since 777(26.3)
+	POPLAR_FENCE_GATE("minecraft:poplar_fence_gate"),
+	//since 777(26.3)
+	POPLAR_HANGING_SIGN("minecraft:poplar_hanging_sign"),
+	//since 777(26.3)
+	POPLAR_LOG("minecraft:poplar_log"),
+	//since 777(26.3)
+	POPLAR_PLANKS("minecraft:poplar_planks"),
+	//since 777(26.3)
+	POPLAR_PRESSURE_PLATE("minecraft:poplar_pressure_plate"),
+	//since 777(26.3)
+	POPLAR_SAPLING("minecraft:poplar_sapling"),
+	//since 777(26.3)
+	POPLAR_SHELF("minecraft:poplar_shelf"),
+	//since 777(26.3)
+	POPLAR_SIGN("minecraft:poplar_sign"),
+	//since 777(26.3)
+	POPLAR_SLAB("minecraft:poplar_slab"),
+	//since 777(26.3)
+	POPLAR_STAIRS("minecraft:poplar_stairs"),
+	//since 777(26.3)
+	POPLAR_TRAPDOOR("minecraft:poplar_trapdoor"),
+	//since 777(26.3)
+	POPLAR_WOOD("minecraft:poplar_wood"),
 	//since 754(1.16.5)
 	POPPED_CHORUS_FRUIT("minecraft:popped_chorus_fruit"),
 	//since 754(1.16.5)
@@ -2200,6 +2376,12 @@ public enum ItemType {
 	PURPLE_CONCRETE("minecraft:purple_concrete"),
 	//since 754(1.16.5)
 	PURPLE_CONCRETE_POWDER("minecraft:purple_concrete_powder"),
+	//since 777(26.3)
+	PURPLE_CONCRETE_SLAB("minecraft:purple_concrete_slab"),
+	//since 777(26.3)
+	PURPLE_CONCRETE_STAIRS("minecraft:purple_concrete_stairs"),
+	//since 777(26.3)
+	PURPLE_CUSHION("minecraft:purple_cushion"),
 	//since 754(1.16.5)
 	PURPLE_DYE("minecraft:purple_dye"),
 	//since 754(1.16.5)
@@ -2216,6 +2398,10 @@ public enum ItemType {
 	PURPLE_TERRACOTTA("minecraft:purple_terracotta"),
 	//since 754(1.16.5)
 	PURPLE_WOOL("minecraft:purple_wool"),
+	//since 777(26.3)
+	PURPLE_WOOL_SLAB("minecraft:purple_wool_slab"),
+	//since 777(26.3)
+	PURPLE_WOOL_STAIRS("minecraft:purple_wool_stairs"),
 	//since 754(1.16.5)
 	PURPUR_BLOCK("minecraft:purpur_block"),
 	//since 754(1.16.5)
@@ -2280,6 +2466,12 @@ public enum ItemType {
 	RED_CONCRETE("minecraft:red_concrete"),
 	//since 754(1.16.5)
 	RED_CONCRETE_POWDER("minecraft:red_concrete_powder"),
+	//since 777(26.3)
+	RED_CONCRETE_SLAB("minecraft:red_concrete_slab"),
+	//since 777(26.3)
+	RED_CONCRETE_STAIRS("minecraft:red_concrete_stairs"),
+	//since 777(26.3)
+	RED_CUSHION("minecraft:red_cushion"),
 	//since 754(1.16.5)
 	RED_DYE("minecraft:red_dye"),
 	//since 754(1.16.5)
@@ -2298,6 +2490,8 @@ public enum ItemType {
 	RED_NETHER_BRICK_WALL("minecraft:red_nether_brick_wall"),
 	//since 754(1.16.5)
 	RED_NETHER_BRICKS("minecraft:red_nether_bricks"),
+	//since 777(26.3)
+	RED_POPLAR_LEAVES("minecraft:red_poplar_leaves"),
 	//since 754(1.16.5)
 	RED_SAND("minecraft:red_sand"),
 	//since 754(1.16.5)
@@ -2308,6 +2502,8 @@ public enum ItemType {
 	RED_SANDSTONE_STAIRS("minecraft:red_sandstone_stairs"),
 	//since 754(1.16.5)
 	RED_SANDSTONE_WALL("minecraft:red_sandstone_wall"),
+	//since 777(26.3)
+	RED_SHRUB("minecraft:red_shrub"),
 	//since 754(1.16.5)
 	RED_SHULKER_BOX("minecraft:red_shulker_box"),
 	//since 754(1.16.5)
@@ -2320,6 +2516,10 @@ public enum ItemType {
 	RED_TULIP("minecraft:red_tulip"),
 	//since 754(1.16.5)
 	RED_WOOL("minecraft:red_wool"),
+	//since 777(26.3)
+	RED_WOOL_SLAB("minecraft:red_wool_slab"),
+	//since 777(26.3)
+	RED_WOOL_STAIRS("minecraft:red_wool_stairs"),
 	//since 754(1.16.5)
 	REDSTONE("minecraft:redstone"),
 	//since 754(1.16.5)
@@ -2378,6 +2578,8 @@ public enum ItemType {
 	SANDSTONE_STAIRS("minecraft:sandstone_stairs"),
 	//since 754(1.16.5)
 	SANDSTONE_WALL("minecraft:sandstone_wall"),
+	//since 777(26.3)
+	SAVANNA_VILLAGE_MAP("minecraft:savanna_village_map"),
 	//since 754(1.16.5)
 	SCAFFOLDING("minecraft:scaffolding"),
 	//since 766(1.20.5)
@@ -2411,6 +2613,8 @@ public enum ItemType {
 	SHEARS("minecraft:shears"),
 	//since 754(1.16.5)
 	SHEEP_SPAWN_EGG("minecraft:sheep_spawn_egg"),
+	//since 777(26.3)
+	SHELF_MUSHROOM("minecraft:shelf_mushroom"),
 	//since 763(1.20)
 	SHELTER_POTTERY_SHERD("minecraft:shelter_pottery_sherd"),
 	//since 754(1.16.5)
@@ -2495,6 +2699,8 @@ public enum ItemType {
 	SNOW_GOLEM_SPAWN_EGG("minecraft:snow_golem_spawn_egg"),
 	//since 754(1.16.5)
 	SNOWBALL("minecraft:snowball"),
+	//since 777(26.3)
+	SNOWY_VILLAGE_MAP("minecraft:snowy_village_map"),
 	//since 754(1.16.5)
 	SOUL_CAMPFIRE("minecraft:soul_campfire"),
 	//since 754(1.16.5)
@@ -2597,6 +2803,8 @@ public enum ItemType {
 	STONE_SWORD("minecraft:stone_sword"),
 	//since 754(1.16.5)
 	STONECUTTER("minecraft:stonecutter"),
+	//since 777(26.3)
+	STRAW_BED("minecraft:straw_bed"),
 	//since 754(1.16.5)
 	STRAY_SPAWN_EGG("minecraft:stray_spawn_egg"),
 	//since 754(1.16.5)
@@ -2641,6 +2849,10 @@ public enum ItemType {
 	STRIPPED_PALE_OAK_LOG("minecraft:stripped_pale_oak_log"),
 	//since 768(1.21.2)
 	STRIPPED_PALE_OAK_WOOD("minecraft:stripped_pale_oak_wood"),
+	//since 777(26.3)
+	STRIPPED_POPLAR_LOG("minecraft:stripped_poplar_log"),
+	//since 777(26.3)
+	STRIPPED_POPLAR_WOOD("minecraft:stripped_poplar_wood"),
 	//since 754(1.16.5)
 	STRIPPED_SPRUCE_LOG("minecraft:stripped_spruce_log"),
 	//since 754(1.16.5)
@@ -2687,12 +2899,16 @@ public enum ItemType {
 	SUSPICIOUS_SAND("minecraft:suspicious_sand"),
 	//since 754(1.16.5)
 	SUSPICIOUS_STEW("minecraft:suspicious_stew"),
+	//since 777(26.3)
+	SWAMP_HUT_MAP("minecraft:swamp_hut_map"),
 	//since 754(1.16.5)
 	SWEET_BERRIES("minecraft:sweet_berries"),
 	//since 759(1.19)
 	TADPOLE_BUCKET("minecraft:tadpole_bucket"),
 	//since 759(1.19)
 	TADPOLE_SPAWN_EGG("minecraft:tadpole_spawn_egg"),
+	//since 777(26.3)
+	TAIGA_VILLAGE_MAP("minecraft:taiga_village_map"),
 	//since 770(1.21.5)
 	TALL_DRY_GRASS("minecraft:tall_dry_grass"),
 	//since 754(1.16.5)
@@ -2793,6 +3009,8 @@ public enum ItemType {
 	WARD_ARMOR_TRIM_SMITHING_TEMPLATE("minecraft:ward_armor_trim_smithing_template"),
 	//since 759(1.19)
 	WARDEN_SPAWN_EGG("minecraft:warden_spawn_egg"),
+	//since 777(26.3)
+	WARM_OCEAN_RUINS_MAP("minecraft:warm_ocean_ruins_map"),
 	//since 754(1.16.5)
 	WARPED_BUTTON("minecraft:warped_button"),
 	//since 754(1.16.5)
@@ -3007,6 +3225,12 @@ public enum ItemType {
 	WHITE_CONCRETE("minecraft:white_concrete"),
 	//since 754(1.16.5)
 	WHITE_CONCRETE_POWDER("minecraft:white_concrete_powder"),
+	//since 777(26.3)
+	WHITE_CONCRETE_SLAB("minecraft:white_concrete_slab"),
+	//since 777(26.3)
+	WHITE_CONCRETE_STAIRS("minecraft:white_concrete_stairs"),
+	//since 777(26.3)
+	WHITE_CUSHION("minecraft:white_cushion"),
 	//since 754(1.16.5)
 	WHITE_DYE("minecraft:white_dye"),
 	//since 754(1.16.5)
@@ -3025,6 +3249,10 @@ public enum ItemType {
 	WHITE_TULIP("minecraft:white_tulip"),
 	//since 754(1.16.5)
 	WHITE_WOOL("minecraft:white_wool"),
+	//since 777(26.3)
+	WHITE_WOOL_SLAB("minecraft:white_wool_slab"),
+	//since 777(26.3)
+	WHITE_WOOL_STAIRS("minecraft:white_wool_stairs"),
 	//since 762(1.19.4)
 	WILD_ARMOR_TRIM_SMITHING_TEMPLATE("minecraft:wild_armor_trim_smithing_template"),
 	//since 770(1.21.5)
@@ -3057,6 +3285,8 @@ public enum ItemType {
 	WOODEN_SPEAR("minecraft:wooden_spear"),
 	//since 754(1.16.5)
 	WOODEN_SWORD("minecraft:wooden_sword"),
+	//since 777(26.3)
+	WOODLAND_MANSION_MAP("minecraft:woodland_mansion_map"),
 	//since 754(1.16.5)
 	WRITABLE_BOOK("minecraft:writable_book"),
 	//since 754(1.16.5)
@@ -3075,12 +3305,20 @@ public enum ItemType {
 	YELLOW_CONCRETE("minecraft:yellow_concrete"),
 	//since 754(1.16.5)
 	YELLOW_CONCRETE_POWDER("minecraft:yellow_concrete_powder"),
+	//since 777(26.3)
+	YELLOW_CONCRETE_SLAB("minecraft:yellow_concrete_slab"),
+	//since 777(26.3)
+	YELLOW_CONCRETE_STAIRS("minecraft:yellow_concrete_stairs"),
+	//since 777(26.3)
+	YELLOW_CUSHION("minecraft:yellow_cushion"),
 	//since 754(1.16.5)
 	YELLOW_DYE("minecraft:yellow_dye"),
 	//since 754(1.16.5)
 	YELLOW_GLAZED_TERRACOTTA("minecraft:yellow_glazed_terracotta"),
 	//since 771(1.21.6)
 	YELLOW_HARNESS("minecraft:yellow_harness"),
+	//since 777(26.3)
+	YELLOW_POPLAR_LEAVES("minecraft:yellow_poplar_leaves"),
 	//since 754(1.16.5)
 	YELLOW_SHULKER_BOX("minecraft:yellow_shulker_box"),
 	//since 754(1.16.5)
@@ -3091,6 +3329,10 @@ public enum ItemType {
 	YELLOW_TERRACOTTA("minecraft:yellow_terracotta"),
 	//since 754(1.16.5)
 	YELLOW_WOOL("minecraft:yellow_wool"),
+	//since 777(26.3)
+	YELLOW_WOOL_SLAB("minecraft:yellow_wool_slab"),
+	//since 777(26.3)
+	YELLOW_WOOL_STAIRS("minecraft:yellow_wool_stairs"),
 	//since 754(1.16.5)
 	ZOGLIN_SPAWN_EGG("minecraft:zoglin_spawn_egg"),
 	//since 754(1.16.5)
@@ -3106,22 +3348,22 @@ public enum ItemType {
 	//since 754(1.16.5)
 	ZOMBIFIED_PIGLIN_SPAWN_EGG("minecraft:zombified_piglin_spawn_egg"),
 
-	;
-	public static final int SIZE = values().length;
-	private static final Map<String, ItemType> BY_ID;
-	private final String id;
+    ;
+    public static final int SIZE = values().length;
+    private static final Map<String, ItemType> BY_ID;
+    private final String id;
 
-	ItemType(String id) {
-		this.id = id;
-	}
+    ItemType(String id) {
+        this.id = id;
+    }
 
-	public String id() {
-		return id;
-	}
+    public String id() {
+        return id;
+    }
 
-	public static ItemType getById(String id) {
-		return BY_ID.get(id);
-	}
+    public static ItemType getById(String id) {
+        return BY_ID.get(id);
+    }
 
 	public int getProtocolId(int version) {
 		return Mappings.getItemId(this, version);
@@ -3131,11 +3373,11 @@ public enum ItemType {
 		return this == AIR;
 	}
 
-	static {
-		Map<String, ItemType> by_id = new HashMap<>();
-		for (ItemType value : values()) {
-			by_id.put(value.id, value);
-		}
-		BY_ID = Collections.unmodifiableMap(by_id);
-	}
+    static {
+        Map<String, ItemType> by_id = new HashMap<>();
+        for (ItemType value : values()) {
+            by_id.put(value.id, value);
+        }
+        BY_ID = Collections.unmodifiableMap(by_id);
+    }
 }

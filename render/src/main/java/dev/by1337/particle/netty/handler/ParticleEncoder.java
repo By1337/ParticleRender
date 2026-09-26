@@ -92,7 +92,7 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
         }
 
         final int prependerSize = out.writerIndex() - startPrt - 2;
-        if (prependerSize > 2 << 14) {
+        if (prependerSize >= 1 << 14) {
             // Под prepender size есть только 2 байта.
             // Такого никогда не должно быть так как в 16384 байт влазит любой партикл.
             log.error("Packet size exceeds 16384!");

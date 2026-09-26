@@ -37,7 +37,7 @@ import java.util.Map;
  */
 public final class Mappings {
     public static final int MIN_VERSION = 754;
-    public static final int MAX_VERSION = 776;
+    public static final int MAX_VERSION = 777;
     public static final int VERSION_COUNT = MAX_VERSION - MIN_VERSION + 1;
     @jdk.internal.vm.annotation.Stable
     private static final int[] BLOCKS;
@@ -164,7 +164,9 @@ public final class Mappings {
                 ParticleType particleType = ParticleType.byId(particle);
 
                 if (particleType == null) {
-                    log.warn("Unknown particle: {}", particle);
+                    // todo ну сделай когда-нибудь?
+                    if (!particle.equals("minecraft:vibration"))
+                        log.warn("Unknown particle: {}", particle);
                     continue;
                 }
                 for (int i = MIN_VERSION; i <= MAX_VERSION; i++) {
@@ -233,7 +235,8 @@ public final class Mappings {
                 merges.get("merge").forEach((k, v) -> {
                     var m = items.get(k);
                     var m1 = items.get(v);
-                    merge(m, m1);
+                    if (m != null && m1 != null)
+                        merge(m, m1);
                 });
                 Map<String, String> patterns = merges.get("patterns");
                 patterns.keySet().stream().sorted(Comparator.comparingInt(String::length).reversed()).forEach(pattern -> {
@@ -241,14 +244,16 @@ public final class Mappings {
                     for (String item : items.keySet()) {
                         if (wildcardMatches(item, pattern)) {
                             var m = items.get(item);
-                            merge(m, m1);
+                            if (m != null && m1 != null)
+                                merge(m, m1);
                         }
                     }
                 });
                 merges.get("merge").forEach((k, v) -> {
                     var m = items.get(k);
                     var m1 = items.get(v);
-                    merge(m, m1);
+                    if (m != null && m1 != null)
+                        merge(m, m1);
                 });
 
                 fallback = items.get(merges.get("fallback").get("*"));

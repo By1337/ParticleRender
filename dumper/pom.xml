@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.particle</groupId>
         <artifactId>ParticleRender-parent</artifactId>
-        <version>1.8</version>
+        <version>1.9</version>
     </parent>
     <artifactId>dumper</artifactId>
 
@@ -126,13 +126,13 @@
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>26.2.build.56-alpha</version>
+            <version>26.3.build.26-alpha</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>26.2.build.56-alpha</version>
+            <version>26.3.build.26-alpha</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -144,7 +144,7 @@
         <dependency>
             <groupId>dev.by1337.particle</groupId>
             <artifactId>render</artifactId>
-            <version>1.8</version>
+            <version>1.9</version>
             <scope>provided</scope>
         </dependency>
 

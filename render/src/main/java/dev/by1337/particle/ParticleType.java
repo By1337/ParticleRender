@@ -247,10 +247,12 @@ public enum ParticleType {
     LARGE_SMOKE("minecraft:large_smoke"),
     // 754(1.16.5)+: ~
     HEART("minecraft:heart"),
+
     // 775(26.1)+: ~
     PAUSE_MOB_GROWTH("minecraft:pause_mob_growth"),
     // 775(26.1)+: ~
     RESET_MOB_GROWTH("minecraft:reset_mob_growth"),
+
     // 776(26.2)+
     SULFUR_BUBBLES("minecraft:sulfur_bubbles"),
     // 776(26.2)+
@@ -267,6 +269,13 @@ public enum ParticleType {
     GEYSER_PLUME("minecraft:geyser_plume"),
     // 776(26.2)+
     SULFUR_CUBE_GOO("minecraft:sulfur_cube_goo"),
+
+    // 777(26.3)+
+    RED_POPLAR_LEAVES("minecraft:red_poplar_leaves"),
+    // 777(26.3)+
+    ORANGE_POPLAR_LEAVES("minecraft:orange_poplar_leaves"),
+    // 777(26.3)+
+    YELLOW_POPLAR_LEAVES("minecraft:yellow_poplar_leaves"),
 
     // <-- Deprecated -->
     // 765(1.20.3) - 765(1.20.4): ~

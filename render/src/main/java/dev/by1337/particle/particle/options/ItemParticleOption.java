@@ -10,7 +10,16 @@ public record ItemParticleOption(ItemType item) implements ParticleOption {
 
     @Override
     public void write(ByteBuf out, int version) {
-        if (version <= 765) {
+        if (version >= 777) {
+            // ItemStackTemplate: item holder, count, DataComponentPatch.
+            if (item.isAir()) {
+                throw new IllegalArgumentException("ItemStackTemplate requires a non-empty item");
+            }
+            ByteBufUtil.writeVarInt(out, item.getProtocolId(version));
+            ByteBufUtil.writeVarInt1(out, 1); // count
+            out.writeByte(0); // added components
+            out.writeByte(0); // removed components
+        } else if (version <= 765) {
             if (item.isAir()) {
                 out.writeBoolean(false);
             } else {
@@ -30,7 +39,7 @@ public record ItemParticleOption(ItemType item) implements ParticleOption {
 
     @Override
     public boolean writable(int version) {
-        return true;
+        return version < 777 || !item.isAir();
     }
 
     @Override

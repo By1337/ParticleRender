@@ -59,7 +59,8 @@ public class Main extends JavaPlugin {
             Map.entry(773, new String[]{"1.21.9", "1.21.10"}),
             Map.entry(774, new String[]{"1.21.11"}),
             Map.entry(775, new String[]{"26.1", "26.1.1", "26.1.2"}),
-            Map.entry(776, new String[]{"26.2"})
+            Map.entry(776, new String[]{"26.2"}),
+            Map.entry(777, new String[]{"26.3"})
     );
 
 

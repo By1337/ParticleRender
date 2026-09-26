@@ -95,6 +95,29 @@ public final class ParticleWriter {
     private static void writeLike(int version, int particleID, int packetId, ByteBuf out, ParticleData particle, double x, double y, double z, float xDist, float yDist, float zDist, @Nullable ParticleOption option) {
         ByteBufUtil.writeVarInt1(out, packetId);
 
+        if (version >= 777) {
+            // 26.3: ParticleTypes.STREAM_CODEC precedes the packet fields.
+            ByteBufUtil.writeVarInt(out, particleID);
+            if (option != null) {
+                option.write(out, version);
+            }
+            out.writeBoolean(particle.overrideLimiter);
+            out.writeBoolean(particle.alwaysShow);
+            out.writeDouble(x);
+            out.writeDouble(y);
+            out.writeDouble(z);
+            out.writeFloat(xDist);
+            out.writeFloat(yDist);
+            out.writeFloat(zDist);
+            // Match the server's constructor with a single maxSpeed.
+            out.writeFloat(particle.maxSpeed);
+            out.writeFloat(particle.maxSpeed);
+            out.writeFloat(particle.maxSpeed);
+            ByteBufUtil.writeVarInt(out, particle.count);
+            ByteBufUtil.writeVarInt1(out, 0); // RandomizationType.DEFAULT
+            return;
+        }
+
         final boolean b;
         if (version >= 769) {
             out.writeBoolean(particle.overrideLimiter);
@@ -132,5 +155,7 @@ public final class ParticleWriter {
     /// | 754–758 | `writeInt`    | ✅              | —          | ✅              | ✅                       | ✅      | ✅     | ✅                  |
     /// | 759–765 | `writeVarInt` | ✅              | —          | ✅              | ✅                       | ✅      | ✅     | ✅                  |
     /// | 766–768 | —             | ✅              | —          | ✅              | ✅                       | ✅      | ✅     | ✅                  |
-    /// | 769–773 | —             | ✅              | ✅         | ✅              | ✅                       | ✅      | ✅     | ✅                  |
+    /// | 769–776 | —             | ✅              | ✅         | ✅              | ✅                       | ✅      | ✅     | ✅                  |
+    // 777+: particle StreamCodec first, then flags, position, spread,
+    // three maxSpeed floats, count VarInt, randomizationType VarInt.
 }

@@ -160,7 +160,26 @@
     "minecraft:golden_nautilus_armor": "minecraft:golden_horse_armor",
     "minecraft:iron_nautilus_armor": "minecraft:iron_horse_armor",
     "minecraft:copper_nautilus_armor": "minecraft:copper_horse_armor",
-    "minecraft:diamond_nautilus_armor": "minecraft:diamond_horse_armor"
+    "minecraft:diamond_nautilus_armor": "minecraft:diamond_horse_armor",
+    "minecraft:white_cushion": "minecraft:white_wool",
+    "minecraft:lime_cushion": "minecraft:lime_wool",
+    "minecraft:magenta_cushion": "minecraft:magenta_wool",
+    "minecraft:yellow_cushion": "minecraft:yellow_wool",
+    "minecraft:light_blue_cushion": "minecraft:light_blue_wool",
+    "minecraft:gray_cushion": "minecraft:gray_wool",
+    "minecraft:purple_cushion": "minecraft:purple_wool",
+    "minecraft:red_cushion": "minecraft:red_wool",
+    "minecraft:black_cushion": "minecraft:black_wool",
+    "minecraft:blue_cushion": "minecraft:blue_wool",
+    "minecraft:light_gray_cushion": "minecraft:light_gray_wool",
+    "minecraft:brown_cushion": "minecraft:brown_wool",
+    "minecraft:cyan_cushion": "minecraft:cyan_wool",
+    "minecraft:orange_cushion": "minecraft:orange_wool",
+    "minecraft:green_cushion": "minecraft:green_wool",
+    "minecraft:pink_cushion": "minecraft:pink_wool",
+    "minecraft:straw_bed": "minecraft:red_bed",
+    "minecraft:red_shrub": "minecraft:crimson_fungus",
+    "minecraft:shelf_mushroom": "minecraft:brown_mushroom"
   },
   "patterns": {
     "minecraft:*copper_bars": "minecraft:iron_bars",
@@ -212,7 +231,8 @@
     "minecraft:*sculk*": "minecraft:black_wool",
     "minecraft:golden_dandelion": "minecraft:dandelion",
     "minecraft:*cinnabar": "minecraft:stone",
-    "minecraft:*sulfur*": "minecraft:yellow_wool"
+    "minecraft:*sulfur*": "minecraft:yellow_wool",
+    "minecraft:*_map": "minecraft:map"
   },
   "fallback": {
     "*": "minecraft:barrier"
