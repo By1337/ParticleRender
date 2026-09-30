@@ -6,11 +6,6 @@ api-version: "1.16"
 website: 'https://github.com/By1337/ParticleRender'
 softdepend:
   - ViaVersion
-depend:
-  - BLib
-permissions:
-  particlerender.test:
-    default: op
 commands:
   particlerender:
     aliases:
