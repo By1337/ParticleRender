@@ -1,11 +1,13 @@
 package dev.by1337.particle;
 
+import dev.by1337.core.plugin.BasePlugin;
 import dev.by1337.particle.particle.PacketBuilder;
 import dev.by1337.particle.particle.ParticleData;
 import dev.by1337.particle.particle.ParticleSource;
 import dev.by1337.particle.particle.options.BlockParticleOption;
 import dev.by1337.particle.particle.options.DustParticleOptions;
 import dev.by1337.particle.particle.options.ItemParticleOption;
+import dev.by1337.particle.particle.options.VibrationParticleOption;
 import dev.by1337.particle.util.Version;
 import dev.by1337.particle.util.netty.ChannelUtil;
 import io.netty.channel.Channel;
@@ -14,7 +16,6 @@ import org.bukkit.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +27,7 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 @ApiStatus.Internal
-public class PluginParticleRender extends JavaPlugin {
+public class PluginParticleRender extends BasePlugin {
     private ParticleRenderBootstrapper bootstrapper;
 
     private static final ParticleSource SPHERE = new ParticleSource() {
@@ -88,18 +89,43 @@ public class PluginParticleRender extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        super.onLoad();
         int ignored = ItemType.BARRIER.getProtocolId(Version.VERSION.protocolVersion()); //preload
     }
 
     @Override
     public void onEnable() {
+        super.onEnable();
         bootstrapper = new ParticleRenderBootstrapper("particle-render", this);
         bootstrapper.enable();
+        registerCommand(new dev.by1337.cmd.Command<CommandSender>("vibrationtest")
+                        .executor(sender -> sendTestVibration(sender, false))
+                        .sub(new dev.by1337.cmd.Command<CommandSender>("block").executor(sender -> sendTestVibration(sender, false)))
+                        .sub(new dev.by1337.cmd.Command<CommandSender>("entity").executor(sender -> sendTestVibration(sender, true))),
+                "particlerender.test");
     }
 
     @Override
     public void onDisable() {
         bootstrapper.disable();
+        super.onDisable();
+    }
+
+    private void sendTestVibration(CommandSender sender, boolean entityDestination) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage("This command requires a player.");
+            return;
+        }
+        var start = player.getEyeLocation();
+        var target = start.clone().add(start.getDirection().multiply(4));
+        var origin = new VibrationParticleOption.BlockPos(start.getBlockX(), start.getBlockY(), start.getBlockZ());
+        VibrationParticleOption option = entityDestination
+                ? VibrationParticleOption.toEntity(origin, player.getEntityId(), 0.0f, 30)
+                : VibrationParticleOption.toBlock(origin,
+                new VibrationParticleOption.BlockPos(target.getBlockX(), target.getBlockY(), target.getBlockZ()), 30);
+        ParticleRender.render(player, ParticleData.of(ParticleType.VIBRATION, option),
+                start.getX(), start.getY(), start.getZ());
+        sender.sendMessage("Vibration sent to " + (entityDestination ? "you" : "the block ahead") + ".");
     }
 
 

@@ -16,7 +16,7 @@ public record ItemParticleOption(ItemType item) implements ParticleOption {
                 throw new IllegalArgumentException("ItemStackTemplate requires a non-empty item");
             }
             ByteBufUtil.writeVarInt(out, item.getProtocolId(version));
-            ByteBufUtil.writeVarInt1(out, 1); // count
+            out.writeByte(1); //count
             out.writeByte(0); // added components
             out.writeByte(0); // removed components
         } else if (version <= 765) {

@@ -102,7 +102,7 @@ public enum ParticleType {
     // 754(1.16.5)+: ~
     ENCHANT("minecraft:enchant"),
     // 755(1.17)+: VibrationParticleOption
-    //   VIBRATION("minecraft:vibration"), //todo
+    VIBRATION("minecraft:vibration"),
     // 766(1.20.5)+: ~
     VAULT_CONNECTION("minecraft:vault_connection"),
 

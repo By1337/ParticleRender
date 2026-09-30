@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.by1337.particle</groupId>
         <artifactId>ParticleRender-parent</artifactId>
-        <version>1.9</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>render-bukkit</artifactId>
 
@@ -103,15 +103,27 @@
 
     <dependencies>
         <dependency>
+            <groupId>dev.by1337.particle</groupId>
+            <artifactId>render</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.by1337.core</groupId>
+            <artifactId>BLibV2</artifactId>
+            <version>1.7.9</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>dev.by1337.particle</groupId>
+                    <artifactId>render-bukkit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>dev.by1337.particle</groupId>
-            <artifactId>render</artifactId>
-            <version>1.9</version>
         </dependency>
         <dependency>
             <groupId>com.google.errorprone</groupId>

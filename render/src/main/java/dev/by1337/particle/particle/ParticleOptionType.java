@@ -10,7 +10,8 @@ import java.util.Map;
 public enum ParticleOptionType {
     BLOCK_PARTICLE_OPTION(new BlockParticleOption(BlockType.BARRIER), "BlockParticleOption"),
     POWER_PARTICLE_OPTION(new PowerParticleOption(1.f), "PowerParticleOption"),
-  //  VIBRATION_PARTICLE_OPTION(null, "VibrationParticleOption"),
+    VIBRATION_PARTICLE_OPTION(VibrationParticleOption.toBlock(new VibrationParticleOption.BlockPos(0, 0, 0),
+            new VibrationParticleOption.BlockPos(0, 0, 0), 20), "VibrationParticleOption"),
     DUST_COLOR_TRANSITION_OPTIONS(new DustColorTransitionOptions(3790560, 0xFF0000, 1.0f), "DustColorTransitionOptions"),
     TRAIL_PARTICLE_OPTION(new TrailParticleOption(0, 0, 0, 0xFFFFFF, 50), "TrailParticleOption", "TargetColorParticleOption"),
     SHRIEK_PARTICLE_OPTION(new ShriekParticleOption(50), "ShriekParticleOption"),
