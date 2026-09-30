@@ -1,6 +1,7 @@
 package dev.by1337.particle;
 
 import dev.by1337.particle.particle.ParticleSource;
+import dev.by1337.particle.util.Version;
 import dev.by1337.particle.util.netty.ChannelUtil;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -117,13 +118,10 @@ public class ParticleRender {
     }
 
     static {
-        AUTO_FLUSH = true;
-     //  var autoFlush = System.getProperty("particle.render.autoFlush");
-     //  if (autoFlush == null) {
-     //      boolean res = true;
-
-     //  } else {
-     //      AUTO_FLUSH = Boolean.parseBoolean(autoFlush);
-     //  }
+        // Since 1.20.2 (protocol 764), MinecraftServer resumes flushing every
+        // player connection at the end of the server tick. Older Paper versions
+        // disable Connection.tick's explicit flush by default.
+        String override = System.getProperty("particle.render.autoFlush");
+        AUTO_FLUSH = override == null ? Version.VERSION.protocolVersion() < 764 : Boolean.parseBoolean(override);
     }
 }
