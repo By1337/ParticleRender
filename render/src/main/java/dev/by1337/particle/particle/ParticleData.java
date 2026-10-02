@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class ParticleData extends ParticleSource{
+public class ParticleData extends ParticleSource {
     public final float xDist;
     public final float yDist;
     public final float zDist;
@@ -35,7 +35,7 @@ public class ParticleData extends ParticleSource{
     }
 
     public static ParticleData of(@NotNull ParticleType particle) {
-        return of(Objects.requireNonNull(particle) , null);
+        return of(Objects.requireNonNull(particle), null);
     }
 
     public static ParticleData of(@NotNull ParticleType particle, ParticleOption data) {
@@ -48,7 +48,10 @@ public class ParticleData extends ParticleSource{
 
     @Override
     public void doWrite(PacketBuilder writer, double baseX, double baseY, double baseZ) {
-        writer.append(this,  baseX, baseY, baseZ);
+        writer.append(this, baseX, baseY, baseZ);
+    }
+    public void doWrite(PacketBuilder writer, double baseX, double baseY, double baseZ, float xDist, float yDist, float zDist) {
+        writer.append(this, baseX, baseY, baseZ, xDist, yDist, zDist);
     }
 
     public float xDist() {

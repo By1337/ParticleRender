@@ -1,0 +1,71 @@
+__root__:
+  type: "base:root"
+  connections:
+    circle: '%3'
+    sphere: ''
+    line: ''
+    rectangle: ''
+    box_surface: ''
+
+circle:
+  type: 'base:circle'
+  points: 256
+  radius: 5
+  offsets: '1;2;3' # center relative to incoming base position; optional
+  rotation: '90;0;0' # X;Y;Z degrees, applied X then Y then Z; optional
+  dist: outward # none, outward, inward
+  connections:
+    a1: ''
+
+sphere:
+  type: 'base:sphere'
+  points: 256
+  radius: 5
+  offsets: '1;2;3'
+  rotation: '20;30;10'
+  dist: outward
+  connections:
+    a1: ''
+
+line:
+  type: 'base:line'
+  points: 32
+  length: 10
+  offsets: '1;2;3'
+  rotation: '0;45;30'
+  dist: outward
+  connections:
+    a1: ''
+
+rectangle:
+  type: 'base:rectangle'
+  points: 64
+  width: 10
+  height: 6 # local Z extent; rotate to place the rectangle vertically
+  offsets: '1;2;3'
+  rotation: '90;0;0'
+  dist: outward
+  connections:
+    a1: ''
+
+box_surface:
+  type: 'base:box_surface'
+  points: 256
+  size: '10;6;4' # full X;Y;Z dimensions
+  offsets: '1;2;3'
+  rotation: '20;30;10'
+  dist: outward
+  connections:
+    a1: ''
+
+a1:
+  type: "base:particle"
+  particle: 'dust'
+  count: 10
+  offsets: '2;2;2' # opt
+  # dist: '2;2;2' # optional; overrides the circle's radial direction
+  overrideLimiter: false
+  alwaysShow: false
+  data:
+    rgb: '#ffffff'
+    size: 4.0
