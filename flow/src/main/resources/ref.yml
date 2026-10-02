@@ -1,5 +1,6 @@
 __root__:
   type: "base:root"
+  $web: '{"name":"Root","position":{"x":60,"y":160},"autoName":true}'
   connections:
     circle: '%3'
     sphere: ''
@@ -9,6 +10,7 @@ __root__:
 
 circle:
   type: 'base:circle'
+  $web: '{"name":"Circle","position":{"x":350,"y":60},"autoName":true}'
   points: 256
   radius: 5
   offsets: '1;2;3' # center relative to incoming base position; optional
@@ -19,6 +21,7 @@ circle:
 
 sphere:
   type: 'base:sphere'
+  $web: '{"name":"Sphere","position":{"x":640,"y":60},"autoName":true}'
   points: 256
   radius: 5
   offsets: '1;2;3'
@@ -29,6 +32,7 @@ sphere:
 
 line:
   type: 'base:line'
+  $web: '{"name":"Line","position":{"x":930,"y":60},"autoName":true}'
   points: 32
   length: 10
   offsets: '1;2;3'
@@ -39,6 +43,7 @@ line:
 
 rectangle:
   type: 'base:rectangle'
+  $web: '{"name":"Rectangle","position":{"x":350,"y":220},"autoName":true}'
   points: 64
   width: 10
   height: 6 # local Z extent; rotate to place the rectangle vertically
@@ -50,6 +55,7 @@ rectangle:
 
 box_surface:
   type: 'base:box_surface'
+  $web: '{"name":"Box surface","position":{"x":640,"y":220},"autoName":true}'
   points: 256
   size: '10;6;4' # full X;Y;Z dimensions
   offsets: '1;2;3'
@@ -60,8 +66,10 @@ box_surface:
 
 a1:
   type: "base:particle"
+  $web: '{"name":"dust","position":{"x":1220,"y":160},"autoName":true}'
   particle: 'dust'
   count: 10
+  maxSpeed: 0.1
   offsets: '2;2;2' # opt
   # dist: '2;2;2' # optional; overrides the circle's radial direction
   overrideLimiter: false

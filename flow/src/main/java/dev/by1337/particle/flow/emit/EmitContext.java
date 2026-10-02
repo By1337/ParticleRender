@@ -5,8 +5,9 @@ public class EmitContext {
     private int tick;
     private int depth;
 
-    public EmitContext(int maxDepth) {
+    public EmitContext(int maxDepth, int tick) {
         this.maxDepth = maxDepth;
+        this.tick = tick;
     }
 
     public int tick() {

@@ -5,6 +5,7 @@ import dev.by1337.yaml.YamlMap;
 import dev.by1337.yaml.decoder.YamlDecoder;
 import org.junit.Test;
 
+import java.util.BitSet;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -67,13 +68,18 @@ public class ParticleEmitterRegistryTest {
             }
 
             @Override
-            public void link(EmitterGraph graph) { }
+            public void link(EmitterGraph graph, int id) { }
+
+            @Override
+            public void executionKey(int tick, BitSet set) {
+                set.set(0);
+            }
         };
         EmitterGraph graph = new EmitterGraph(Map.of(
                 "__root__", target, "target", target, "blocked", target));
-        emitter.link(graph);
+        emitter.link(graph, 0);
         PacketBuilder out = (particle, x, y, z, dx, dy, dz) -> { };
-        emitter.emit(new EmitContext(2), out, 1, 2, 3, 4, 5, 6);
+        emitter.emit(new EmitContext(2, 0), out, 1, 2, 3, 4, 5, 6);
         assertEquals(1, calls[0]);
     }
 

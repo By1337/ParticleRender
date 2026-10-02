@@ -7,6 +7,7 @@ import dev.by1337.particle.particle.PacketBuilder;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 
@@ -26,15 +27,20 @@ public class CircleParticleEmitterTest {
             }
 
             @Override
-            public void link(EmitterGraph graph) { }
+            public void link(EmitterGraph graph, int id) { }
+
+            @Override
+            public void executionKey(int tick, BitSet set) {
+                set.set(0);
+            }
         };
         EmitterGraph graph = new EmitterGraph(Map.of("__root__", child, "child", child));
         Connections connections = new Connections(Map.of("child", tick -> true));
         for (CircleParticleEmitter.DistType type : CircleParticleEmitter.DistType.values()) {
             CircleParticleEmitter circle = new CircleParticleEmitter(4, 2, type, connections);
-            circle.link(graph);
+            circle.link(graph, 0);
             emitted.clear();
-            circle.emit(new EmitContext(2), OUT, 10, 20, 30, 3, 4, 5);
+            circle.emit(new EmitContext(2, 0), OUT, 10, 20, 30, 3, 4, 5);
             assertEquals(4, emitted.size());
             assertPoint(emitted.get(0), 12, 20, 30, type == CircleParticleEmitter.DistType.NONE ? 3 :
                     type == CircleParticleEmitter.DistType.OUTWARD ? 1 : -1,
@@ -48,9 +54,9 @@ public class CircleParticleEmitterTest {
 
         CircleParticleEmitter shifted = new CircleParticleEmitter(4, 2,
                 new Vec3d(1, 2, 3), Vec3d.ZERO, CircleParticleEmitter.DistType.NONE, connections);
-        shifted.link(graph);
+        shifted.link(graph, 0);
         emitted.clear();
-        shifted.emit(new EmitContext(2), OUT, 10, 20, 30, 3, 4, 5);
+        shifted.emit(new EmitContext(2, 0), OUT, 10, 20, 30, 3, 4, 5);
         assertPoint(emitted.get(0), 13, 22, 33, 3, 4, 5);
         assertPoint(emitted.get(1), 11, 22, 35, 3, 4, 5);
     }
@@ -66,7 +72,11 @@ public class CircleParticleEmitterTest {
             }
 
             @Override
-            public void link(EmitterGraph graph) { }
+            public void link(EmitterGraph graph, int id) { }
+            @Override
+            public void executionKey(int tick, BitSet set) {
+                set.set(0);
+            }
         };
         EmitterGraph graph = new EmitterGraph(Map.of("__root__", child, "child", child));
         var yaml = new dev.by1337.yaml.YamlMap();
@@ -75,14 +85,14 @@ public class CircleParticleEmitterTest {
         yaml.set("dist", "outward");
         yaml.set("connections", Map.of("child", "<0"));
         CircleParticleEmitter circle = CircleParticleEmitter.DECODER.decode(yaml.get()).getOrThrow();
-        circle.link(graph);
-        circle.emit(new EmitContext(2), OUT, 0, 0, 0, 0, 0, 0);
+        circle.link(graph, 0);
+        circle.emit(new EmitContext(2, 0), OUT, 0, 0, 0, 0, 0, 0);
         assertEquals(0, calls[0]);
 
         CircleParticleEmitter always = new CircleParticleEmitter(3, 2, CircleParticleEmitter.DistType.NONE,
                 new Connections(Map.of("child", ConnectionCondition.parse(""))));
-        always.link(graph);
-        always.emit(new EmitContext(2), OUT, 0, 0, 0, 0, 0, 0);
+        always.link(graph, 0);
+        always.emit(new EmitContext(2, 0), OUT, 0, 0, 0, 0, 0, 0);
         assertEquals(3, calls[0]);
     }
 
@@ -97,7 +107,11 @@ public class CircleParticleEmitterTest {
             }
 
             @Override
-            public void link(EmitterGraph graph) { }
+            public void link(EmitterGraph graph, int id) { }
+            @Override
+            public void executionKey(int tick, BitSet set) {
+                set.set(0);
+            }
         };
         EmitterGraph graph = new EmitterGraph(Map.of("__root__", child, "child", child));
         var yaml = new dev.by1337.yaml.YamlMap();
@@ -108,8 +122,8 @@ public class CircleParticleEmitterTest {
         yaml.set("dist", "outward");
         yaml.set("connections", Map.of("child", ""));
         CircleParticleEmitter circle = CircleParticleEmitter.DECODER.decode(yaml.get()).getOrThrow();
-        circle.link(graph);
-        circle.emit(new EmitContext(2), OUT, 10, 20, 30, 3, 4, 5);
+        circle.link(graph, 0);
+        circle.emit(new EmitContext(2, 0), OUT, 10, 20, 30, 3, 4, 5);
         assertEquals(4, emitted.size());
         assertPoint(emitted.get(0), 13, 22, 33, 1, 0, 0);
         assertPoint(emitted.get(1), 11, 20, 33, 0, -1, 0);
@@ -127,7 +141,11 @@ public class CircleParticleEmitterTest {
             }
 
             @Override
-            public void link(EmitterGraph graph) { }
+            public void link(EmitterGraph graph, int id) { }
+            @Override
+            public void executionKey(int tick, BitSet set) {
+                set.set(0);
+            }
         };
         EmitterGraph graph = new EmitterGraph(Map.of("__root__", child, "child", child));
         double radius = 2.75;
@@ -136,9 +154,9 @@ public class CircleParticleEmitterTest {
         for (CircleParticleEmitter.DistType type : CircleParticleEmitter.DistType.values()) {
             CircleParticleEmitter circle = new CircleParticleEmitter(17, radius,
                     new Vec3d(1, -2, 3), new Vec3d(33, 47, -21), type, connections);
-            circle.link(graph);
+            circle.link(graph, 0);
             emitted.clear();
-            circle.emit(new EmitContext(2), OUT, 10, 20, 30, 0.25f, -0.5f, 0.75f);
+            circle.emit(new EmitContext(2,0), OUT, 10, 20, 30, 0.25f, -0.5f, 0.75f);
             assertEquals(17, emitted.size());
             for (double[] point : emitted) {
                 double dx = point[0] - centerX;

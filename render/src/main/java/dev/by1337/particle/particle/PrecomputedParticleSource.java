@@ -9,12 +9,11 @@ import java.util.List;
 
 public class PrecomputedParticleSource extends ParticleSource {
     private final float[] positions;
-    private @Nullable
-    final ParticleData[] particles;
+    private @Nullable final ParticleData[] particles;
     private final int size;
-    private final ParticleData single;
+    private final @Nullable ParticleData single;
 
-    public PrecomputedParticleSource(float[] positions, ParticleData single) {
+    public PrecomputedParticleSource(float[] positions, @Nullable ParticleData single) {
         this.positions = positions;
         this.single = single;
         particles = null;
@@ -92,5 +91,9 @@ public class PrecomputedParticleSource extends ParticleSource {
     @Override
     public PrecomputedParticleSource compute() {
         return this;
+    }
+
+    public long sizeBytes() {
+        return (positions.length * 2L) + 8 + (particles != null ? particles.length * 4L : 0);
     }
 }

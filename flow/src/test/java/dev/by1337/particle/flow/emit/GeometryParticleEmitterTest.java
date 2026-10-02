@@ -7,6 +7,7 @@ import dev.by1337.yaml.YamlMap;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 
@@ -186,14 +187,19 @@ public class GeometryParticleEmitterTest {
             }
 
             @Override
-            public void link(EmitterGraph graph) { }
+            public void link(EmitterGraph graph, int id) { }
+
+            @Override
+            public void executionKey(int tick, BitSet set) {
+                set.set(0);
+            }
         };
         EmitterGraph graph = new EmitterGraph(Map.of(
                 "__root__", target, "target", target, "blocked", target));
-        emitter.emit(new EmitContext(2), OUT, 10, 20, 30, 0.25f, -0.5f, 0.75f);
+        emitter.emit(new EmitContext(2, 0), OUT, 10, 20, 30, 0.25f, -0.5f, 0.75f);
         assertEquals(0, points.size());
-        emitter.link(graph);
-        emitter.emit(new EmitContext(2), OUT, 10, 20, 30, 0.25f, -0.5f, 0.75f);
+        emitter.link(graph, 0);
+        emitter.emit(new EmitContext(2, 0), OUT, 10, 20, 30, 0.25f, -0.5f, 0.75f);
         return points;
     }
 

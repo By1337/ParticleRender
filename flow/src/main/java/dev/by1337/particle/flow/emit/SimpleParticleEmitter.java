@@ -2,6 +2,7 @@ package dev.by1337.particle.flow.emit;
 
 import dev.by1337.particle.ParticleType;
 import dev.by1337.particle.flow.ParticleOptionDecoder;
+import dev.by1337.particle.flow.connection.ParticleEmitterConditionPair;
 import dev.by1337.particle.flow.util.Vec3d;
 import dev.by1337.particle.flow.util.Vec3f;
 import dev.by1337.particle.particle.PacketBuilder;
@@ -12,12 +13,15 @@ import dev.by1337.yaml.decoder.YamlDecoder;
 import dev.by1337.yaml.decoder.k2v.LookupDecoder;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.BitSet;
+
 public final class SimpleParticleEmitter implements ParticleEmitter{
     private static final YamlDecoder<ParticleType> PARTICLE_DECODER = LookupDecoder.fromEnum(ParticleType.values());
     public static final YamlDecoder<SimpleParticleEmitter> DECODER = RecordYamlDecoder.mapOf(
             SimpleParticleEmitter::new,
             PARTICLE_DECODER.fieldOf("particle"),
             YamlDecoder.INT.fieldOf("count", 0),
+            YamlDecoder.FLOAT.fieldOf("maxSpeed", 0f),
             Vec3d.DECODER.fieldOf("offsets"),
             Vec3f.DECODER.fieldOf("dist"),
             YamlDecoder.BOOL.fieldOf("overrideLimiter", false),
@@ -26,17 +30,20 @@ public final class SimpleParticleEmitter implements ParticleEmitter{
     );
     private final ParticleType particle;
     private final int count;
+    private final float maxSpeed;
     private final @Nullable Vec3d offsets;
     private final @Nullable Vec3f dist;
     private final boolean overrideLimiter;
     private final boolean alwaysShow;
     private final @Nullable ParticleOption data;
     private final ParticleData particleData;
+    private int id;
 
 
-    public SimpleParticleEmitter(ParticleType particle, int count, @Nullable Vec3d offsets, @Nullable Vec3f dist, boolean overrideLimiter, boolean alwaysShow, @Nullable ParticleOption data) {
+    public SimpleParticleEmitter(ParticleType particle, int count, float maxSpeed, @Nullable Vec3d offsets, @Nullable Vec3f dist, boolean overrideLimiter, boolean alwaysShow, @Nullable ParticleOption data) {
         this.particle = particle;
         this.count = count;
+        this.maxSpeed = maxSpeed;
         this.offsets = offsets;
         this.dist = dist;
         this.overrideLimiter = overrideLimiter;
@@ -45,6 +52,7 @@ public final class SimpleParticleEmitter implements ParticleEmitter{
         particleData = ParticleData.builder()
                 .particle(particle)
                 .count(count)
+                .maxSpeed(maxSpeed)
                 .alwaysShow(alwaysShow)
                 .overrideLimiter(overrideLimiter)
                 .data(data)
@@ -69,6 +77,11 @@ public final class SimpleParticleEmitter implements ParticleEmitter{
     }
 
     @Override
-    public void link(EmitterGraph graph) {
+    public void link(EmitterGraph graph, int id) {
+        this.id = id;
+    }
+    @Override
+    public void executionKey(int tick, BitSet set) {
+        set.set(id);
     }
 }

@@ -6,6 +6,7 @@ import dev.by1337.particle.particle.PacketBuilder;
 import dev.by1337.yaml.decoder.RecordYamlDecoder;
 import dev.by1337.yaml.decoder.YamlDecoder;
 
+import java.util.BitSet;
 import java.util.Objects;
 
 /** Passes the incoming position and dist to configured root connections. */
@@ -15,14 +16,23 @@ public final class RootParticleEmitter implements ParticleEmitter {
 
     private final Connections connectionsMap;
     private ParticleEmitterConditionPair[] connections = new ParticleEmitterConditionPair[0];
+    private int id;
 
     public RootParticleEmitter(Connections connectionsMap) {
         this.connectionsMap = Objects.requireNonNull(connectionsMap, "connections");
     }
 
     @Override
-    public void link(EmitterGraph graph) {
+    public void link(EmitterGraph graph, int id) {
+        this.id = id;
         connections = connectionsMap.toPairArray(graph);
+    }
+    @Override
+    public void executionKey(int tick, BitSet set) {
+        set.set(id);
+        for (ParticleEmitterConditionPair pair : connections) {
+            if (pair.test(tick)) pair.executionKey(tick, set);
+        }
     }
 
     @Override

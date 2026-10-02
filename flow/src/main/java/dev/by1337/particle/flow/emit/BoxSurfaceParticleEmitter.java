@@ -8,11 +8,14 @@ import dev.by1337.yaml.decoder.RecordYamlDecoder;
 import dev.by1337.yaml.decoder.YamlDecoder;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.BitSet;
 import java.util.Objects;
 
 import static dev.by1337.particle.flow.emit.CircleParticleEmitter.DistType;
 
-/** Samples all six faces by area; size is the full X/Y/Z extent. */
+/**
+ * Samples all six faces by area; size is the full X/Y/Z extent.
+ */
 public final class BoxSurfaceParticleEmitter implements ParticleEmitter {
     public static final YamlDecoder<BoxSurfaceParticleEmitter> DECODER = RecordYamlDecoder.mapOf(
             BoxSurfaceParticleEmitter::new,
@@ -32,6 +35,7 @@ public final class BoxSurfaceParticleEmitter implements ParticleEmitter {
     private final double[] pointX, pointY, pointZ;
     private final double[] normalX, normalY, normalZ;
     private ParticleEmitterConditionPair[] connections = new ParticleEmitterConditionPair[0];
+    private int id;
 
     public BoxSurfaceParticleEmitter(int points, Vec3d size, @Nullable Vec3d offsets, Vec3d rotation,
                                      DistType dist, Connections connectionsMap) {
@@ -40,13 +44,15 @@ public final class BoxSurfaceParticleEmitter implements ParticleEmitter {
         if (!EulerRotation.finite(size) || size.x() <= 0 || size.y() <= 0 || size.z() <= 0) {
             throw new IllegalArgumentException("size components must be finite and positive");
         }
-        if (offsets != null && !EulerRotation.finite(offsets)) throw new IllegalArgumentException("offsets must be finite");
+        if (offsets != null && !EulerRotation.finite(offsets))
+            throw new IllegalArgumentException("offsets must be finite");
         EulerRotation transform = new EulerRotation(rotation);
         double xy = size.x() * size.y();
         double xz = size.x() * size.z();
         double yz = size.y() * size.z();
         double totalArea = 2 * (xy + xz + yz);
-        if (!Double.isFinite(totalArea) || totalArea <= 0) throw new IllegalArgumentException("box surface area is invalid");
+        if (!Double.isFinite(totalArea) || totalArea <= 0)
+            throw new IllegalArgumentException("box surface area is invalid");
         this.points = points;
         this.offsets = offsets;
         this.dist = Objects.requireNonNull(dist, "dist");
@@ -77,12 +83,42 @@ public final class BoxSurfaceParticleEmitter implements ParticleEmitter {
                 double u = 2 * (j + 0.5) / count - 1;
                 double v = count == 1 ? 0 : 2 * fractional((j + 0.5) * GOLDEN_RATIO_FRACTION) - 1;
                 switch (face) {
-                    case 0 -> { pointX[index] = hx; pointY[index] = u * hy; pointZ[index] = v * hz; normalX[index] = 1; }
-                    case 1 -> { pointX[index] = -hx; pointY[index] = u * hy; pointZ[index] = v * hz; normalX[index] = -1; }
-                    case 2 -> { pointX[index] = u * hx; pointY[index] = hy; pointZ[index] = v * hz; normalY[index] = 1; }
-                    case 3 -> { pointX[index] = u * hx; pointY[index] = -hy; pointZ[index] = v * hz; normalY[index] = -1; }
-                    case 4 -> { pointX[index] = u * hx; pointY[index] = v * hy; pointZ[index] = hz; normalZ[index] = 1; }
-                    case 5 -> { pointX[index] = u * hx; pointY[index] = v * hy; pointZ[index] = -hz; normalZ[index] = -1; }
+                    case 0 -> {
+                        pointX[index] = hx;
+                        pointY[index] = u * hy;
+                        pointZ[index] = v * hz;
+                        normalX[index] = 1;
+                    }
+                    case 1 -> {
+                        pointX[index] = -hx;
+                        pointY[index] = u * hy;
+                        pointZ[index] = v * hz;
+                        normalX[index] = -1;
+                    }
+                    case 2 -> {
+                        pointX[index] = u * hx;
+                        pointY[index] = hy;
+                        pointZ[index] = v * hz;
+                        normalY[index] = 1;
+                    }
+                    case 3 -> {
+                        pointX[index] = u * hx;
+                        pointY[index] = -hy;
+                        pointZ[index] = v * hz;
+                        normalY[index] = -1;
+                    }
+                    case 4 -> {
+                        pointX[index] = u * hx;
+                        pointY[index] = v * hy;
+                        pointZ[index] = hz;
+                        normalZ[index] = 1;
+                    }
+                    case 5 -> {
+                        pointX[index] = u * hx;
+                        pointY[index] = v * hy;
+                        pointZ[index] = -hz;
+                        normalZ[index] = -1;
+                    }
                     default -> throw new AssertionError(face);
                 }
                 index++;
@@ -97,8 +133,17 @@ public final class BoxSurfaceParticleEmitter implements ParticleEmitter {
     }
 
     @Override
-    public void link(EmitterGraph graph) {
+    public void link(EmitterGraph graph, int id) {
+        this.id = id;
         connections = connectionsMap.toPairArray(graph);
+    }
+
+    @Override
+    public void executionKey(int tick, BitSet set) {
+        set.set(id);
+        for (ParticleEmitterConditionPair pair : connections) {
+            if (pair.test(tick)) pair.executionKey(tick, set);
+        }
     }
 
     @Override

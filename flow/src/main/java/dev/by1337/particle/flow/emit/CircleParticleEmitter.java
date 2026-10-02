@@ -9,6 +9,7 @@ import dev.by1337.yaml.decoder.YamlDecoder;
 import dev.by1337.yaml.decoder.k2v.LookupDecoder;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.BitSet;
 import java.util.Objects;
 
 /**
@@ -38,6 +39,7 @@ public final class CircleParticleEmitter implements ParticleEmitter {
     private final DistType dist;
     private final Connections connectionsMap;
     private ParticleEmitterConditionPair[] connections;
+    private int id;
 
     public CircleParticleEmitter(int points, double radius, DistType dist, Connections connectionsMap) {
         this(points, radius, null, Vec3d.ZERO, dist, connectionsMap);
@@ -68,10 +70,17 @@ public final class CircleParticleEmitter implements ParticleEmitter {
     }
 
     @Override
-    public void link(EmitterGraph graph) {
+    public void link(EmitterGraph graph, int id) {
+        this.id = id;
         connections = connectionsMap.toPairArray(graph);
     }
-
+    @Override
+    public void executionKey(int tick, BitSet set) {
+        set.set(id);
+        for (ParticleEmitterConditionPair pair : connections) {
+            if (pair.test(tick)) pair.executionKey(tick, set);
+        }
+    }
     @Override
     public void emit(EmitContext ctx, PacketBuilder out, double baseX, double baseY, double baseZ, float xDist, float yDist, float zDist) {
         ctx.pushDepth();

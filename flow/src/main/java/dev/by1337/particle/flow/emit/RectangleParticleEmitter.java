@@ -8,6 +8,7 @@ import dev.by1337.yaml.decoder.RecordYamlDecoder;
 import dev.by1337.yaml.decoder.YamlDecoder;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.BitSet;
 import java.util.Objects;
 
 import static dev.by1337.particle.flow.emit.CircleParticleEmitter.DistType;
@@ -32,6 +33,7 @@ public final class RectangleParticleEmitter implements ParticleEmitter {
     private final double[] pointX, pointY, pointZ;
     private final double[] directionX, directionY, directionZ;
     private ParticleEmitterConditionPair[] connections = new ParticleEmitterConditionPair[0];
+    private int id;
 
     public RectangleParticleEmitter(int points, double width, double height, @Nullable Vec3d offsets,
                                     Vec3d rotation, DistType dist, Connections connectionsMap) {
@@ -82,8 +84,16 @@ public final class RectangleParticleEmitter implements ParticleEmitter {
     }
 
     @Override
-    public void link(EmitterGraph graph) {
+    public void link(EmitterGraph graph, int id) {
+        this.id = id;
         connections = connectionsMap.toPairArray(graph);
+    }
+    @Override
+    public void executionKey(int tick, BitSet set) {
+        set.set(id);
+        for (ParticleEmitterConditionPair pair : connections) {
+            if (pair.test(tick)) pair.executionKey(tick, set);
+        }
     }
 
     @Override

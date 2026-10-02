@@ -4,6 +4,7 @@ import dev.by1337.particle.particle.PacketBuilder;
 import dev.by1337.yaml.YamlMap;
 import org.junit.Test;
 
+import java.util.BitSet;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -18,8 +19,12 @@ public class EmitterGraphTest {
                              float dx, float dy, float dz) { }
 
             @Override
-            public void link(EmitterGraph graph) {
+            public void link(EmitterGraph graph, int id) {
                 links[0]++;
+            }
+            @Override
+            public void executionKey(int tick, BitSet set) {
+                set.set(0);
             }
         };
         ParticleEmitter root = new ParticleEmitter() {
@@ -28,9 +33,13 @@ public class EmitterGraphTest {
                              float dx, float dy, float dz) { }
 
             @Override
-            public void link(EmitterGraph graph) {
+            public void link(EmitterGraph graph, int id) {
                 assertSame(later, graph.find("later"));
                 links[0]++;
+            }
+            @Override
+            public void executionKey(int tick, BitSet set) {
+                set.set(0);
             }
         };
 
@@ -52,6 +61,8 @@ public class EmitterGraphTest {
                 "type", "base:particle",
                 "particle", "dust",
                 "count", 1,
+                "maxSpeed", 0.7f,
+                "$web", "{\"name\":\"Dust cloud\",\"position\":{\"x\":420,\"y\":80}}",
                 "data", Map.of("rgb", "#ffffff", "size", 1.0)));
 
         var decoded = EmitterGraph.DECODER.decode(yaml.get());
@@ -60,8 +71,11 @@ public class EmitterGraphTest {
         assertTrue(graph.root() instanceof RootParticleEmitter);
         assertTrue(graph.find("particle") instanceof SimpleParticleEmitter);
         final int[] writes = {0};
-        PacketBuilder out = (particle, x, y, z, dx, dy, dz) -> writes[0]++;
-        graph.root().emit(new EmitContext(3), out, 1, 2, 3, 0, 0, 0);
+        PacketBuilder out = (particle, x, y, z, dx, dy, dz) -> {
+            writes[0]++;
+            assertEquals(0.7f, particle.maxSpeed(), 0.0001f);
+        };
+        graph.root().emit(new EmitContext(3, 0), out, 1, 2, 3, 0, 0, 0);
         assertEquals(1, writes[0]);
 
         YamlMap missingRoot = new YamlMap();
