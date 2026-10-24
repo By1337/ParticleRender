@@ -302,6 +302,8 @@ public enum ParticleType {
     // 755(1.17) - 756(1.17.1): ~
     @Deprecated
     LIGHT("minecraft:light", ParticleType.BLOCK_MARKER, new BlockParticleOption(BlockType.LIGHT)),
+    // Virtual particle: native DUST protocol ID, color supplied by the optional theme hook.
+    THEME_DUST("bthemes:dust"),
     ;
 
     public static final int SIZE = values().length;

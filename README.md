@@ -75,3 +75,26 @@ Open `web/dist/` through a static server. The editor initially loads a bundled c
 - Orbit mode uses mouse drag, right drag to pan, and the wheel to zoom. In free camera mode, hold the right mouse button to look and move with physical WASD keys (also works on a Russian layout). Space or E moves up; Shift or Q moves down. The wheel moves the camera and adjusts movement speed while right mouse is held. The cursor is never locked.
 
 The browser evaluator follows the Java graph's connection and context flow. Terminal particle nodes feed the vanilla-oriented preview code transferred from `ParticleWebEditor`, including its particle-specific simulation and sprites. The preview is an estimate of client appearance and network traffic, not a live Minecraft client or packet capture. See [`web/README.md`](web/README.md) for editor implementation notes.
+
+## Theme-colored dust
+
+`THEME_DUST` uses the recipient's current theme color. It has the native DUST packet layout;
+plain `DUST` remains unchanged. Bukkit integration discovers `BThemes.getRgb(Player)` through
+an optional reflection hook, with no BLib/BThemes API dependency. An absent hook or unavailable
+color produces white (`0xFFFFFF`).
+
+The encoder reads RGB once per `ParticleSource` encoding and restores its thread-local context
+in `finally`. Precomputed sources keep their geometry but still use the current recipient color.
+
+```yaml
+themed-particle:
+  type: base:particle
+  particle: theme_dust
+  count: 1
+  data:
+    size: 1.0
+```
+
+Java callers can use `ParticleData.of(ParticleType.THEME_DUST)` or supply
+`new ThemedDustParticleOptions(size)`. Existing `DustParticleOptions` preserve their size when
+used with `THEME_DUST`; their fixed RGB is replaced with the theme color.

@@ -11,32 +11,16 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
- * Main API entry point for sending particle effects to players.
+ * Sends particle sources to explicit recipients through their particle encoder.
+ * A source's particle packets are encoded into one buffer per recipient.
+ * Coordinates do not select a world or filter recipients by distance.
  * <p>
- * This class provides static methods for sending {@link ParticleSource} patterns to one or more players.
- * All particles from a single source are batched into a single network packet per player for optimal performance.
- * <p>
- * Example usage:
+ * {@link dev.by1337.particle.particle.ParticleData} is itself a source, so a single particle needs no wrapper:
  * <pre>{@code
- * ParticleSource effect = new ParticleSource() {
- *     @Override
- *     public void doWrite(ParticlePacketBuilder writer, double baseX, double baseY, double baseZ) {
- *         // Define particle pattern
- *         writer.write(particleData, baseX, baseY, baseZ);
- *     }
- * };
- *
- * // Send to single player
- * FParticle.send(player, effect, x, y, z);
- *
- * // Send to multiple players
- * FParticle.send(players, effect, x, y, z);
- *
- * // Use in Stream API
- * players.stream()
- *     .filter(Player::isOnline)
- *     .forEach(FParticle.send(effect, x, y, z));
+ * ParticleData flame = ParticleData.builder().particle(ParticleType.FLAME).count(1).build();
+ * ParticleRender.render(player, flame, x, y, z);
  * }</pre>
+ * BLib owns encoder initialization; consumer plugins must not bootstrap it again.
  *
  * @see ParticleSource
  */
@@ -47,7 +31,7 @@ public class ParticleRender {
      * Sends a particle effect to a single player.
      * <p>
      * The particle pattern will be rendered at the specified world coordinates.
-     * All particles from the source are batched into a single network packet.
+     * The source's particle packets are encoded into one buffer.
      *
      * @param receiver the player who will see the particles
      * @param particle the particle pattern to render
@@ -83,7 +67,7 @@ public class ParticleRender {
      * <p>
      * Example:
      * <pre>{@code
-     * Consumer<Player> sendEffect = FParticle.send(particle, x, y, z);
+     * Consumer<Player> sendEffect = ParticleRender.render(particle, x, y, z);
      *
      * // Use with stream
      * players.stream()

@@ -24,6 +24,7 @@ public class ParticleOptionDecoderTest {
                 decode("rgbFrom", "#123456", "rgbTo", "#abcdef", "size", 2.5));
         assertEquals(new DustParticleOptions(0xabcdef, 2.5f),
                 decode("rgb", "#abcdef", "size", 2.5));
+        assertEquals(new ThemedDustParticleOptions(2.5f), decode("size", 2.5));
         assertEquals(new GeyserBaseParticleOptions(3, 4.5f),
                 decode("waterBlocks", 3, "burstImpulseBase", 4.5));
         assertEquals(new GeyserParticleOptions(3), decode("waterBlocks", 3));

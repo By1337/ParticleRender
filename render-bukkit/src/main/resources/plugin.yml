@@ -1,11 +1,12 @@
 main: dev.by1337.particle.PluginParticleRender
 name: ParticleRender
-version: 1.5
+version: ${project.version}
 author: By1337
 api-version: "1.16"
 website: 'https://github.com/By1337/ParticleRender'
 softdepend:
   - ViaVersion
+  - BLib
 commands:
   particlerender:
     aliases:

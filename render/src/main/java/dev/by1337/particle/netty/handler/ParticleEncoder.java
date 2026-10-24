@@ -1,6 +1,7 @@
 package dev.by1337.particle.netty.handler;
 
 import dev.by1337.particle.netty.buffer.ByteBufUtil;
+import dev.by1337.particle.hook.ThemeColorContext;
 import dev.by1337.particle.particle.PacketBuilder;
 import dev.by1337.particle.particle.ParticleData;
 import dev.by1337.particle.particle.ParticleSource;
@@ -22,11 +23,13 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
 
     private final ViaHook.ViaMutator via;
     private final int protocolVersion;
+    private final UUID player;
     private ByteBuf out;
     private final int fallbackProtocol;
     private boolean doCompress;
 
     public ParticleEncoder(Channel channel, UUID player, int fallbackProtocol) {
+        this.player = player;
         via = ViaHook.getViaMutator(player, channel, fallbackProtocol);
         protocolVersion = via.protocol();
         this.fallbackProtocol = fallbackProtocol;
@@ -36,7 +39,7 @@ public final class ParticleEncoder extends MessageToByteEncoder<ParticleSource> 
     protected void encode(ChannelHandlerContext ctx, ParticleSource writer, ByteBuf byteBuf) throws Exception {
         doCompress = ctx.channel().pipeline().get("compress") != null;
         this.out = byteBuf;
-        try {
+        try (var color = ThemeColorContext.push(ThemeColorContext.resolve(player))) {
             writer.doWrite(this, 0, 0, 0);
         } catch (Exception e) {
             log.error("Failed to write packet!", e);

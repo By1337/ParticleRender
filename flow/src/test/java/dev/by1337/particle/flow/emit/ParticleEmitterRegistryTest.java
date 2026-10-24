@@ -17,6 +17,8 @@ public class ParticleEmitterRegistryTest {
         assertInstance("base:particle", SimpleParticleEmitter.class,
                 "particle", "dust", "count", 1,
                 "data", Map.of("rgb", "#ffffff", "size", 1.0));
+        assertInstance("base:particle", SimpleParticleEmitter.class,
+                "particle", "theme_dust", "count", 1, "data", Map.of("size", 1.5));
         assertInstance("base:circle", CircleParticleEmitter.class, "points", 4, "radius", 2);
         assertInstance("base:sphere", SphereParticleEmitter.class, "points", 8, "radius", 2);
         assertInstance("base:line", LineParticleEmitter.class, "points", 2, "length", 4);

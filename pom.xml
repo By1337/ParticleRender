@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
     <name>ParticleRender-parent</name>
     <properties>
-        <revision>2.1</revision>
+        <revision>2.2</revision>
     </properties>
     <modules>
         <module>render-bukkit</module>

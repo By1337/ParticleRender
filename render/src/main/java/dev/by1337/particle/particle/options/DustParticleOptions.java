@@ -19,6 +19,10 @@ public record DustParticleOptions(int rgb, float size) implements ParticleOption
 
     @Override
     public void write(ByteBuf out, int version) {
+        write(out, version, rgb, size);
+    }
+
+    public static void write(ByteBuf out, int version, int rgb, float size) {
         if (version >= 768) {
             out.writeInt(rgb);
             out.writeFloat(size);

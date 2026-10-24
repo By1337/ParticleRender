@@ -3,37 +3,14 @@ package dev.by1337.particle.particle;
 import org.jetbrains.annotations.Contract;
 
 /**
- * Abstract base class for defining reusable particle effect patterns.
+ * Reusable particle pattern, composable with transforms and other sources.
+ * Implement {@link #doWrite(PacketBuilder, double, double, double)} using
+ * {@link PacketBuilder#append(ParticleData, double, double, double)}.
+ * Bukkit hosts send it with {@code ParticleRender.render(player, source, x, y, z)}.
  * <p>
- * ParticleSource provides a composable pattern-based approach to particle generation.
- * Instead of manually spawning particles repeatedly, you define a pattern once and reuse it
- * across multiple locations and contexts.
- * <p>
- * Implementations must override {@link #doWrite(PacketBuilder, double, double, double)}
- * to define the particle generation logic. The pattern can then be sent to players using
- * {@code FParticle.send(player, particleSource, x, y, z)}.
- * <p>
- * Example usage:
- * <pre>{@code
- * ParticleSource sphere = new ParticleSource() {
- *     private final ParticleData particle = ParticleData.builder()
- *         .particle(Particle.REDSTONE)
- *         .data(new Particle.DustOptions(Color.AQUA, 1f))
- *         .build();
- *
- *     @Override
- *     public void doWrite(ParticlePacketBuilder writer, double baseX, double baseY, double baseZ) {
- *         for (int i = 0; i < 100; i++) {
- *             // Generate sphere coordinates
- *             writer.write(particle, baseX + x, baseY + y, baseZ + z);
- *         }
- *     }
- * };
- *
- * // Send to player
- * ParticleRender.send(player, sphere, location.getX(), location.getY(), location.getZ());
- * }</pre>
- *
+ * Encoding callbacks may run on a channel thread: capture world state before sending.
+ * For repeated geometry, {@link #compute()} stores particle data and coordinates;
+ * recipient-dependent theme colors are still resolved during encoding.
  */
 public abstract class ParticleSource {
 
@@ -99,9 +76,9 @@ public abstract class ParticleSource {
     /**
      * Defines the particle generation pattern for this source.
      * <p>
-     * Implementations should use {@code writer.write()} to spawn individual particles
+     * Implementations should use {@code writer.append(...)} to spawn individual particles
      * at positions relative to the base coordinates. All particles written to the same
-     * builder will be batched into a single network packet for optimal performance.
+     * builder are encoded into one buffer containing their individual packets.
      *
      * @param writer the packet builder to write particles to
      * @param baseX the base X coordinate
@@ -143,8 +120,8 @@ public abstract class ParticleSource {
      * Combines this source with other sources into a composite pattern.
      * <p>
      * The returned source will execute all patterns sequentially at the same base
-     * coordinates. All particles from all sources will be batched into a single
-     * network packet.
+     * coordinates. All particle packets from the sources are encoded into one
+     * buffer per recipient.
      * <p>
      * Example:
      * <pre>{@code

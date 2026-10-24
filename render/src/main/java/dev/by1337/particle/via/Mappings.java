@@ -197,6 +197,8 @@ public final class Mappings {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.arraycopy(particles, ParticleType.DUST.ordinal() * VERSION_COUNT,
+                particles, ParticleType.THEME_DUST.ordinal() * VERSION_COUNT, VERSION_COUNT);
         PARTICLES = particles;
         var packets = new int[VERSION_COUNT];
         Arrays.fill(packets, -1);

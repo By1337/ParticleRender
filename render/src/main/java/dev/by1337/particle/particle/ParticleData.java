@@ -1,6 +1,7 @@
 package dev.by1337.particle.particle;
 
 import dev.by1337.particle.ParticleType;
+import dev.by1337.particle.particle.options.ThemedDustParticleOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +28,7 @@ public class ParticleData extends ParticleSource {
         this.overrideLimiter = builder.overrideLimiter;
         this.alwaysShow = builder.alwaysShow;
         this.particle = Objects.requireNonNull(builder.particle);
-        this.data = builder.data;
+        this.data = particle == ParticleType.THEME_DUST ? ThemedDustParticleOptions.from(builder.data) : builder.data;
     }
 
     public ParticleData.Builder copy() {

@@ -83,6 +83,9 @@ public final class ParticleOptionDecoder {
             BLOCK_POS.fieldOf("origin"), BLOCK_POS.fieldOf("destination"),
             YamlDecoder.INT.fieldOf("arrivalInTicks"));
 
+    public static final YamlDecoder<ThemedDustParticleOptions> THEME_DUST = RecordYamlDecoder.mapOf(
+            ThemedDustParticleOptions::new, YamlDecoder.FLOAT.fieldOf("size", 1f));
+
     private static final Map<Set<String>, YamlDecoder<? extends ParticleOption>> OPTIONS = options();
 
     public static final YamlDecoder<ParticleOption> DECODER = YamlDecoder.YAML_MAP.flatMap((ctx, map) -> {
@@ -97,6 +100,7 @@ public final class ParticleOptionDecoder {
         result.put(Set.of("argb"), COLOR);
         result.put(Set.of("rgbFrom", "rgbTo", "size"), DUST_COLOR_TRANSITION);
         result.put(Set.of("rgb", "size"), DUST);
+        result.put(Set.of("size"), THEME_DUST);
         result.put(Set.of("waterBlocks", "burstImpulseBase"), GEYSER_BASE);
         result.put(Set.of("waterBlocks"), GEYSER);
         result.put(Set.of("item"), ITEM);
