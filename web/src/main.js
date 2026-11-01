@@ -1,5 +1,5 @@
 import './style.css';
-import {definitions,emitters,particleIds,particleRegistry,optionFields} from './emitters.js';
+import {wrapTick,definitions,emitters,particleIds,particleRegistry,optionFields} from './emitters.js';
 import {importGraph,exportGraph,newNode,defaultNodeName} from './graph.js';
 import {parseCondition,appendConditionClause} from './conditions.js';
 import {PreviewScene} from './scene.js';
@@ -84,7 +84,7 @@ function initParticlePicker(content,node){const picker=content.querySelector('.p
   input.addEventListener('blur',()=>{if(!list.hidden){const exact=input.value.trim().toLowerCase().replace(/^minecraft:/,'');if(particleRegistry.has(exact)&&exact!==String(node.config.particle).replace(/^minecraft:/,''))commit(exact);else{input.value=String(node.config.particle).replace(/^minecraft:/,'');close();}}});
 }
 function renderProperties(){const content=$('property-content'),oldScroll=content.scrollTop;$('delete-node').disabled=!selected||selected==='__root__';
-  if(selectedEdge){const {source,target}=selectedEdge,value=graph.nodes[source]?.connections[target]??'';content.innerHTML=`<div class="selection-title">Connection</div><p class="edge-summary">${esc(source)} <span>→</span> ${esc(target)}</p><div class="field"><div class="field-label">Condition</div><input id="condition" value="${esc(value)}" placeholder="always"><small>Examples: %3 · &lt;100 &amp; %5 · &gt;=20</small></div><div class="condition-helpers">${[['%','Every N ticks'],['<','Before tick N'],['>','After tick N']].map(([op,label])=>`<label>${label}<span><input type="number" min="${op==='%'?1:0}" step="1" value="${op==='%'?1:0}" data-condition-number="${op}"><button type="button" data-condition-add="${op}">Add</button></span></label>`).join('')}</div><button id="remove-edge" class="danger">Remove connection</button>`;
+  if(selectedEdge){const {source,target}=selectedEdge,value=graph.nodes[source]?.connections[target]??'';content.innerHTML=`<div class="selection-title">Connection</div><p class="edge-summary">${esc(source)} <span>→</span> ${esc(target)}</p><div class="field"><div class="field-label">Condition</div><input id="condition" value="${esc(value)}" placeholder="always"><small>Examples: =20 · %3 · &lt;100 &amp; %5 · &gt;=20</small></div><div class="condition-helpers">${[['%','Every N ticks'],['<','Before tick N'],['>','After tick N'],['=','At tick N']].map(([op,label])=>`<label>${label}<span><input type="number" min="${op==='%'?1:0}" step="1" value="${op==='%'?1:0}" data-condition-number="${op}"><button type="button" data-condition-add="${op}">Add</button></span></label>`).join('')}</div><button id="remove-edge" class="danger">Remove connection</button>`;
     const conditionInput=$('condition');const saveCondition=()=>{try{parseCondition(conditionInput.value);graph.nodes[source].connections[target]=conditionInput.value;renderGraph();status('Condition updated');}catch(error){status(error.message,true);conditionInput.value=graph.nodes[source].connections[target]??'';}};
     conditionInput.addEventListener('change',saveCondition);
     content.querySelectorAll('[data-condition-add]').forEach(button=>button.addEventListener('click',()=>{const number=content.querySelector(`[data-condition-number="${button.dataset.conditionAdd}"]`),tick=Number(number.value);try{if(!number.value.trim())throw new Error('Enter a valid tick number');conditionInput.value=appendConditionClause(conditionInput.value,button.dataset.conditionAdd,tick);saveCondition();}catch(error){status(error.message,true);}}));
@@ -110,6 +110,7 @@ function renderProperties(){const content=$('property-content'),oldScroll=conten
     const numbers=vec(target[key]);numbers[Number(el.dataset.axis)]=Number(value);target[key]=vecString(numbers);changed();status(`${key} updated`);}));
   content.querySelectorAll('[data-field]').forEach(el=>el.addEventListener('change',()=>{const [section,key]=el.dataset.field.split('.');let value=el.type==='checkbox'?el.checked:el.value;
     if(el.type==='number'){value=Number(value);if(!Number.isFinite(value)){status(`Invalid ${key}`,true);return;}if(el.step==='1')value=Math.trunc(value);}
+    if(node.type==='base:tick_modulo'&&section==='config'){try{if(!el.value.trim())throw new Error('Enter a tick number');wrapTick(0,{...node.config,[key]:value});}catch(error){status(error.message,true);renderProperties();return;}}
     if(section==='data'){node.config.data??={};node.config.data[key]=value;}else{node.config[key]=value;if(key==='particle'){const option=particleRegistry.get(value)?.option;node.config.data=defaultsForOption(option);if(!node.config.data)delete node.config.data;}}
     changed();status(`${key} updated`);
   }));

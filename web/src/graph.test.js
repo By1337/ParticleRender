@@ -7,7 +7,7 @@ import {parseCondition,appendConditionClause} from './conditions.js';
 import {samples} from './geometry.js';
 import * as THREE from 'three';
 
-const fixture=readFileSync(new URL('../public/ref.yml',import.meta.url),'utf8');
+const fixture=readFileSync(new URL('../../flow/src/main/resources/ref.yml',import.meta.url),'utf8');
 test('ref.yml imports all registered emitters and round trips semantically',()=>{
   const graph=importGraph(fixture);
   assert.equal(Object.keys(graph.nodes).length,7);
