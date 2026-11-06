@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
     <name>ParticleRender-parent</name>
     <properties>
-        <revision>2.2</revision>
+        <revision>2.3</revision>
     </properties>
     <modules>
         <module>render-bukkit</module>
@@ -15,6 +15,12 @@
         <module>flow</module>
         <!--<module>dumper</module>-->
     </modules>
+    <repositories>
+        <repository>
+            <id>bdev-repo</id>
+            <url>https://repo.by1337.space/releases/</url>
+        </repository>
+    </repositories>
     <distributionManagement>
         <repository>
             <id>bdev-repo</id>

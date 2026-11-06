@@ -42,6 +42,7 @@ class ParticlePipelineManager implements Listener, Closeable {
 
     private void hook(Player player) {
         Channel channel = ChannelUtil.getChannel(player);
+        if (channel == null || LeafParticleTransport.active(channel)) return;
         channel.pipeline().addBefore("prepender", handlerName, new ParticleEncoder(channel, player.getUniqueId(), Version.VERSION.protocolVersion()));
     }
 

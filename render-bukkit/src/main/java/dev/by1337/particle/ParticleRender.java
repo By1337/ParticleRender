@@ -16,10 +16,12 @@ import java.util.stream.Stream;
  * Coordinates do not select a world or filter recipients by distance.
  * <p>
  * {@link dev.by1337.particle.particle.ParticleData} is itself a source, so a single particle needs no wrapper:
+ *
  * <pre>{@code
  * ParticleData flame = ParticleData.builder().particle(ParticleType.FLAME).count(1).build();
  * ParticleRender.render(player, flame, x, y, z);
  * }</pre>
+ *
  * BLib owns encoder initialization; consumer plugins must not bootstrap it again.
  *
  * @see ParticleSource
@@ -33,11 +35,11 @@ public class ParticleRender {
      * The particle pattern will be rendered at the specified world coordinates.
      * The source's particle packets are encoded into one buffer.
      *
-     * @param receiver the player who will see the particles
-     * @param particle the particle pattern to render
-     * @param x        the X world coordinate
-     * @param y        the Y world coordinate
-     * @param z        the Z world coordinate
+     * @param  receiver             the player who will see the particles
+     * @param  particle             the particle pattern to render
+     * @param  x                    the X world coordinate
+     * @param  y                    the Y world coordinate
+     * @param  z                    the Z world coordinate
      * @throws NullPointerException if receiver or particle is null
      */
     public static void render(@NotNull Player receiver, @NotNull ParticleSource particle, double x, double y, double z) {
@@ -66,23 +68,24 @@ public class ParticleRender {
      * or other higher-order functions.
      * <p>
      * Example:
+     *
      * <pre>{@code
      * Consumer<Player> sendEffect = ParticleRender.render(particle, x, y, z);
      *
      * // Use with stream
      * players.stream()
-     *     .filter(Player::isOnline)
-     *     .forEach(sendEffect);
+     *         .filter(Player::isOnline)
+     *         .forEach(sendEffect);
      *
      * // Or directly
      * players.forEach(sendEffect);
      * }</pre>
      *
-     * @param particle the particle pattern to render
-     * @param x        the X world coordinate
-     * @param y        the Y world coordinate
-     * @param z        the Z world coordinate
-     * @return a consumer that sends the particle effect to a player
+     * @param  particle             the particle pattern to render
+     * @param  x                    the X world coordinate
+     * @param  y                    the Y world coordinate
+     * @param  z                    the Z world coordinate
+     * @return                      a consumer that sends the particle effect to a player
      * @throws NullPointerException if particle is null
      */
     public static @NotNull Consumer<Player> render(@NotNull ParticleSource particle, double x, double y, double z) {
@@ -91,9 +94,14 @@ public class ParticleRender {
     }
 
     public static void render(Player player, ParticleSource writer) {
+        render(player, writer, AUTO_FLUSH);
+    }
+
+    public static void render(Player player, ParticleSource writer, boolean flush) {
         var v = ChannelUtil.getChannel(player);
         if (v != null) {
-            if (AUTO_FLUSH) {
+            if (LeafParticleTransport.send(v, player.getUniqueId(), writer, flush)) return;
+            if (flush) {
                 v.writeAndFlush(writer);
             } else {
                 v.write(writer);

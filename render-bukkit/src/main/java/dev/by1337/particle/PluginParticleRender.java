@@ -56,8 +56,7 @@ public class PluginParticleRender extends JavaPlugin {
                 writer.append(particle,
                         x + baseX,
                         y + baseY,
-                        z + baseZ
-                        , offsetX, offsetY, offsetZ);
+                        z + baseZ, offsetX, offsetY, offsetZ);
             }
         }
     };
@@ -138,7 +137,6 @@ public class PluginParticleRender extends JavaPlugin {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        Channel c = ChannelUtil.getChannel(player);
                         var b = ParticleData.builder().yDist(1);
                         if (args.length == 2 && type == ParticleType.ITEM) {
                             ItemType itemType = ItemType.getById(args[1]);
@@ -151,12 +149,7 @@ public class PluginParticleRender extends JavaPlugin {
                                 b.data(new BlockParticleOption(blockType));
                             }
                         }
-                        try {
-                            c.writeAndFlush(b.particle(type).build().shift(loc.getX(), loc.getY(), loc.getZ()))
-                                    .sync();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                        ParticleRender.render(player, b.particle(type).build().shift(loc.getX(), loc.getY(), loc.getZ()), true);
                     }
                 }.runTaskAsynchronously(this);
             } catch (IllegalArgumentException e) {

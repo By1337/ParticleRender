@@ -78,6 +78,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>dev.by1337.leaf</groupId>
+            <artifactId>extensions-api</artifactId>
+            <version>0.1.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
