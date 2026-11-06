@@ -27,8 +27,8 @@ public interface ConnectionCondition {
 
     private static ConnectionCondition parsePart(String part) {
         String operator;
-        if (part.startsWith("<=") || part.startsWith(">=")) operator = part.substring(0, 2);
-        else if (part.startsWith("<") || part.startsWith(">") || part.startsWith("%")) operator = part.substring(0, 1);
+        if (part.startsWith("<=") || part.startsWith(">=") || part.startsWith("==")) operator = part.substring(0, 2);
+        else if (part.startsWith("<") || part.startsWith(">") || part.startsWith("%") || part.startsWith("=")) operator = part.substring(0, 1);
         else throw new IllegalArgumentException("Invalid connection condition: " + part);
 
         String value = part.substring(operator.length());
@@ -40,6 +40,7 @@ public interface ConnectionCondition {
         }
 
         return switch (operator) {
+            case "=", "==" -> tick -> tick == number;
             case "<" -> tick -> tick < number;
             case ">" -> tick -> tick > number;
             case "<=" -> tick -> tick <= number;

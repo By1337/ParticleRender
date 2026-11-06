@@ -8,6 +8,9 @@ import static org.junit.Assert.*;
 public class ConnectionConditionTest {
     @Test
     public void parsesComparisonsAndPeriods() {
+        assertTrue(ConnectionCondition.parse("=20").test(20));
+        assertTrue(ConnectionCondition.parse("==20 & %5").test(20));
+        assertFalse(ConnectionCondition.parse("=20").test(21));
         assertTrue(ConnectionCondition.parse(" ").test(123));
         assertTrue(ConnectionCondition.parse("").test(0));
         assertTrue(ConnectionCondition.parse("<100 & % 5").test(95));
@@ -22,7 +25,7 @@ public class ConnectionConditionTest {
 
     @Test
     public void rejectsMalformedConditions() {
-        for (String input : new String[]{"%0", "%-2", "<", "&%2", "%2&", "<5&&%2", "=1", "<abc"}) {
+        for (String input : new String[]{ "%0", "%-2", "<", "&%2", "%2&", "<5&&%2", "===1", "<abc" }) {
             try {
                 ConnectionCondition.parse(input);
                 fail("Expected failure for " + input);

@@ -15,8 +15,25 @@ Each exported node includes a `$web` JSON string with its display name and graph
 
 **Free camera** switches from orbit to flight controls. Hold the right mouse button inside the 3D viewport to look around and move with physical WASD keys, including on a Russian keyboard layout. Space/E moves up; Shift/Q moves down. The wheel moves the camera and, while right mouse is held, adjusts movement speed. Releasing the button immediately stops camera look and movement. The cursor stays visible; Pointer Lock is not used. Select **Orbit camera** to return to orbit controls.
 
-**Clear particles** removes visible particles without changing Play/Pause. The scene overlay estimates packet count and traffic per tick and per second. Select a connection to enter a condition directly or append `%N`, `<N`, or `>N` with the helper fields. Vector properties have separate X, Y, and Z inputs while YAML retains its `X;Y;Z` format.
+**Clear particles** removes visible particles without changing Play/Pause. The scene overlay estimates packet count and traffic per tick and per second. Select a connection to enter a condition directly or append `%N`, `<N`, `>N`, or `=N` with the helper fields. Vector properties have separate X, Y, and Z inputs while YAML retains its `X;Y;Z` format.
 
 The editor modules are separated into graph import/export, condition parsing, emitter definitions and geometry sampling, graph evaluation, Three.js preview, and UI. The preview uses `simulation.js`, `packet.js`, `registry.json`, and particle sprites transferred from `ParticleWebEditor`. It inherits that project's vanilla particle behavior and its documented visual approximations, including block/item placeholders and omitted client collisions.
 
 Preview executes graph tick 0 first. `Restart` clears particles, tick, and seeded random state. A 10,000 particle cap keeps the browser responsive for large graphs. Cycle/excessive fan-out execution is stopped with an error.
+
+Add a **Tick modulo** node to loop the tick in an inclusive `min`…`max` range (`min` defaults to 0). With 0…200, tick 200 stays 200, 201 becomes 0, and 221 becomes 20. The formula is `min + floorMod(tick - min, max - min + 1)`. All outgoing conditions and descendants use this local tick; sibling branches keep their incoming tick. Nodes can be nested. Use `=20` (or `==20`) on a connection to fire at local tick 20 each cycle.
+
+```yaml
+__root__:
+  type: base:root
+  connections: {loop: ''}
+loop:
+  type: base:tick_modulo
+  min: 0
+  max: 200
+  connections: {burst: '=20'}
+burst:
+  type: base:particle
+  particle: flame
+  count: 1
+```

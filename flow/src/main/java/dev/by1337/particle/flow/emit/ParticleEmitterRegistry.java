@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class ParticleEmitterRegistry {
     public static final ParticleEmitterRegistry DEFAULT = new ParticleEmitterRegistry()
             .register("base:root", RootParticleEmitter.DECODER)
+            .register("base:tick_modulo", TickModuloParticleEmitter.DECODER)
             .register("base:particle", SimpleParticleEmitter.DECODER)
             .register("base:circle", CircleParticleEmitter.DECODER)
             .register("base:sphere", SphereParticleEmitter.DECODER)

@@ -14,6 +14,7 @@ public class ParticleEmitterRegistryTest {
     @Test
     public void dispatchesEveryBuiltInType() {
         assertInstance("base:root", RootParticleEmitter.class);
+        assertInstance("base:tick_modulo", TickModuloParticleEmitter.class, "max", 200);
         assertInstance("base:particle", SimpleParticleEmitter.class,
                 "particle", "dust", "count", 1,
                 "data", Map.of("rgb", "#ffffff", "size", 1.0));
@@ -41,9 +42,8 @@ public class ParticleEmitterRegistryTest {
         assertTrue(ParticleEmitter.DECODER.decode(node.get()).hasError());
 
         ParticleEmitterRegistry registry = new ParticleEmitterRegistry();
-        registry.register("custom:test", (ctx, yaml) ->
-                YamlDecoder.YAML_MAP.decode(ctx, yaml).map(map -> new RootParticleEmitter(
-                        new dev.by1337.particle.flow.connection.Connections(Map.of()))));
+        registry.register("custom:test", (ctx, yaml) -> YamlDecoder.YAML_MAP.decode(ctx, yaml).map(map -> new RootParticleEmitter(
+                new dev.by1337.particle.flow.connection.Connections(Map.of()))));
         assertEquals(RootParticleEmitter.class,
                 registry.decoder().decode(node("custom:test").get()).getOrThrow().getClass());
         assertThrows(IllegalArgumentException.class,
@@ -55,11 +55,11 @@ public class ParticleEmitterRegistryTest {
         YamlMap root = node("base:root");
         root.set("connections", Map.of("target", "", "blocked", "<0"));
         RootParticleEmitter emitter = (RootParticleEmitter) ParticleEmitter.DECODER.decode(root.get()).getOrThrow();
-        final int[] calls = {0};
+        final int[] calls = { 0 };
         ParticleEmitter target = new ParticleEmitter() {
             @Override
             public void emit(EmitContext ctx, PacketBuilder out, double x, double y, double z,
-                             float dx, float dy, float dz) {
+                float dx, float dy, float dz) {
                 calls[0]++;
                 assertEquals(1, x, 0);
                 assertEquals(2, y, 0);
@@ -70,7 +70,8 @@ public class ParticleEmitterRegistryTest {
             }
 
             @Override
-            public void link(EmitterGraph graph, int id) { }
+            public void link(EmitterGraph graph, int id) {
+            }
 
             @Override
             public void executionKey(int tick, BitSet set) {
@@ -80,7 +81,8 @@ public class ParticleEmitterRegistryTest {
         EmitterGraph graph = new EmitterGraph(Map.of(
                 "__root__", target, "target", target, "blocked", target));
         emitter.link(graph, 0);
-        PacketBuilder out = (particle, x, y, z, dx, dy, dz) -> { };
+        PacketBuilder out = (particle, x, y, z, dx, dy, dz) -> {
+        };
         emitter.emit(new EmitContext(2, 0), out, 1, 2, 3, 4, 5, 6);
         assertEquals(1, calls[0]);
     }

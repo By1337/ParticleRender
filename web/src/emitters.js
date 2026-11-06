@@ -21,8 +21,15 @@ export const optionFields = {
   vibration:[field('origin','vec3','Origin'),field('destination','vec3','Destination'),field('arrivalInTicks','int','Arrival ticks')],
   geyser_base:[field('waterBlocks','int'),field('burstImpulseBase','double')],geyser:[field('waterBlocks','int')]
 };
+export function wrapTick(tick,config) {
+  const min=config.min??0,max=config.max;
+  if(!Number.isInteger(min)||!Number.isInteger(max)||min<0||max<min||max>2147483647)throw new Error('Tick range must satisfy 0 <= min <= max <= 2147483647');
+  const period=max-min+1;
+  return min+((tick-min)%period+period)%period;
+}
 export const definitions = [
   {id:'base:root',name:'Root',defaults:{},fields:[],execute:(_c,ctx)=>[ctx]},
+  {id:'base:tick_modulo',name:'Tick modulo',defaults:{min:0,max:200},fields:[field('min','int','Minimum tick (inclusive)'),field('max','int','Maximum tick (inclusive)')],execute:(config,ctx)=>[{...ctx,tick:wrapTick(ctx.tick,config)}]},
   geometry('base:circle','Circle',{radius:2},[field('radius','double')]),
   geometry('base:sphere','Sphere',{radius:2},[field('radius','double')]),
   geometry('base:line','Line',{length:4},[field('length','double')]),

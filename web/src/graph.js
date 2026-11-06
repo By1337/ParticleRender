@@ -1,5 +1,5 @@
 import YAML from 'yaml';
-import {emitters} from './emitters.js';
+import {emitters,wrapTick} from './emitters.js';
 import {parseCondition} from './conditions.js';
 
 const object = value => value && typeof value==='object' && !Array.isArray(value);
@@ -26,6 +26,7 @@ export function importGraph(text) {
     const {type,connections,$web:webValue,...config}=value,web=webData(webValue,id);
     const edges={};if(connections!=null){if(!object(connections))throw new Error(`Invalid connections at ${id}`);
       for(const [target,condition] of Object.entries(connections)){const expression=condition==null?'':String(condition);parseCondition(expression);edges[target]=expression;}}
+    if(type==='base:tick_modulo'){wrapTick(0,config);config.min??=0;}
     const nameAuto=web?.autoName===true||!web?.name;
     nodes[id]={id,type,config,connections:edges,name:nameAuto?defaultNodeName(type,config):(typeof web.name==='string'&&web.name.trim()?web.name:defaultNodeName(type,config)),nameAuto,x:0,y:0};
   }

@@ -13,10 +13,16 @@ public class EmitContext {
     public int tick() {
         return tick;
     }
-    public void pushDepth(){
+
+    void tick(int tick) {
+        this.tick = tick;
+    }
+
+    public void pushDepth() {
         if (depth++ > maxDepth) throw new IllegalStateException("depth " + depth + " but max " + maxDepth);
     }
-    public void popDepth(){
+
+    public void popDepth() {
         depth--;
     }
 }
